@@ -1,0 +1,94 @@
+<html dir="ltr"> <head>
+<title>Scala 2.8 コレクションのAPI - コレクションAPIの概要</title>
+
+<style type="text/css">.maketitle {
+  /* align: center; */
+}
+div.abstract {
+  margin-left: 20%;
+  margin-right: 10%;
+}
+h3.abstract {
+  /* align: center; */
+}
+div.verse, div.quote, div.quotation {
+  margin-left: 10%;
+  margin-right: 10%;
+}
+</style>
+
+
+</head> <body dir="ltr">
+<table width="100%" cellpadding="0" cellspacing="2"><tr> <td bgcolor="#99ccff"><a href="http://www.scala-lang.org/docu/files/collections-api/collections_3.html"><img border="0" alt="Trait Traversable" src="http://lampwww.epfl.ch/~odersky/images/next.png"></a></td><td bgcolor="#99ccff"><a href="http://www.scala-lang.org/docu/files/collections-api/collections_0.html"><img border="0" alt="トップ" src="http://lampwww.epfl.ch/~odersky/images/up.png"></a></td><td bgcolor="#99ccff"><a href="http://www.scala-lang.org/docu/files/collections-api/collections_1.html"><img border="0" alt="可変および不変のコレクション" src="http://lampwww.epfl.ch/~odersky/images/previous.png"></a></td><td align="center" bgcolor="#99ccff" width="100%"><b>コレクションAPIの概要</b></td><td bgcolor="#99ccff" align="center"><a href="http://www.scala-lang.org/docu/files/collections-api/collections_49.html">目次</a></td></tr></table> 
+<h1>コレクションAPIの概要</h1> 
+<p> <p><hr><div class="quote"><p><tt></tt>
+		
+<table cellspacing="1" cellpadding="0"><tr>
+<td nowrap colspan="99" align="left"><i><a href="http://www.scala-lang.org/api/current/scala/collection/Traversable.html">Traversable</a></i></td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;&nbsp;<i><a href="http://www.scala-lang.org/api/current/scala/collection/Iterable.html">Iterable</a></i></td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;&nbsp;&nbsp;&nbsp;<i><a href="http://www.scala-lang.org/api/current/scala/collection/Seq.html">Seq</a></i></td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i><a href="http://www.scala-lang.org/api/current/scala/collection/IndexedSeq.html">IndexedSeq</a></i></td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i><a href="http://www.scala-lang.org/api/current/scala/collection/immutable/Vector.html">immutable.Vector</a></i></td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i><a href="http://www.scala-lang.org/api/current/scala/collection/mutable/ResizableArray.html">mutable.ResizableArray</a></i></td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i><a href="http://www.scala-lang.org/api/current/scala/collection/mutable/ArraySeq.html">mutable.ArraySeq</a></i></td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i><a href="http://www.scala-lang.org/api/current/scala/collection/mutable/StringBuilder.html">mutable.StringBuilder</a></i></td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<i><a href="http://download.oracle.com/javase/1.5.0/docs/api/java/lang/String.html">String</a></i>,&nbsp;<i><a href="http://www.scala-lang.org/api/current/scala/Array.html">Array</a></i>)</td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i><a href="http://www.scala-lang.org/api/current/scala/collection/LinearSeq.html">LinearSeq</a></i></td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i><a href="http://www.scala-lang.org/api/current/scala/collection/immutable/List.html">immutable.List</a></i></td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i><a href="http://www.scala-lang.org/api/current/scala/collection/immutable/Stream.html">immutable.Stream</a></i></td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i><a href="http://www.scala-lang.org/api/current/scala/collection/mutable/MutableList.html">mutable.MutableList</a></i></td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i><a href="http://www.scala-lang.org/api/current/scala/collection/mutable/Queue.html">mutable.Queue</a></i></td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i><a href="http://www.scala-lang.org/api/current/scala/collection/mutable/Buffer.html">mutable.Buffer</a></i></td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i><a href="http://www.scala-lang.org/api/current/scala/collection/mutable/ListBuffer.html">mutable.ListBuffer</a></i></td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i><a href="http://www.scala-lang.org/api/current/scala/collection/mutable/ArrayBuffer.html">mutable.ArrayBuffer</a></i></td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i><a href="http://www.scala-lang.org/api/current/scala/collection/immutable/Range.html">Range</a></i></td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;&nbsp;&nbsp;&nbsp;<i><a href="http://www.scala-lang.org/api/current/scala/collection/Set.html">Set</a></i></td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i><a href="http://www.scala-lang.org/api/current/scala/collection/SortedSet.html">SortedSet</a></i></td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i><a href="http://www.scala-lang.org/api/current/scala/collection/immutable/TreeSet.html">immutable.TreeSet</a></i></td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i><a href="http://www.scala-lang.org/api/current/scala/collection/immutable/HashSet.html">immutable.HashSet</a></i></td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i><a href="http://www.scala-lang.org/api/current/scala/collection/mutable/HashSet.html">mutable.HashSet</a></i></td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i><a href="http://www.scala-lang.org/api/current/scala/collection/mutable/LinkedHashSet.html">mutable.LinkedHashSet</a></i></td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i><a href="http://www.scala-lang.org/api/current/scala/collection/BitSet.html">BitSet</a></i></td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i>(immutable.EmptySet, immutable.Set1, ..., immutable.Set4)</i></td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;&nbsp;&nbsp;&nbsp;<i><a href="http://www.scala-lang.org/api/current/scala/collection/Map.html">Map</a></i></td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i><a href="http://www.scala-lang.org/api/current/scala/collection/SortedMap.html">SortedMap</a></i></td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i><a href="http://www.scala-lang.org/api/current/scala/collection/immutable/TreeMap.html">immutable.TreeMap</a></i></td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i><a href="http://www.scala-lang.org/api/current/scala/collection/immutable/HashMap.html">immutable.HashMap</a></i></td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i><a href="http://www.scala-lang.org/api/current/scala/collection/mutable/HashMap.html">mutable.HashMap</a></i></td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i><a href="http://www.scala-lang.org/api/current/scala/collection/mutable/LinkedHashMap.html">mutable.LinkedHashMap</a></i></td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i>(immutable.EmptyMap, immutable.Map1, ..., immutable.Map4)</i>
+</td></tr></table>
+		
+<tt> </tt></p></div><div align="center">コレクションの階層</div><a name="id1"> </a> <hr><p><p>最も重要なコレクションクラスは上図に示されている．これらのすべてのクラスに共通な部分が沢山ある．たとえば，全てのコレクションは，クラス名を書いた後で要素を書くという一様な構文で作成することができる:<div class="quote"><p><tt></tt><table cellspacing="1" cellpadding="0"><td><tt></tt><tr><tt> </tt><td colspan="99" align="left"><tt><font color="#660099">Traverse</font><font color="#000000">(1, 2, 3)</font></tt></td></tr><td><tt> </tt><tr><tt> </tt><td colspan="99" align="left"><tt><font color="#660099">Iterable</font><font color="#000000">(&quot;x&quot;, &quot;y&quot;, &quot;z&quot;</font>)</tt></td></tr><td><tt> </tt><tr><tt> </tt><td colspan="99" align="left"><tt><font color="#660099">Map</font><font color="#000000">(&quot;x&quot; -&gt; 24, &quot;y&quot; -&gt; 25, &quot;z&quot; -&gt; 26)</font></tt></td></tr><td><tt> </tt><tr><tt> </tt><td colspan="99" align="left"><tt><font color="#660099">Set</font>(Color.red, Color.green, Color.blue)</tt></td></tr><td><tt> </tt><tr><tt> </tt><td colspan="99" align="left"><tt><font color="#660099">SortedSet</font><font color="#000000">(&quot;hello&quot;, &quot;world&quot;)</font></tt></td></tr><td><tt> </tt><tr><tt> </tt><td colspan="99" align="left"><tt><font color="#660099">Buffer</font>(x, y, z)</tt></td></tr><td><tt> </tt><tr><tt> </tt><td colspan="99" align="left"><tt><font color="#660099">IndexedSeq</font>(1.0, 2.0)</tt></td></tr><td><tt> </tt><tr><tt> </tt><td colspan="99" align="left"><tt><font color="#660099">LinearSeq</font>(a, b, c)</tt></td></tr></td></td></td></td></td></td></td></td></table><tt> </tt></p></div>特定のコレクションの実装にもこの原則が適用される:<div class="quote"><p><tt></tt><table cellspacing="1" cellpadding="0"><td><tt></tt><tr><tt> </tt><td colspan="99" align="left"><tt><font color="#660099">List</font><font color="#000000">(1, 2, 3)</font></tt></td></tr><td><tt> </tt><tr><tt> </tt><td colspan="99" align="left"><tt><font color="#660099">HashMap</font><font color="#000000">(&quot;x&quot; -&gt; 24, &quot;y&quot; -&gt; 25, &quot;z&quot; -&gt; 26)</font></tt></td></tr></td></td></table><tt> </tt></p></div>これらのコレクションは，<tt>toString</tt>を呼び出すと上の表記方法で表示される．<p>すべてのコレクションが <tt>Traversable</tt> によって提供される API をサポートするが，理にかなうところでは型を特殊化している．たとえば，<tt>Traversable</tt> クラスの <tt>map</tt> メソッドは別の <tt>Traversable</tt> を結果として返すが，結果の型はサブクラスでオーバーライドされる．たとえば，<tt>List</tt> が <tt>map</tt> を呼び出しても再び <tt>List</tt> が返ってき，<tt>Set</tt>が <tt>map</tt> を呼び出すと <tt>Set</tt> が返ってくる，といういう具合だ．<div class="quote"><p><tt></tt><table cellspacing="1" cellpadding="0"><td><tt></tt><tr><tt> </tt><td colspan="99" align="left"><tt>scala&gt; <font color="#660099">List</font><font color="#000000">(1, 2, 3) map (_ + 1)</font></tt></td></tr><td><tt> </tt><tr><tt> </tt><td colspan="99" align="left"><tt><font color="#590000">res0: List[Int] = List(2, 3, 4)</font></tt></td></tr><td><tt> </tt><tr><tt> </tt><td colspan="99" align="left"><tt>scala&gt; <font color="#660099">Set</font><font color="#000000">(1, 2, 3) map (_ * 2)</font></tt></td></tr><td><tt> </tt><tr><tt> </tt><td colspan="99" align="left"><tt><font color="#590000">res0: Set[Int] = Set(2, 4, 6)</font></tt></td></tr></td></td></td></td></table><tt> </tt></p></div>このコレクションライブラリ中のどこでも実装されている振る舞いは<em>同型戻り値型の原則</em> と呼ばれる．<p><a href="#id1">コレクションの階層</a>のクラスのほとんどは基底，不変，可変の3種類とも存在する．唯一の例外は，可変コレクションにのみ存在する <tt>Buffer </tt>trait だ．<p>これより，これらのクラスを一つづつ見ていく．<p>次へ:  <a href="http://www.scala-lang.org/docu/files/collections-api/collections_3.html">Trait <tt>Traversable</tt></a><hr> <table width="100%" cellpadding="0" cellspacing="2"><tr> <td bgcolor="#99ccff"><a href="http://www.scala-lang.org/docu/files/collections-api/collections_3.html"><img border="0" alt="Trait Traversable" src="http://lampwww.epfl.ch/~odersky/images/next.png"></a></td><td bgcolor="#99ccff"><a href="http://www.scala-lang.org/docu/files/collections-api/collections_0.html"><img border="0" alt="トップ" src="http://lampwww.epfl.ch/~odersky/images/up.png"></a></td><td bgcolor="#99ccff"><a href="http://www.scala-lang.org/docu/files/collections-api/collections_1.html"><img border="0" alt="可変および不変のコレクション" src="http://lampwww.epfl.ch/~odersky/images/previous.png"></a></td><td align="center" bgcolor="#99ccff" width="100%"><b>コレクションAPIの概要</b></td><td bgcolor="#99ccff" align="center"><a href="http://www.scala-lang.org/docu/files/collections-api/collections_49.html">目次</a></td></tr></table></p></p></p></p></p></p></p></p></body></html>
