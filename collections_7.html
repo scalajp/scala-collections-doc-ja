@@ -1,0 +1,93 @@
+﻿<html dir="ltr"> <head>
+<title>Scala 2.8 コレクション API -- 集合</title>
+
+<style type="text/css">.maketitle {
+  /* align: center; */
+}
+div.abstract {
+  margin-left: 20%;
+  margin-right: 10%;
+}
+h3.abstract {
+  /* align: center; */
+}
+div.verse, div.quote, div.quotation {
+  margin-left: 10%;
+  margin-right: 10%;
+}
+</style>
+
+
+</head>
+<body dir="ltr"> <table width="100%" cellpadding="0" cellspacing="2">
+<tr> <td bgcolor="#99ccff"><a href="collections_10.html"><img border="0" alt="マップ" src="http://lampwww.epfl.ch/~odersky/images/next.png"></a></td><td bgcolor="#99ccff"><a href="collections_0.html"><img border="0" alt="トップ" src="http://lampwww.epfl.ch/~odersky/images/up.png"></a></td><td bgcolor="#99ccff"><a href="collections_5.html"><img border="0" alt="列トレイト Seq, IndexedSeq, および LinearSeq" src="http://lampwww.epfl.ch/~odersky/images/previous.png"></a></td><td align="center" bgcolor="#99ccff" width="100%"><b>集合</b></td><td bgcolor="#99ccff" align="center"><a href="collections_49.html">目次</a></td></tr></table> <h1>集合</h1> <p>集合 (<tt>Set</tt>) は要素の重複の無い <tt>Iterable</tt> だ．一般の集合に定義される演算は<a href="collections_7.html#tab:setops">次の表</a>にまとめてあり，可変集合に関しては<a href="collections_7.html#tab:mutsetops">その次の表</a>も見てほしい．これらの演算は以下のカテゴリーに分類される: <ul>
+<li><em>条件演算</em>である <tt>contains</tt>, <tt>apply</tt>, <tt>subsetOf</tt>．<tt>contains</tt> メソッドは集合が任意の要素を含むかを調べる．集合での <tt>apply</tt>  メソッドは <tt>contains</tt> と同じであるため，<tt>set(elem)</tt> は <tt>set</tt> <tt>contains</tt> <tt>elem</tt> と同じだ．これは集合が要素を含んでいれば true を返す関数として使えることを意味する．例えば，<div class="quote"><p><tt></tt><table cellspacing="1" cellpadding="0"><td><tt></tt>
+<tr><tt> </tt><td colspan="99" align="left"><tt><font color="#0000e5">val</font> fruit = <font color="#660099">Set</font>(<font color="#000000">&quot;apple&quot;</font>, <font color="#000000">&quot;orange&quot;</font>, <font color="#000000">&quot;peach&quot;</font>, <font color="#000000">&quot;banana&quot;</font>)</tt></td></tr><td><tt> </tt>
+<tr><tt> </tt><td colspan="99" align="left"><tt><font color="#590000">fruit: scala.collection.immutable.</font></tt><tt><font color="#590000">Set[java.lang.</font></tt><tt><font color="#590000">String[]</font></tt></td></tr><td><tt> </tt>
+<tr><tt> </tt><td colspan="99" align="left"><tt><font color="#590000">Set(apple, orange, peach, banana)</font></tt></td></tr><td><tt> </tt>
+<tr><tt> </tt><td colspan="99" align="left"><tt>scala&gt; fruit(<font color="#000000">&quot;peach&quot;</font>)</tt></td></tr><td><tt> </tt>
+<tr><tt> </tt><td colspan="99" align="left"><tt><font color="#590000">res0: Boolean = true</font></tt></td></tr><td><tt> </tt>
+<tr><tt> </tt><td colspan="99" align="left"><tt>scala&gt; fruit(<font color="#000000">&quot;potato&quot;</font>)</tt></td></tr><td><tt> </tt>
+<tr><tt> </tt><td colspan="99" align="left"><tt><font color="#590000">res1: Boolean = false </font></tt></td></tr></td></td></td></td></td></td></td></table><tt> </tt></p></div>
+<li><em>加算</em>である <tt>+</tt> と <tt>++</tt> は，単一もしくは複数の要素を集合に追加し，新たな集合を返す．
+<li><em>減算</em>である <tt>-</tt> は <tt>--</tt> は，単一もしくは複数の要素を集合から削除し，新たな集合を返す．
+<li><em>集合演算</em>である和集合，積集合，および差集合．これらの演算には文字形とシンボル形の二つの形がある．文字バージョンは  <tt>intersect</tt>，<tt>union</tt>，および <tt>diff</tt> で，シンボルバージョンは <tt>&amp;</tt>，<tt>|</tt>，と <tt>&amp;<font size="+1">~</font></tt> だ．<tt>Set</tt> が <tt>Traversable</tt> から継承する  <tt>++</tt> は <tt>union</tt> と <tt>|</tt> の更なる別名だと考えることができるが，<tt>++</tt> は <tt>Traversable</tt> の引数を取るが，<tt>union</tt> と <tt>|</tt> は集合を取る．</li>
+</ul>
+<table border=""><tbody>
+<tr><td colspan="1" align="left"> <div align="center"><b><a href="http://www.scala-lang.org/api/current/scala/collection/Set.html">Set</a> クラスの演算 <a name="id1"> </a></b></div><a name="tab:setops"> </a></td></tr> 
+<tr><td colspan="1" align="left"> <p><b>使用例</b><a name="tab:setops">&nbsp;</a> </p></td><td colspan="1" align="left"> <b>振る舞い</b> </td></tr> 
+<tr><td colspan="1" align="left"> <p><b><font color="#00007f">条件演算: </font></b> </p></td></tr> 
+<tr><td colspan="1" align="left"> <tt>xs</tt> <tt>contains</tt> <tt>x</tt> </td><td colspan="1" align="left"><tt>xs</tt> が <tt>x</tt> を含むかを調べる．</td></tr> 
+<tr><td colspan="1" align="left"> <tt>xs(x)</tt> </td><td colspan="1" align="left"><tt>xs</tt> <tt>contains</tt> <tt>x</tt> に同じ．</td></tr> 
+<tr><td colspan="1" align="left"> <tt>xs</tt> <tt>subsetOf</tt> <tt>ys</tt></td><td colspan="1" align="left"><tt>xs</tt> が <tt>ys</tt> の部分集合であるかを調べる．</td></tr> 
+<tr><td colspan="1" align="left"> <p><b><font color="#00007f">加算:</font></b> </p></td></tr> 
+<tr><td colspan="1" align="left"> <tt>xs</tt> <tt>+</tt> <tt>x</tt> </td><td colspan="1" align="left"><tt>xs</tt>内の全ての要素および <tt>x</tt> を含んだ集合．</td></tr> 
+<tr><td colspan="1" align="left"> <tt>xs</tt> <tt>+</tt> <tt>(x,</tt> <tt>y,</tt> <tt>z)</tt> </td><td colspan="1" align="left"><tt>xs</tt>内の全ての要素および渡された要素を含んだ集合．</td></tr> 
+<tr><td colspan="1" align="left"> <tt>xs ++ ys</tt></td><td colspan="1" align="left"><tt>xs</tt>内の全ての要素と <tt>ys</tt>内の全ての要素を含んだ集合．</td></tr> 
+<tr><td colspan="1" align="left"> <p><b><font color="#00007f">減算:</font></b> </p></td></tr> 
+<tr><td colspan="1" align="left"> <tt>xs</tt> <tt>-</tt> <tt>x</tt> </td><td colspan="1" align="left"><tt>x</tt> を除き，<tt>xs</tt>内の全ての要素を含んだ集合．</td></tr> 
+<tr><td colspan="1" align="left"> <tt>xs</tt> <tt>-</tt> <tt>(x,</tt> <tt>y,</tt> <tt>z)</tt></td><td colspan="1" align="left">渡された要素を除き，<tt>xs</tt>内の全ての要素を含んだ集合．</td></tr> 
+<tr><td colspan="1" align="left"> <tt>xs -- ys</tt></td><td colspan="1" align="left"><tt>ys</tt>内の要素を除き，<tt>xs</tt>内の全ての要素を含んだ集合．</td></tr> 
+<tr><td colspan="1" align="left">xs.empty</td><td colspan="1" align="left"><tt>xs</tt> と同じクラスの空集合．</td></tr> 
+<tr><td colspan="1" align="left"> <p><b><font color="#00007f">集合演算: </font></b> </p></td></tr> 
+<tr><td colspan="1" align="left"><tt>x</tt> <tt>&amp;</tt> <tt>ys</tt></td><td colspan="1" align="left"><tt>xs</tt> と <tt>ys</tt> の積集合．</td></tr> 
+<tr><td colspan="1" align="left"> <tt>xs</tt> <tt>intersect</tt> <tt>ys</tt> </td><td colspan="1" align="left"><tt>xs</tt> <tt>&amp;</tt> <tt>ys</tt> に同じ．</td></tr> 
+<tr><td colspan="1" align="left"><tt>x</tt> <tt>|</tt> <tt>ys</tt></td><td colspan="1" align="left"><tt>xs</tt> と <tt>ys</tt> の和集合．</td></tr> 
+<tr><td colspan="1" align="left"> <tt>xs</tt> <tt>union</tt> <tt>ys</tt> </td><td colspan="1" align="left"><tt>xs</tt> <tt>|</tt> <tt>ys</tt> に同じ．</td></tr> 
+<tr><td colspan="1" align="left"><tt>x</tt> <tt>&amp;~</tt> <tt>ys</tt></td><td colspan="1" align="left"><tt>xs</tt> と <tt>ys</tt> の差集合．</td></tr> 
+<tr><td colspan="1" align="left"> <tt>xs</tt> <tt>diff</tt> <tt>ys</tt> </td><td colspan="1" align="left"><tt>xs</tt> <tt>&amp;<font size="+1">~</font></tt> <tt>ys</tt>  に同じ．</td></tr></tbody></table> <p>可変集合は，<a href="collections_7.html#tab:mutsetops">この表</a>にまとめてあるとおり，加算，減算，更新演算などの新たなメソッドを追加する．<table border=""><tbody>
+<tr><td colspan="1" align="left"> <div align="center"><b><a href="http://www.scala-lang.org/api/current/scala/collection/mutable/Set.html">mutable.Set</a> クラスの演算</b></div><a name="tab:mutsetops"> </a></td></tr> 
+<tr><td colspan="1" align="left"> <p><b>使用例</b> <a name="tab:mutsetops">&nbsp;</a></p></td><td colspan="1" align="left"> <b>振る舞い</b> </td></tr> 
+<tr><td colspan="1" align="left"> <p><b><font color="#00007f">加算:</font></b> </p></td></tr> 
+<tr><td colspan="1" align="left"> <tt>xs</tt> <tt>+=</tt> <tt>x</tt> </td><td colspan="1" align="left">集合 <tt>xs</tt> に副作用として要素 <tt>x</tt> を加え，<tt>xs</tt>自身を返す．</td></tr> 
+<tr><td colspan="1" align="left"> <tt>xs</tt> <tt>+=</tt> <tt>(x,</tt> <tt>y,</tt> <tt>z)</tt> </td><td colspan="1" align="left">集合 <tt>xs</tt> に副作用として渡された要素を加え，<tt>xs</tt>自身を返す．</td></tr> 
+<tr><td colspan="1" align="left"> <tt>xs</tt> <tt>++=</tt> <tt>ys</tt></td><td colspan="1" align="left">集合 <tt>xs</tt> に副作用として <tt>ys</tt>内の全ての要素を加え，<tt>xs</tt>自身を返す．</td></tr> 
+<tr><td colspan="1" align="left"> <tt>xs</tt> <tt>add</tt> <tt>x</tt> </td><td colspan="1" align="left">集合 <tt>xs</tt> に要素 <tt>x</tt> を加え，以前に集合に含まれていなければ <tt>true</tt> を返し，既に含まれていれば <tt>false</tt> を返す．</td></tr> 
+<tr><td colspan="1" align="left"> <p><b><font color="#00007f">減算:</font></b> </p></td></tr> 
+<tr><td colspan="1" align="left"> <tt>xs</tt> <tt>-=</tt> <tt>x</tt> </td><td colspan="1" align="left">集合 <tt>xs</tt> から副作用として要素 <tt>x</tt> を削除して，<tt>xs</tt>自身を返す．</td></tr> 
+<tr><td colspan="1" align="left"> <tt>xs</tt> <tt>-=</tt> <tt>(x,</tt> <tt>y,</tt> <tt>z)</tt> </td><td colspan="1" align="left">集合 <tt>xs</tt> から副作用として渡された要素を削除して，<tt>xs</tt>自身を返す．</td></tr> 
+<tr><td colspan="1" align="left"> <tt>xs</tt> <tt>--=</tt> <tt>ys</tt></td><td colspan="1" align="left">集合 <tt>xs</tt> から副作用として <tt>ys</tt>内の全ての要素を削除して，<tt>xs</tt>自身を返す．</td></tr> 
+<tr><td colspan="1" align="left"> <tt>xs</tt> <tt>remove</tt> <tt>x</tt></td><td colspan="1" align="left">集合 <tt>xs</tt> から要素 <tt>x</tt> を削除，以前に集合に含まれていれば <tt>true</tt> を返し，含まれていなければ <tt>false</tt> を返す．
+</td></tr> 
+<tr><td colspan="1" align="left"> <tt>xs</tt> <tt>retain</tt> <tt>p</tt></td><td colspan="1" align="left"><tt>xs</tt>内の要素で条件関数 <tt>p</tt> を満たすものだけを残す．</td></tr> 
+<tr><td colspan="1" align="left"> <tt>xs.clear()</tt></td><td colspan="1" align="left"><tt>xs</tt> から全ての要素を削除する．</td></tr> 
+<tr><td colspan="1" align="left"> <p><b><font color="#00007f">更新演算:</font></b> </p></td></tr> 
+<tr><td colspan="1" align="left"> <tt>xs(x)</tt> <tt>=</tt> <tt>b</tt> </td><td colspan="1" align="left"> (展開した場合，<tt>xs.update(x,</tt> <tt>b)</tt>)．ブーリアン値の引数 <tt>b</tt> が <tt>true</tt> ならば <tt>xs</tt> に <tt>x</tt> を加え，それ以外なら <tt>xs</tt> から <tt>x</tt> を削除する．</td></tr> 
+<tr><td colspan="1" align="left"> <p><b><font color="#00007f">クローン演算:</font></b> </p></td></tr> 
+<tr><td colspan="1" align="left"> <tt>xs.clone</tt></td><td colspan="1" align="left"><tt>xs</tt> と同じ要素を持つ新しい可変集合．</td></tr></tbody></table> <p>不変集合と同様に，可変集合も要素追加のための <tt>+</tt> と <tt>++</tt> 演算，および要素削除のための <tt>-</tt> and <tt>--</tt> 演算を提供する．しかし，これらは集合をコピーする必要があるため可変集合ではあまり使われることがない．可変集合はより効率的な <tt>+=</tt> と <tt>-=</tt> という更新方法を提供する．<tt>s</tt> <tt>+=</tt> <tt>elem</tt> という演算は，集合 <tt>s</tt> に副作用として <tt>elem</tt> を集合に加え，変化した集合そのものを戻り値として返す．同様に，<tt>s</tt> <tt>-=</tt> <tt>elem</tt> は集合から <tt>elem</tt>  を削除して，変化した集合を戻り値として返す．<tt>+=</tt> と <tt>-=</tt> の他にも，traversable やイテレータの全ての要素を追加または削除する一括演算である  <tt>++=</tt> と <tt>--=</tt> がある．<p>メソッド名として  <tt>+=</tt> や <tt>-=</tt> が選ばれいていることによって，非常に似たコードが可変集合と不変集合のどちらでも動くことを意味する．不変集合 <tt>s</tt> を使った次の REPL のやりとりを見てほしい:<div class="quote"><p><tt></tt><table cellspacing="1" cellpadding="0"><td><tt></tt>
+<tr><tt> </tt><td colspan="99" align="left"><tt>scala&gt; <font color="#0000e5">var</font> s = <font color="#660099">Set</font>(<font color="#000000">1</font>, <font color="#000000">2</font>, <font color="#000000">3</font>)</tt></td></tr><td><tt> </tt>
+<tr><tt> </tt><td colspan="99" align="left"><tt><font color="#590000">s: scala.collection.immutable.</font></tt><tt><font color="#590000">Set[Int] = Set(1, 2, 3)</font></tt></td></tr><td><tt> </tt>
+<tr><tt> </tt><td colspan="99" align="left"><tt><font color="#590000">scala&gt; s += 4</font></tt></td></tr><td><tt> </tt>
+<tr><tt> </tt><td colspan="99" align="left"><tt><font color="#590000">scala&gt; s -= 2</font></tt></td></tr><td><tt> </tt>
+<tr><tt> </tt><td colspan="99" align="left"><tt>scala&gt; s</tt></td></tr><td><tt> </tt>
+<tr><tt> </tt><td colspan="99" align="left"><tt><font color="#590000">res2: scala.collection.immutable.</font></tt><tt><font color="#590000">Set[Int] = Set(1, 3, 4) </font></tt></td></tr></td></td></td></td></td></td></table><tt> </tt></p></div>ここでは <tt>immutable.Set</tt>型の <tt>var</tt> に対して <tt>+=</tt> と <tt>-=</tt> を使った．<tt>s</tt> <tt>+=</tt> <tt>4</tt> のようなステートメントは，<tt>s</tt> <tt>=</tt> <tt>s</tt> <tt>+</tt> <tt>4</tt> の略だ．つまり，これは集合 <tt>s</tt> に対して追加メソッドの <tt>+</tt> を呼び出して，結果を変数 <tt>s</tt> に代入しなおしてる．次に，可変集合でのやりとりを見てほしい．<div class="quote"><p><tt></tt><table cellspacing="1" cellpadding="0"><td><tt></tt>
+<tr><tt> </tt><td colspan="99" align="left"><tt>scala&gt; <font color="#0000e5">val</font> s = <font color="#660099">collection.mutable.</font></tt><tt><font color="#660099">Set</font>(<font color="#000000">1</font>, <font color="#000000">2</font>, <font color="#000000">3</font>)</tt></td></tr><td><tt> </tt>
+<tr><tt> </tt><td colspan="99" align="left"><tt><font color="#590000">s: scala.collection.mutable.</font></tt><tt><font color="#590000">Set[Int] = Set(1, 2, 3)</font></tt></td></tr><td><tt> </tt>
+<tr><tt> </tt><td colspan="99" align="left"><tt>scala&gt; s += <font color="#000000">4</font></tt></td></tr><td><tt> </tt>
+<tr><tt> </tt><td colspan="99" align="left"><tt><font color="#590000">res3: s.type = Set(1, 4, 2, 3)</font></tt></td></tr><td><tt> </tt>
+<tr><tt> </tt><td colspan="99" align="left"><tt>scala&gt; s -= <font color="#000000">2</font></tt></td></tr><td><tt> </tt>
+<tr><tt> </tt><td colspan="99" align="left"><tt><font color="#590000">res4: s.type = Set(1, 4, 3) </font></tt></td></tr></td></td></td></td></td></td></table><tt> </tt></p></div>結果は前回のやりとりと非常に似通ったものになった: <tt>Set(1,</tt> <tt>2,</tt> <tt>3)</tt> から始めて，最後に <tt>Set(1,</tt> <tt>3,</tt> <tt>4)</tt> を得た．ステートメントは前回と同じに見えるが，実際には違うことを行っている． <tt>s</tt> <tt>+=</tt> <tt>4</tt> は今度は可変集合 <tt>s</tt> の <tt>+=</tt> メソッドを呼び出し，その場で集合を上書きしているのだ．同様に，<tt>s</tt> <tt>-=</tt> <tt>2</tt>  は同じ集合の <tt>-=</tt> メソッドを呼び出している．<p>この二つのやりとりの比較から重要な原則を導き出せる．<tt>val</tt> に格納された可変コレクションと，<tt>var</tt> に格納された不変コレクションは，大抵の場合にお互いを置換できるということだ．これはコレクションに対して上書きで更新されたのか新たなコレクションが作成されたのかを第三者が観測できるような別名の参照がない限り成り立つ原則だ．<p>可変集合は <tt>+=</tt> と <tt>-=</tt> の別形として <tt>add</tt> と <tt>remove</tt> を提供する．違いは <tt>add</tt> と <tt>remove</tt> は集合に対して演算の効果があったかどうかを示す <tt>Boolean</tt> の戻り値を返すことだ．<p>現在．可変集合のデフォルトの実装では要素を格納するのにハッシュテーブルを使っている．不変集合のデフォルトの実装は集合の要素数に応じて方法を変えている．空集合はシングルトンで表される．サイズが 4つまでの集合は全要素をフィールドとして持つオブジェクトとして表される．それを超えたサイズの不変集合は<a href="collections_19.html">ハッシュトライ</a>として表される．<p>このような設計方針のため，(例えば 4以下の) 小さいサイズの集合を使う場合は，通常の場合，可変集合に比べて不変集合の方が，よりコンパクトで効率的だ．集合のサイズが小さいと思われる場合は，不変集合を試してみてはいかがだろうか．<p>集合のサブトレイトとして <tt>SortedSet</tt> と <tt>BitSet</tt> の二つがある．これは別のページで解説されている．<p>次へ:<ul> 
+<li><a href="collections_8.html">順序付き集合</a> 
+<li><a href="collections_9.html">ビットセット</a> </li></li></ul> <hr> <table width="100%" cellpadding="0" cellspacing="2">
+<tr> <td bgcolor="#99ccff"><a href="collections_10.html"><img border="0" alt="マップ" src="http://lampwww.epfl.ch/~odersky/images/next.png"></a></td><td bgcolor="#99ccff"><a href="collections_0.html"><img border="0" alt="トップ" src="http://lampwww.epfl.ch/~odersky/images/up.png"></a></td><td bgcolor="#99ccff"><a href="collections_5.html"><img border="0" alt="列トレイト trait Seq, IndexedSeq, および LinearSeq" src="http://lampwww.epfl.ch/~odersky/images/previous.png"></a></td><td align="center" bgcolor="#99ccff" width="100%"><b>Set</b></td><td bgcolor="#99ccff" align="center"><a href="collections_49.html">Contents</a></td></tr></table>
+</body></html>
