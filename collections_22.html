@@ -1,0 +1,37 @@
+﻿<html dir="ltr"> <head>
+<title>Scala 2.8 コレクション API -- リストマップ</title>
+
+<style type="text/css">.maketitle {
+  /* align: center; */
+}
+div.abstract {
+  margin-left: 20%;
+  margin-right: 10%;
+}
+h3.abstract {
+  /* align: center; */
+}
+div.verse, div.quote, div.quotation {
+  margin-left: 10%;
+  margin-right: 10%;
+}
+</style>
+
+
+</head> 
+<body dir="ltr"> 
+<table width="100%" cellpadding="0" cellspacing="2">
+<tr> <td bgcolor="#99ccff"><img alt="" src="http://lampwww.epfl.ch/~odersky/images/blank.png"></td><td bgcolor="#99ccff"><a href="collections_12.html"><img border="0" alt="具象不変コレクションクラス" src="http://lampwww.epfl.ch/~odersky/images/up.png"></a></td><td bgcolor="#99ccff"><a href="collections_21.html"><img border="0" alt="不変ビット集合" src="http://lampwww.epfl.ch/~odersky/images/previous.png"></a></td><td align="center" bgcolor="#99ccff" width="100%"><b>リストマップ</b></td><td bgcolor="#99ccff" align="center"><a href="collections_49.html">目次</a></td></tr></table> 
+<h2>リストマップ</h2> 
+<p>リストマップ (<a href="http://www.scala-lang.org/api/current/scala/collection/immutable/ListMap.html">ListMap</a>) は，キー/値ペアの連結リスト (linked list) により実装されたマップを表す．一般的に，リストマップの演算はリスト全体を総なめする必要がある可能性がある．そのため，リストマップの演算はマップのサイズに対して線形時間をとる．標準の不変マップの方が常に高速なので Scala のリストマップが使われることはほとんど無い．
+唯一性能の差が出る可能性としては，マップが何らかの理由でリストの最初の要素が他の要素に比べてずっと頻繁に読み込まれるように構築された場合だ．
+<div class="quote"><p><tt></tt><table cellspacing="1" cellpadding="0"><tt></tt>
+<tr><tt> </tt><td colspan="99" align="left"><tt>scala&gt; <font color="#0000e5">val</font> map = <font color="#660099">scala.collection.immutable.</font></tt><tt><font color="#660099">ListMap</font>(<font color="#000000">1</font>-&gt;<font color="#000000">&quot;one&quot;</font>, <font color="#000000">2</font>-&gt;<font color="#000000">&quot;two&quot;</font>)</tt></td></tr><tt> </tt>
+<tr><tt> </tt><td colspan="99" align="left"><tt><font color="#590000">map: scala.collection.immutable.</font></tt><tt><font color="#590000">ListMap[Int,java.lang.</font></tt><tt><font color="#590000">String[]</font></tt></td></tr><tt> </tt>
+<tr><tt> </tt><td colspan="99" align="left"><tt>   <font color="#660099">Map</font>(<font color="#000000">1</font> -&gt; one, <font color="#000000">2</font> -&gt; two)</tt></td></tr><tt> </tt>
+<tr><tt> </tt><td colspan="99" align="left"><tt>scala&gt; map(<font color="#000000">2</font>)</tt></td></tr><tt> </tt>
+<tr><tt> </tt><td colspan="99" align="left"><tt><font color="#590000">res30: String = &quot;two&quot; </font></tt></td></tr></table><tt> </tt></p></div><p>次へ: <a href="collections_23.html">具象可変コレクションクラス</a> <hr> 
+<table width="100%" cellpadding="0" cellspacing="2">
+<tr> <td bgcolor="#99ccff"><img alt="" src="http://lampwww.epfl.ch/~odersky/images/blank.png"></td><td bgcolor="#99ccff"><a href="collections_12.html"><img border="0" alt="具象不変コレクションクラス" src="http://lampwww.epfl.ch/~odersky/images/up.png"></a></td><td bgcolor="#99ccff"><a href="collections_21.html"><img border="0" alt="不変ビット集合" src="http://lampwww.epfl.ch/~odersky/images/previous.png"></a></td><td align="center" bgcolor="#99ccff" width="100%"><b>リストマップ</b></td><td bgcolor="#99ccff" align="center"><a href="collections_49.html">目次</a></td></tr></table>
+</body>
+</html>
