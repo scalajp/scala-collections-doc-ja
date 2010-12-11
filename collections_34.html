@@ -1,0 +1,40 @@
+﻿<html dir="ltr"> <head>
+<title>Scala 2.8 コレクション API -- ハッシュテーブル</title>
+
+<style type="text/css">.maketitle {
+  /* align: center; */
+}
+div.abstract {
+  margin-left: 20%;
+  margin-right: 10%;
+}
+h3.abstract {
+  /* align: center; */
+}
+div.verse, div.quote, div.quotation {
+  margin-left: 10%;
+  margin-right: 10%;
+}
+</style>
+
+
+</head> 
+<body dir="ltr"> 
+<table width="100%" cellpadding="0" cellspacing="2"><tr> <td bgcolor="#99ccff"><a href="collections_35.html"><img border="0" alt="ウィークハッシュテーブル" src="http://lampwww.epfl.ch/~odersky/images/next.png"></a></td><td bgcolor="#99ccff"><a href="collections_23.html"><img border="0" alt="具象可変コレクションクラス" src="http://lampwww.epfl.ch/~odersky/images/up.png"></a></td><td bgcolor="#99ccff"><a href="collections_33.html"><img border="0" alt="配列スタック" src="http://lampwww.epfl.ch/~odersky/images/previous.png"></a></td><td align="center" bgcolor="#99ccff" width="100%"><b>ハッシュテーブル</b></td><td bgcolor="#99ccff" align="center"><a href="collections_49.html">目次</a></td></tr></table> 
+<h2>ハッシュテーブル</h2> 
+<p>ハッシュテーブルは，内部で要素を配列に格納し，要素の位置はハッシュコードにより決められる．ハッシュテーブルへの要素の追加は，既に配列の中に同じハッシュコードを持つ他の要素が無い限り，定数時間で行われる．そのため，ハッシュコードの分布が適度である限り非常に高速だ．結果として，Scala の可変マップと可変集合のデフォルトの実装はハッシュテーブルに基づいている．これらは，<a href="http://www.scala-lang.org/api/current/scala/collection/mutable/HashSet.html">mutable.HashSet</a> クラスと <a href="http://www.scala-lang.org/api/current/scala/collection/mutable/HashMap.html">mutable.HashMap</a> クラスより直接アクセスできる．<p>ハッシュ集合とハッシュマップは他の集合やマップと変りなく使うことができる．以下に具体例で説明する:
+<div class="quote"><p><tt></tt><table cellspacing="1" cellpadding="0"><td><tt></tt>
+<tr><tt> </tt><td colspan="99" align="left"><tt>scala&gt; <font color="#0000e5">val</font> map = scala.collection.mutable.</tt><tt>HashMap.empty[<font color="#660099">Int</font>,<font color="#660099">String</font>]</tt></td></tr><td><tt> </tt>
+<tr><tt> </tt><td colspan="99" align="left"><tt><font color="#590000">map: scala.collection.mutable.</font></tt><tt><font color="#590000">HashMap[Int,String] = Map()</font></tt></td></tr><td><tt> </tt>
+<tr><tt> </tt><td colspan="99" align="left"><tt>scala&gt; map += (<font color="#000000">1</font> -&gt; <font color="#000000">&quot;make a web site&quot;</font>)</tt></td></tr><td><tt> </tt>
+<tr><tt> </tt><td colspan="99" align="left"><tt><font color="#590000">res42: map.type = Map(1 -&gt; make a web site)</font></tt></td></tr><td><tt> </tt>
+<tr><tt> </tt><td colspan="99" align="left"><tt>scala&gt; map += (<font color="#000000">3</font> -&gt; <font color="#000000">&quot;profit!&quot;</font>)</tt></td></tr><td><tt> </tt>
+<tr><tt> </tt><td colspan="99" align="left"><tt><font color="#590000">res43: map.type = Map(1 -&gt; make a web site, 3 -&gt; profit!)</font></tt></td></tr><td><tt> </tt>
+<tr><tt> </tt><td colspan="99" align="left"><tt>scala&gt; map(<font color="#000000">1</font>)</tt></td></tr><td><tt> </tt>
+<tr><tt> </tt><td colspan="99" align="left"><tt><font color="#590000">res44: String = make a web site</font></tt></td></tr><td><tt> </tt>
+<tr><tt> </tt><td colspan="99" align="left"><tt>scala&gt; map contains <font color="#000000">2</font></tt></td></tr><td><tt> </tt>
+<tr><tt> </tt><td colspan="99" align="left"><tt><font color="#590000">res46: Boolean = false </font></tt></td></tr></td></td></td></td></td></td></td></td></td></td></table><tt> </tt></p></div>
+<p>ハッシュテーブルからの要素の取り出しは，特定の順序を保証していない．要素の取り出しは単に内部の配列を通して行われるため，順序はその時の配列の状態により決まる．要素の取り出しの順序を保証したい場合は，普通のハッシュマップではなく<em>連結</em>ハッシュマップを使うべきだ．連結ハッシュマップもしくは連結ハッシュ集合は，要素を追加した順序を保った連結リストを含む以外は普通のハッシュマップやハッシュ集合とほとんど同じだ．それにより，コレクションからの要素の取り出しは要素が追加された順序と常に一致する．
+<p>次へ: <a href="collections_35.html">ウィークハッシュマップ</a> <hr> <table width="100%" cellpadding="0" cellspacing="2"><tr> <td bgcolor="#99ccff"><a href="collections_35.html"><img border="0" alt="ウィークハッシュテーブル" src="http://lampwww.epfl.ch/~odersky/images/next.png"></a></td><td bgcolor="#99ccff"><a href="collections_23.html"><img border="0" alt="具象可変コレクションクラス" src="http://lampwww.epfl.ch/~odersky/images/up.png"></a></td><td bgcolor="#99ccff"><a href="collections_33.html"><img border="0" alt="配列スタック" src="http://lampwww.epfl.ch/~odersky/images/previous.png"></a></td><td align="center" bgcolor="#99ccff" width="100%"><b>ハッシュテーブル</b></td><td bgcolor="#99ccff" align="center"><a href="collections_49.html">目次</a></td></tr></table>
+</body>
+</html>
