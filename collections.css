@@ -19,3 +19,28 @@ table.ops td
   border-top: 1px solid gray;
   border-left: 1px solid gray;
 }
+
+.logo {
+  margin: 20px;
+  font-family: "MS Gothic", sans-serif;
+}
+
+.logo a {
+  text-decoration: none;
+  color: black;
+}
+
+.toc li {
+  list-style-type: none;
+}
+
+.toc a {
+  font-family: sans-serif;
+  text-decoration: none;
+  color: black;
+}
+
+.toc a:hover {
+  text-decoration: underline;
+  color: black;
+}

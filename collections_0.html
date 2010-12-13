@@ -18,6 +18,15 @@ div.verse, div.quote, div.quotation {
 </style>
 <link rel="stylesheet" type="text/css" href="collections.css" />
 </head> <body dir="ltr">
+
+<blockquote style="border-left: 1px solid gray;
+font-family: Century, Times, 'Times New Roman', serif;
+padding-left: 1em;"> 
+<p>Martin Odersky さんと Lex Spoon さんの "<a href="http://www.scala-lang.org/docu/files/collections-api/collections.html">The Scala 2.8 Collections API</a>" の翻訳を始めました．<br /> 
+  元記事はこちら: <a href="http://www.scala-lang.org/docu/files/collections-api/collections.html">http://www.scala-lang.org/docu/files/collections-api/collections.html</a><br /> 
+  翻訳の間違い等があれば遠慮なく <a href="https://github.com/eed3si9n/scala-collections-doc-ja/issues">Issues</a> などでご指摘ください．</p> 
+</blockquote> 
+
 <h1 class="maketitle">Scala 2.8 コレクション API</h1>
 <h2 class="maketitle">Martin Odersky, Lex Spoon</h2>
 <h3 class="maketitle">2010 年 9 月 7 日</h3>
@@ -50,7 +59,8 @@ div.verse, div.quote, div.quotation {
 <p>この演算が何をしているかは一目瞭然だ: <tt>people</tt> のコレクションを年齢によって <tt>minors</tt> と  <tt>adult</tt> に分割している．<tt>partition</tt> メソッドはコレクションの基底型である <tt>TraversableLike</tt> で定義されているため，このコードは配列を含むどのコレクションでも動作する．これによって生じる <tt>minors</tt> と <tt>adult</tt> のコレクションは，<tt>people</tt>コレクションと同じ型となる．
 <p>このコードは，従来の 1〜3個のループを用いたコレクション処理に比べて，より簡潔なものになっている (中間結果をどこかにバッファリングする必要があるため，配列を用いた場合はループ3個)．基本的なコレクションの語彙を学んでしまえば，明示的なループを書くよりも，このようなコードを書く方が簡単かつ安全だと思うようになるだろう．さらに，<tt>partition</tt> 演算は高速であり，将来的にはマルチコア上で並列コレクションにかけると更に速くなるだろう．(並列コレクションは開発ビルドに入っており，Scala 2.9 の一部としてリリースされる予定．)
 <p>以下のページは，ユーザーの視点から Scala 2.8 のコレクションクラスの API について詳細に説明する．全ての基本的なクラスと，そのメソッドについて案内してくれるはずだ．
-<p>次:<ul>
+<p>次:
+<ul class="toc">
 <li><a href="collections_1.html">可変コレクションおよび不変コレクション</a>
 <li><a href="collections_2.html">コレクション API の概要</a>
 <li><a href="collections_3.html"><tt>Traversable</tt> トレイト</a>
