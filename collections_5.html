@@ -32,7 +32,7 @@ div.verse, div.quote, div.quotation {
 列が可変の場合は，追加で副作用のある <tt>update</tt> メソッドを提供し，列内の要素を上書きすることができる． Scala の他の構文の例にならって，<tt>seq(idx)</tt> <tt>=</tt> <tt>elem</tt> は <tt>seq.update(idx,</tt> <tt>elem)</tt> の略記法であるため，<tt>update</tt> によって便利な代入構文がただで手に入る．<tt>update</tt> と <tt>updated</tt> の違いに注意してほしい． <tt>update</tt> は列内の要素を上書きし，可変列でのみ使用可能だ．<tt>updated</tt> は全ての列で使用可能であり，元の列は変更せずに常に新しい列を返す．
 
 <table border="0" cellspacing="0" class="ops"><tbody>
-<tr><td align="center" colspan="2"><b><a href="http://www.scala-lang.org/api/current/scala/collection/Seq.html">Seq</a> トレイトの演算<a name="id1"> </a></b><a name="tab:seqops"> </a></td></tr> 
+<tr><td align="center" colspan="2"><b><a href="http://www.scala-lang.org/api/current/scala/collection/Seq.html"><tt>Seq</tt></a> トレイトの演算<a name="id1"> </a></b><a name="tab:seqops"> </a></td></tr> 
 <tr><td align="left"> <p><b>使用例</b> </p></td><td align="left"> <b>振る舞い</b> </td></tr> 
 <tr><td align="left" colspan="2"> <p><b><font color="#00007f">添字と長さの演算: </font></b> </p></td></tr> 
 <tr><td align="left"> <tt>xs(i)</tt> </td><td align="left"> (展開した場合，<tt>xs</tt> <tt>apply</tt> <tt>i</tt>)．<tt>xs</tt> の添字 <tt>i</tt> の位置の要素．</td></tr> 
@@ -40,7 +40,7 @@ div.verse, div.quote, div.quotation {
 <tr><td align="left"> <tt>xs.length</tt> </td><td align="left">列の長さ (<tt>size</tt> と同様)．</td></tr> 
 <tr><td align="left"> <tt>xs.lengthCompare</tt> <tt>ys</tt> </td><td align="left"><tt>xs</tt> が <tt>ys</tt> より短い場合は <tt>-1</tt>，長い場合は <tt>+1</tt>，同じ長さの場合は <tt>0</tt> を返す．いずれかの列が無限でも正常に作動する．</td></tr> 
 <tr><td align="left"> <tt>xs.indices</tt> </td><td align="left">0 から <tt>xs.length</tt> <tt>-</tt> <tt>1</tt> までの <tt>xs</tt> の添字の範囲．</td></tr> 
-<tr><td align="left"> <p><b><font color="#00007f">添字検索演算: </font></b> </p></td></tr> 
+<tr><td align="left" colspan="2"> <p><b><font color="#00007f">添字検索演算: </font></b> </p></td></tr> 
 <tr><td align="left"> <tt>xs</tt> <tt>indexOf</tt> <tt>x</tt> </td><td align="left"> <tt>xs</tt>内で <tt>x</tt> と等しい最初の要素の添字 (数種の別形がある) ． </td></tr> 
 <tr><td align="left"> <tt>xs</tt> <tt>lastIndexOf</tt> <tt>x</tt> </td><td align="left"> <tt>xs</tt>内で <tt>x</tt> と等しい最後の要素の添字 (数種の別形がある) ． </td></tr> 
 <tr><td align="left"> <tt>xs</tt> <tt>indexOfSlice</tt> <tt>ys</tt> </td><td align="left"><tt>xs</tt> の添字で，それと後続の要素が，列 <tt>ys</tt> と同値になる最初のもの．</td></tr> 
