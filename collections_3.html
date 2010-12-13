@@ -21,7 +21,7 @@ div.verse, div.quote, div.quotation {
 </head> <body dir="ltr">
 <table width="100%" cellpadding="0" cellspacing="2"><tr> <td bgcolor="#99ccff"><a href="collections_4.html"><img border="0" alt="Iterable トレイト" src="http://lampwww.epfl.ch/~odersky/images/next.png"></a></td>
 		<td bgcolor="#99ccff"><a href="collections_0.html"><img border="0" alt="トップ" src="http://lampwww.epfl.ch/~odersky/images/up.png"></a></td>
-		<td bgcolor="#99ccff"><a href="collections_2.html"><img border="0" alt="コレクションAPIの概要" src="http://lampwww.epfl.ch/~odersky/images/previous.png"></a></td>
+		<td bgcolor="#99ccff"><a href="collections_2.html"><img border="0" alt="コレクション API の概要" src="http://lampwww.epfl.ch/~odersky/images/previous.png"></a></td>
 <td align="center" bgcolor="#99ccff" width="100%"><b>Traversable トレイト</b></td><td bgcolor="#99ccff" align="center"><a href="collections_49.html">目次</a></td></tr></table>
 <h1><tt>Traversable</tt> トレイト</h1> 
 <p>コレクション階層の最上位にあるのが <tt>Traversable</tt> トレイトだ．抽象的な演算は foreach のみ:<div class="quote"><p><tt></tt><table cellspacing="1" cellpadding="0"><tt></tt><tr><tt> </tt><td colspan="99" align="left"><tt><font color="#0000e5">def</font> foreach[U](f: <font color="#660099">Elem</font> =&gt; U )</tt></td></tr></table><tt> </tt></p></div><p><tt>Traverable</tt> を実装するコレクションクラスはこのメソッドだけを定義する必要がある．逆に言うと，その他全てのは <tt>Traversable</tt> から継承することができるということだ．<p>foreach メソッドは，コレクション中の全ての要素を渡り歩いて，渡された演算 <tt>f</tt> を各々の要素に適用することを意図している．この演算の型は <tt>Elem =&gt; U</tt> であり，<tt>Elem</tt> はコレクションの要素の型で，<tt>U</tt> は任意の戻り値型だ．<tt>f</tt>は呼び出しはその副作用のためのみに行われ，全ての <tt>f</tt> の戻り値は <tt>foreach</tt> によって破棄される．
@@ -113,6 +113,6 @@ div.verse, div.quote, div.quotation {
 	
 	<table width="100%" cellpadding="0" cellspacing="2">
 <tr> <td bgcolor="#99ccff"><a href="collections_4.html"><img border="0" alt="Iterable トレイト" src="http://lampwww.epfl.ch/~odersky/images/next.png"></a></td>
-			<td bgcolor="#99ccff"><a href="collections_0.html"><img border="0" alt="トップ" src="http://lampwww.epfl.ch/~odersky/images/up.png"></a></td><td bgcolor="#99ccff"><a href="collections_2.html"><img border="0" alt="コレクションAPIの概要" src="http://lampwww.epfl.ch/~odersky/images/previous.png"></a></td>
+			<td bgcolor="#99ccff"><a href="collections_0.html"><img border="0" alt="トップ" src="http://lampwww.epfl.ch/~odersky/images/up.png"></a></td><td bgcolor="#99ccff"><a href="collections_2.html"><img border="0" alt="コレクション API の概要" src="http://lampwww.epfl.ch/~odersky/images/previous.png"></a></td>
 <td align="center" bgcolor="#99ccff" width="100%"><b>Traversable トレイト</b></td><td bgcolor="#99ccff" align="center"><a href="collections_49.html">目次</a></td></tr></table>
 </body></html>
