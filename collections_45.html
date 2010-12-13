@@ -1,0 +1,61 @@
+<html dir="ltr"> <head>
+<title>Scala 2.8 コレクション API -- コレクションの作成</title>
+
+<style type="text/css">.maketitle {
+  /* align: center; */
+}
+div.abstract {
+  margin-left: 20%;
+  margin-right: 10%;
+}
+h3.abstract {
+  /* align: center; */
+}
+div.verse, div.quote, div.quotation {
+  margin-left: 10%;
+  margin-right: 10%;
+}
+</style>
+
+
+</head> <body dir="ltr"> <table width="100%" cellpadding="0" cellspacing="2">
+<tr> <td bgcolor="#99ccff"><a href="collections_46.html"><img border="0" alt="Java と Scala の間のコレクションの変換" src="http://lampwww.epfl.ch/~odersky/images/next.png"></a></td><td bgcolor="#99ccff"><a href="collections_0.html"><img border="0" alt="トップ" src="http://lampwww.epfl.ch/~odersky/images/up.png"></a></td><td bgcolor="#99ccff"><a href="collections_43.html"><img border="0" alt="イテレータ" src="http://lampwww.epfl.ch/~odersky/images/previous.png"></a></td><td align="center" bgcolor="#99ccff" width="100%"><b>コレクションの作成</b></td><td bgcolor="#99ccff" align="center"><a href="collections_49.html">目次</a></td></tr></table> 
+<h1>コレクションの作成</h1> 
+<p><tt>List(1,</tt> <tt>2,</tt> <tt>3)</tt> 構文によって 3つの整数から成るリストを作成でき，<tt>Map(&#39;A&#39;</tt> <tt>-&gt;</tt> <tt>1,</tt> <tt>&#39;C&#39;</tt> <tt>-&gt;</tt> <tt>2)</tt> 構文によって 2つの写像から成るマップを作成することができる．これは Scala コレクションの統一された機能だ．どのコレクションを取っても，その名前に括弧付けされた要素のリストを付け加えることができる．結果は渡された要素から成る新しいコレクションだ．以下に具体例で説明する:
+<div class="quote"><p><tt></tt><table cellspacing="1" cellpadding="0"><tt></tt>
+<tr><tt> </tt><td colspan="99" align="left"><tt><font color="#660099">Traversable</font>()             <i>// 空の traversable オブジェクト</i></tt></td></tr><tt> </tt>
+<tr><tt> </tt><td colspan="99" align="left"><tt><font color="#660099">List</font>()                    <i>// 空のリスト</i></tt></td></tr><tt> </tt>
+<tr><tt> </tt><td colspan="99" align="left"><tt><font color="#660099">List</font>(<font color="#000000">1.0</font>, <font color="#000000">2.0</font>)            <i>// 要素 1.0, 2.0 を含むリスト</i></tt></td></tr><tt> </tt>
+<tr><tt> </tt><td colspan="99" align="left"><tt><font color="#660099">Vector</font>(<font color="#000000">1.0</font>, <font color="#000000">2.0</font>)          <i>// 要素 1.0, 2.0 を含むベクトル</i></tt></td></tr><tt> </tt>
+<tr><tt> </tt><td colspan="99" align="left"><tt><font color="#660099">Iterator</font>(<font color="#000000">1</font>, <font color="#000000">2</font>, <font color="#000000">3</font>)         <i>// 3つの整数を返すイテレータ</i></tt></td></tr><tt> </tt>
+<tr><tt> </tt><td colspan="99" align="left"><tt><font color="#660099">Set</font>(dog, cat, bird)       <i>// 3種類の動物の集合</i></tt></td></tr><tt> </tt>
+<tr><tt> </tt><td colspan="99" align="left"><tt><font color="#660099">HashSet</font>(dog, cat, bird)   <i>// 同じ動物のハッシュ集合</i></tt></td></tr><tt> </tt>
+<tr><tt> </tt><td colspan="99" align="left"><tt><font color="#660099">Map</font>(a -&gt; <font color="#000000">7</font>, <font color="#000000">&#39;b&#39;</font> -&gt; <font color="#000000">0</font>)     <i>// 文字から整数へのマップ </i></tt></td></tr></table><tt> </tt></p></div>
+上の全ての行での呼び出しは内部では何らかのオブジェクトの <tt>apply</tt> メソッドを呼び出している．例えば，3行目は以下のように展開する:<div class="quote"><p><tt></tt><table cellspacing="1" cellpadding="0"><tt></tt>
+<tr><tt> </tt><td colspan="99" align="left"><tt>List.apply(<font color="#000000">1.0</font>, <font color="#000000">2.0</font>) </tt></td></tr></table><tt> </tt></p></div>つまり，これは <tt>List</tt> クラスのコンパニオンオブジェクトの <tt>apply</tt> メソッドを呼び出している．このメソッドは任意の数の引数を取り，それを使ってリストを構築する．Scala ライブラリの全てのコレクションクラスには，コンパニオンオブジェクトがあり，そのような <tt>apply</tt> メソッドを定義する．コレクションクラスが <tt>List</tt>，<tt>Stream</tt>，や<tt>Vector</tt> のような具象実装を表しているのか，<tt>Seq</tt>，<tt>Set</tt>，や <tt>Traversable</tt> のような抽象基底クラスを表しているのかは関係ない．後者の場合は，apply の呼び出しは抽象基底クラスの何らかのデフォルト実装を作成するだけのことだ．用例:
+<div class="quote"><p><tt></tt><table cellspacing="1" cellpadding="0"><tt></tt>
+<tr><tt> </tt><td colspan="99" align="left"><tt>scala&gt; <font color="#660099">List</font>(<font color="#000000">1</font>, <font color="#000000">2</font>, <font color="#000000">3</font>)</tt></td></tr><tt> </tt>
+<tr><tt> </tt><td colspan="99" align="left"><tt><font color="#590000">res0: List[Int] = List(2, 3, 4)</font></tt></td></tr><tt> </tt>
+<tr><tt> </tt><td colspan="99" align="left"><tt>scala&gt; <font color="#660099">Traversable</font>(<font color="#000000">1</font>, <font color="#000000">2</font>, <font color="#000000">3</font>)</tt></td></tr><tt> </tt>
+<tr><tt> </tt><td colspan="99" align="left"><tt><font color="#590000">res18: Traversable[Int] = List(1, 2, 3)</font></tt></td></tr><tt> </tt>
+<tr><tt> </tt><td colspan="99" align="left"><tt>scala&gt; <font color="#660099">mutable.</font></tt><tt><font color="#660099">Traversable</font>(<font color="#000000">1</font>, <font color="#000000">2</font>, <font color="#000000">3</font>)</tt></td></tr><tt> </tt>
+<tr><tt> </tt><td colspan="99" align="left"><tt><font color="#590000">res19: scala.collection.mutable.</font></tt><tt><font color="#590000">Traversable[Int] = ArrayBuffer(1, 2, 3) </font></tt></td></tr></table><tt> </tt></p></div>
+<tt>apply</tt> とは別に，全てのコレクションのコンパニオンオブジェクトは，空のコレクションを返す <tt>empty</tt> を定義する．よって，<tt>List()</tt> の代わりに <tt>List.empty</tt> と書いたり，<tt>Map()</tt> の代わりに <tt>Map.empty</tt> と書くことができる．<p><tt>Seq</tt> を継承するクラスは，コンパニオンオブジェクトにおいて他の factory 演算を提供する．以下の表にこれらの演算をまとめた．要約すると，<ul><li><tt>concat</tt>  は任意の数の traversable を連結する．<li><tt>fill</tt> と <tt>tabulate</tt> は単次元か任意の多次元の列を生成して，なんらかの式かテーブル化関数によりその列を初期化する．<li><tt>range</tt> は一定のステップ値で整数の列を生成する．<li><tt>iterate</tt> は開始要素に連続して関数を適用することによって得られる列を生成する．</ul> 
+<table border=""><tbody>
+<tr><td colspan="1" align="left"> <div align="center"><b>列の factory 演算</b></div><a name="tab:seqfac"> </a></td></tr> 
+<tr><td colspan="1" align="left"> <p><b>使用例</b> </p></td><td colspan="1" align="left"> <b>振る舞い</b> </td></tr> 
+<tr><td colspan="1" align="left"> <p> <tt>S.empty</tt> </p></td><td colspan="1" align="left">空の列．</td></tr> 
+<tr><td colspan="1" align="left"> <tt>S(x,</tt> <tt>y,</tt> <tt>z)</tt> </td><td colspan="1" align="left">要素 <tt>x</tt>, <tt>y</tt>, <tt>z</tt> から成る列．</td></tr> 
+<tr><td colspan="1" align="left"> <tt>S.concat(xs,</tt> <tt>ys,</tt> <tt>zs)</tt> </td><td colspan="1" align="left"><tt>xs</tt>, <tt>ys</tt>, <tt>zs</tt> の要素を連結することによって得られる列．</td></tr> 
+<tr><td colspan="1" align="left"> <tt>S.fill(n){e}</tt> </td><td colspan="1" align="left">全ての要素が式 <tt>e</tt> によって計算された長さ <tt>n</tt> の列．</td></tr> 
+<tr><td colspan="1" align="left"> <tt>S.fill(m,</tt> <tt>n){e}</tt> </td><td colspan="1" align="left">全ての要素が式 <tt>e</tt> によって計算された <tt>m</tt><i>×</i><tt>n</tt> の大きさの列の列．(より高次元なものもある)</td></tr> 
+<tr><td colspan="1" align="left"> <tt>S.tabulate(n){f}</tt> </td><td colspan="1" align="left">添字 <i>i</i> の位置の要素が <tt>f(<i>i</i>)</tt> によって計算された長さ <tt>n</tt> の列．</td></tr> 
+<tr><td colspan="1" align="left"> <tt>S.tabulate(m,</tt> <tt>n){f}</tt> </td><td colspan="1" align="left">添字 (<i>i</i>, <i>j</i>) の位置の要素が <tt>f(<i>i</i>,</tt> <tt><i>j</i>)</tt> によって計算された <tt>m</tt><i>×</i><tt>n</tt> の大きさの列の列．(より高次元なものもある)</td></tr> 
+<tr><td colspan="1" align="left"> <tt>S.range(start,</tt> <tt>end)</tt> </td><td colspan="1" align="left"><tt>start</tt> <i>...</i> <tt>end-1</tt> の整数の列．</td></tr> 
+<tr><td colspan="1" align="left"> <tt>S.range(start,</tt> <tt>end,</tt> <tt>step)</tt> </td><td colspan="1" align="left"><tt>start</tt> より始まり <tt>end</tt> 未満まで <tt>step</tt> づつ増加する整数の列．</td></tr> 
+<tr><td colspan="1" align="left"> <tt>S.iterate(x,</tt> <tt>n)(f)</tt> </td><td colspan="1" align="left">要素 <tt>x</tt>, <tt>f(x)</tt>, <tt>f(f(x))</tt>, <i>...</i> から成る長さ <tt>n</tt> の列．
+</td></tr></tbody></table> 
+<p>次へ: <a href="collections_46.html">Java と Scala の間のコレクションの変換</a> <hr> <table width="100%" cellpadding="0" cellspacing="2">
+<tr> <td bgcolor="#99ccff"><a href="collections_46.html"><img border="0" alt="Java と Scala の間のコレクションの変換" src="http://lampwww.epfl.ch/~odersky/images/next.png"></a></td><td bgcolor="#99ccff"><a href="collections_0.html"><img border="0" alt="トップ" src="http://lampwww.epfl.ch/~odersky/images/up.png"></a></td><td bgcolor="#99ccff"><a href="collections_43.html"><img border="0" alt="イテレータ" src="http://lampwww.epfl.ch/~odersky/images/previous.png"></a></td><td align="center" bgcolor="#99ccff" width="100%"><b>コレクションの作成</b></td><td bgcolor="#99ccff" align="center"><a href="collections_49.html">目次</a></td></tr></table>
+</body>
+</html>
