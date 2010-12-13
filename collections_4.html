@@ -1,5 +1,5 @@
 ﻿<html dir="ltr"> <head>
-<title>Scala 2.8 コレクション API - Traversable トレイト</title>
+<title>Scala 2.8 コレクション API - Iterable トレイト</title>
 
 <style type="text/css">.maketitle {
   /* align: center; */
@@ -58,7 +58,7 @@ div.verse, div.quote, div.quotation {
 <tr><td colspan="1" align="left"> <tt>xs</tt> <tt>dropRight</tt> <tt>n</tt> </td><td colspan="1" align="left">コレクションから <tt>xs</tt> <tt>takeRight</tt> <tt>n</tt> を除いた残りの部分．</td></tr> 
 <tr><td colspan="1" align="left"> <p><b><font color="#00007f">zip 演算:</font></b> </p></td></tr> 
 <tr><td colspan="1" align="left"> <tt>xs</tt> <tt>zip</tt> <tt>ys</tt> </td><td colspan="1" align="left"><tt>xs</tt> と <tt>ys</tt> のそれぞれから対応する要素をペアにした iterable．</td></tr> 
-<tr><td colspan="1" align="left"> <tt>xs</tt> <tt>zipAll</tt> <tt>(ys,</tt> <tt>x,</tt> <tt>y)</tt> </td><td colspan="1" align="left"><tt>xs</tt> と <tt>ys</tt> のそれぞれから対応する要素をペアにした iterable で，もし片方が短い場合は <tt>x</tt> か <tt>y</tt> を使って拡張する．</td></tr> 
+<tr><td colspan="1" align="left"> <tt>xs</tt> <tt>zipAll</tt> <tt>(ys,</tt> <tt>x,</tt> <tt>y)</tt> </td><td colspan="1" align="left"><tt>xs</tt> と <tt>ys</tt> のそれぞれから対応する要素をペアにした iterable で，もし片方が短い場合は <tt>x</tt> か <tt>y</tt> を使って長いほうに合わせる．</td></tr> 
 <tr><td colspan="1" align="left"> <tt>xs.zipWithIndex</tt> </td><td colspan="1" align="left"><tt>xs</tt>内の要素とその添字をペアにした iterable．</td></tr> 
 <tr><td colspan="1" align="left"> <p><b><font color="#00007f">比較演算:</font></b> </p></td></tr> 
 <tr><td colspan="1" align="left"> <tt>xs</tt> <tt>sameElements</tt> <tt>ys</tt> </td><td colspan="1" align="left"><tt>xs</tt> と <tt>ys</tt> が同じ要素を同じ順序で格納しているかを調べる．</td></tr></tbody></table> <p>継承階層では <tt>Iterable</tt> 直下に <a href="collections_5.html"><tt>Seq</tt></a>，<a href="collections_7.html"><tt>セット</tt></a>，<a href="collections_10.html"><tt>Map</tt></a> と三つのトレイトがある ．この三つのトレイトに共通することは <tt>apply</tt> メソッドと <tt>isDefinedAt</tt> メソッドを持ったトレイト <a href="http://www.scala-lang.org/api/current/scala/PartialFunction.html">PartialFunction</a> を実装しているということだ．しかし，<a href="http://www.scala-lang.org/api/current/scala/PartialFunction.html">PartialFunction</a> の実装方法は三者三様である． <p>列は <tt>apply</tt> を位置的な添字として用いられており，要素は常に <tt>0</tt> から数えられる．だから，<tt>Seq(1,</tt> <tt>2,</tt> <tt>3)(1)</tt> は <tt>2</tt> を返す．セットでは <tt>apply</tt> は所属を調べるのに用いられる．例えば，<tt>Set(&#39;a&#39;,</tt> <tt>&#39;b&#39;,</tt> <tt>&#39;c&#39;)(&#39;b&#39;)</tt> は <tt>true</tt> を返し，<tt>Set()(&#39;a&#39;)</tt> は <tt>false</tt> を返す． 最後に，マップでは <tt>apply</tt> は要素の選択に用いられている．例えば，<tt>Map(&#39;a&#39;</tt> <tt>-&gt;</tt> <tt>1,</tt> <tt>&#39;b&#39;</tt> <tt>-&gt;</tt> <tt>10,</tt> <tt>&#39;c&#39;</tt> <tt>-&gt;</tt> <tt>100)(&#39;b&#39;)</tt> は <tt>10</tt> を返す．

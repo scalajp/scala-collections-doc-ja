@@ -35,7 +35,7 @@ div.verse, div.quote, div.quotation {
 <li><em>要素条件演算</em>である<tt>exists</tt>, <tt>forall</tt>, <tt>count</tt> は与えられた条件関数を使ってコレクションをテストする．
 <li><em>fold 演算</em>である <tt>foldLeft</tt>, <tt>foldRight</tt>, <tt>/:</tt>, <tt>:\</tt>, <tt>reduceLeft</tt>, <tt>reduceRight</tt> は次々と二項演算を隣接する要素に適用していく．
 <li><em>特定 fold 演算</em>である <tt>sum</tt>, <tt>product</tt>, <tt>min</tt>, <tt>max</tt> は特定の型(numeric か comparable)のコレクションでのみ動作する．
-<li><em>文字列演算</em>である <tt>mkString</tt>, <tt>addString</tt>, <tt>stringPrefix</tt> はコレクションを文字列に変換する方法を提供する．<li><em>ヴュー演算</em>はオーバーロードされた二つの <tt>view</tt> メソッドによって構成される．ヴューは遅延評価されたコレクションだ．ヴューについての詳細は<a href="collections_42.html">後で</a> ．</ul>
+<li><em>文字列演算</em>である <tt>mkString</tt>, <tt>addString</tt>, <tt>stringPrefix</tt> はコレクションを文字列に変換する方法を提供する．<li><em>ビュー演算</em>はオーバーロードされた二つの <tt>view</tt> メソッドによって構成される．ビューは遅延評価されたコレクションだ．ビューについての詳細は<a href="collections_42.html">後で</a> ．</ul>
 
 <table border=""><tbody><tr><td colspan="1" align="left">
 	<div align="center"><b>class <a href="http://www.scala-lang.org/api/current/scala/collection/Traversable.html">Traversable</a> 内の演算</b></div><a name="tab:traversableops">&nbsp;</a></td></tr>
@@ -45,7 +45,7 @@ div.verse, div.quote, div.quotation {
 <tr><td colspan="1" align="left"> <p><b><font color="#00007f">加算:</font></b> </p></td></tr>
 <tr><td colspan="1" align="left"><tt>xs ++ ys</tt></td><td colspan="1" align="left"><tt>xs</tt> と <tt>ys</tt> の両方の要素から成るコレクション．<tt>ys</tt> は <a href="http://www.scala-lang.org/api/current/scala/collection/TraversableOnce.html">TraversableOnce</a> なコレクション，つまり <a href="http://www.scala-lang.org/api/current/scala/collection/Traversable.html">Traversable</a> または <a href="http://www.scala-lang.org/api/current/scala/collection/Iterator.html">イテレータ</a>だ．</td></tr>
 <tr><td colspan="1" align="left"> <p><b><font color="#00007f">map 演算:</font></b> </p></td></tr>
-<tr><td colspan="1" align="left"><tt>xs map f</tt></td><td colspan="1" align="left"><tt>xs</tt>内の全ての要素に関数 <tt>f</tt> を適用するこによって得られるコレクション．</td></tr>
+<tr><td colspan="1" align="left"><tt>xs map f</tt></td><td colspan="1" align="left"><tt>xs</tt>内の全ての要素に関数 <tt>f</tt> を適用することによって得られるコレクション．</td></tr>
 <tr><td colspan="1" align="left"><tt>xs flatMap f</tt></td><td colspan="1" align="left"><tt>xs</tt>内の全ての要素に対してコレクション値を返す関数 <tt>f</tt> を適用し，その結果を連結したコレクション．</td></tr>
 <tr><td colspan="1" align="left"><tt>xs collect f</tt></td><td colspan="1" align="left"><tt>xs</tt>内の全ての要素に対して部分関数 <tt>f</tt> が定義されている場合のみ適応し，その結果を集めたコレクション．</td></tr>
 <tr><td colspan="1" align="left"> <p><b><font color="#00007f">変換演算:</font></b> </p></td><td colspan="1" align="left"></td></tr>
@@ -88,7 +88,7 @@ div.verse, div.quote, div.quotation {
 <tr><td colspan="1" align="left"><tt>xs partition p</tt></td><td colspan="1" align="left"><tt>xs</tt> を条件関数 <tt>p</tt> を満たすコレクションと満たさないものに二分して <tt>(xs filter p, xs.filterNot p)</tt> と同値のペアを返す．</td></tr> 
 <tr><td colspan="1" align="left"><tt>xs groupBy f</tt></td><td colspan="1" align="left"><tt>xs</tt> を判別関数 <tt>f</tt> に応じてコレクションの map に分割する．</td></tr> 
 <tr><td colspan="1" align="left"> <p><b><font color="#00007f">要素条件演算:</font></b></p></td></tr> 
-<tr><td colspan="1" align="left"><tt>xs forall p</tt></td><td colspan="1" align="left"><tt>xs</tt>内の全ての要素に条件関数 <tt>p</tt> が当てはまるかの boolean 値．</td></tr> 
+<tr><td colspan="1" align="left"><tt>xs forall p</tt></td><td colspan="1" align="left"><tt>xs</tt>内の全ての要素に条件関数 <tt>p</tt> が当てはまるかを示す boolean 値．</td></tr> 
 <tr><td colspan="1" align="left"><tt>xs exists p</tt></td><td colspan="1" align="left"><tt>xs</tt>内に条件関数 <tt>p</tt> を満たす要素があるかどうかを示す boolean 値．</td></tr> 
 <tr><td colspan="1" align="left"><tt>xs count p</tt></td><td colspan="1" align="left"><tt>xs</tt>内の要素で条件関数 <tt>p</tt> 満たすものの数．</td></tr> 
 <tr><td colspan="1" align="left"> <p><b><font color="#00007f">fold 演算:</font></b></p></td></tr> 
@@ -104,12 +104,12 @@ div.verse, div.quote, div.quotation {
 <tr><td colspan="1" align="left"><tt>xs.min</tt></td><td colspan="1" align="left">コレクション <tt>xs</tt>内の順序付けされたの値の最小値．</td></tr> 
 <tr><td colspan="1" align="left"><tt>xs.max</tt></td><td colspan="1" align="left">コレクション <tt>xs</tt>内の順序付けされたの値の最大値．</td></tr> 
 <tr><td colspan="1" align="left"> <p><b><font color="#00007f">文字列演算:</font></b> </p></td></tr> 
-<tr><td colspan="1" align="left"><tt>xs addString (b, start, sep, end)</tt></td><td colspan="1" align="left"><tt>xs</tt>内の要素を <tt>sep</tt> で区切った後，<tt>start</tt> と <tt>end</tt> で挟んで表した文字列を　<tt>StringBuilder b</tt> に追加する． <tt>start</tt>, <tt>sep</tt>, <tt>end</tt> は全て省略可能．</td></tr> 
-<tr><td colspan="1" align="left"><tt>xs mkString (start, sep, end)</tt></td><td colspan="1" align="left"><tt>xs</tt>内の要素を <tt>sep</tt> で区切った後，<tt>start</tt> と <tt>end</tt> で挟んで表した文字列に変換する． <tt>start</tt>, <tt>sep</tt>, <tt>end</tt> は全て省略可能．</td></tr> 
+<tr><td colspan="1" align="left"><tt>xs addString (b, start, sep, end)</tt></td><td colspan="1" align="left"><tt>xs</tt>内の要素を <tt>sep</tt> で区切った後，<tt>start</tt> と <tt>end</tt> で挟んだ文字列を　<tt>StringBuilder b</tt> に追加する． <tt>start</tt>, <tt>sep</tt>, <tt>end</tt> は全て省略可能．</td></tr> 
+<tr><td colspan="1" align="left"><tt>xs mkString (start, sep, end)</tt></td><td colspan="1" align="left"><tt>xs</tt>内の要素を <tt>sep</tt> で区切った後，<tt>start</tt> と <tt>end</tt> で挟んだ文字列に変換する． <tt>start</tt>, <tt>sep</tt>, <tt>end</tt> は全て省略可能．</td></tr> 
 <tr><td colspan="1" align="left"><tt>xs.stringPrefix</tt></td><td colspan="1" align="left"><tt>xs.toString</tt> で返される文字列の先頭にあるコレクション名．</td></tr> 
-<tr><td colspan="1" align="left"> <p><b><font color="#00007f">ヴュー演算:</font></b> </p></td></tr> 
-<tr><td colspan="1" align="left"><tt>xs.view</tt></td><td colspan="1" align="left"><tt>xs</tt> に対するヴューを生成する．</td></tr> 
-<tr><td colspan="1" align="left"><tt>xs view (from, to)</tt></td><td colspan="1" align="left"><tt>xs</tt> の一部の添字範囲内を表すヴューを生成する．</td></tr></tbody></table> <p>次へ： <a href="collections_4.html"><tt>Iterable</tt> トレイト</a><hr>
+<tr><td colspan="1" align="left"> <p><b><font color="#00007f">ビュー演算:</font></b> </p></td></tr> 
+<tr><td colspan="1" align="left"><tt>xs.view</tt></td><td colspan="1" align="left"><tt>xs</tt> に対するビューを生成する．</td></tr> 
+<tr><td colspan="1" align="left"><tt>xs view (from, to)</tt></td><td colspan="1" align="left"><tt>xs</tt> の一部の添字範囲内を表すビューを生成する．</td></tr></tbody></table> <p>次へ： <a href="collections_4.html"><tt>Iterable</tt> トレイト</a><hr>
 	
 	<table width="100%" cellpadding="0" cellspacing="2">
 <tr> <td bgcolor="#99ccff"><a href="collections_4.html"><img border="0" alt="Iterable トレイト" src="http://lampwww.epfl.ch/~odersky/images/next.png"></a></td>
