@@ -1,0 +1,48 @@
+<html dir="ltr"> <head>
+<title>Scala 2.8 コレクション API -- バッファ付きイテレータ</title>
+
+<style type="text/css">.maketitle {
+  /* align: center; */
+}
+div.abstract {
+  margin-left: 20%;
+  margin-right: 10%;
+}
+h3.abstract {
+  /* align: center; */
+}
+div.verse, div.quote, div.quotation {
+  margin-left: 10%;
+  margin-right: 10%;
+}
+</style>
+
+
+</head> 
+<body dir="ltr"> <table width="100%" cellpadding="0" cellspacing="2">
+<tr> <td bgcolor="#99ccff"><img alt="" src="http://lampwww.epfl.ch/~odersky/images/blank.png"></td><td bgcolor="#99ccff"><a href="collections_43.html"><img border="0" alt="イテレータ" src="http://lampwww.epfl.ch/~odersky/images/up.png"></a></td><td bgcolor="#99ccff"><img alt="" src="http://lampwww.epfl.ch/~odersky/images/blank.png"></td><td align="center" bgcolor="#99ccff" width="100%"><b>バッファ付きイテレータ</b></td><td bgcolor="#99ccff" align="center"><a href="collections_49.html">目次</a></td></tr></table> 
+<h2>バッファ付きイテレータ</h2> 
+<p>イテレータを前進させずに次に返る要素を検査できるような「先読み」できるイテレータが必要になることがたまにある．例えば，一連の文字列を返すイテレータがあるとして，その最初の空白文字列を飛ばすという作業を考える．以下のように書こうと思うかもしれない．<div class="quote"><p><tt></tt><table cellspacing="1" cellpadding="0"><tt></tt>
+<tr><tt> </tt><td colspan="99" align="left"><tt><font color="#0000e5">def</font> skipEmptyWordsNOT(it: <font color="#660099">Iterator[String]</font>) =</tt></td></tr><tt> </tt>
+<tr><tt> </tt><td colspan="99" align="left"><tt>  <font color="#0000e5">while</font> (it.next().isEmpty) {} </tt></td></tr></table><tt> </tt></p></div>
+しかし，このコードを慎重に見ると間違っていることが分かるはずだ．コードは確かに先頭の空白文字列の続きを読み飛ばすが，<tt>it</tt> は最初の非空白文字列も追い越してしまっているのだ．<p>この問題はバッファ付きイテレータを使うことで解決できる．<a href="http://www.scala-lang.org/api/current/scala/collection/BufferedIterator.html">BufferedIterator</a> クラスは，<tt>head</tt> というメソッドを追加で提供する <a href="http://www.scala-lang.org/api/current/scala/collection/Iterator.html">Iterator</a>  の子クラスだ．バッファ付きイテレータに対して <tt>head</tt> を呼び出すことで，イテレータを前進させずに最初の要素を返すことができる．バッファ付きイテレータを使うと，空白文字列を読み飛ばすのは以下のように書ける．
+<div class="quote"><p><tt></tt><table cellspacing="1" cellpadding="0"><tt></tt>
+<tr><tt> </tt><td colspan="99" align="left"><tt><font color="#0000e5">def</font> skipEmptyWords(it: <font color="#660099">BufferedIterator[String]</font>) =</tt></td></tr><tt> </tt>
+<tr><tt> </tt><td colspan="99" align="left"><tt>  <font color="#0000e5">while</font> (it.head.isEmpty) { it.next() } </tt></td></tr></table><tt> </tt></p></div><tt>buffered</tt> メソッドを呼ぶことで全てのイテレータはバッファ付きイテレータに変換できる．次に具体例で説明する．<div class="quote"><p><tt></tt><table cellspacing="1" cellpadding="0"><tt></tt>
+<tr><tt> </tt><td colspan="99" align="left"><tt>scala&gt; <font color="#0000e5">val</font> it = <font color="#660099">Iterator</font>(<font color="#000000">1</font>, <font color="#000000">2</font>, <font color="#000000">3</font>, <font color="#000000">4</font>)</tt></td></tr><tt> </tt>
+<tr><tt> </tt><td colspan="99" align="left"><tt><font color="#590000">it: Iterator[Int] = non-empty iterator</font></tt></td></tr><tt> </tt>
+<tr><tt> </tt><td colspan="99" align="left"><tt>scala&gt; <font color="#0000e5">val</font> bit = it.buffered</tt></td></tr><tt> </tt>
+<tr><tt> </tt><td colspan="99" align="left"><tt><font color="#590000">bit: java.lang.</font></tt><tt><font color="#590000">Object with scala.collection.</font></tt></td></tr><tt> </tt>
+<tr><tt> </tt><td colspan="99" align="left"><tt>   <font color="#660099">BufferedIterator[Int]</font> = non-empty iterator</tt></td></tr><tt> </tt>
+<tr><tt> </tt><td colspan="99" align="left"><tt>scala&gt; bit.head</tt></td></tr><tt> </tt>
+<tr><tt> </tt><td colspan="99" align="left"><tt><font color="#590000">res10: Int = 1</font></tt></td></tr><tt> </tt>
+<tr><tt> </tt><td colspan="99" align="left"><tt>scala&gt; bit.next()</tt></td></tr><tt> </tt>
+<tr><tt> </tt><td colspan="99" align="left"><tt><font color="#590000">res11: Int = 1</font></tt></td></tr><tt> </tt>
+<tr><tt> </tt><td colspan="99" align="left"><tt>scala&gt; bit.next()</tt></td></tr><tt> </tt>
+<tr><tt> </tt><td colspan="99" align="left"><tt><font color="#590000">res11: Int = 2 </font></tt></td></tr></table><tt> </tt></p></div>
+バッファ付きイテレータに対して <tt>head</tt> を呼び出してもイテレータ <tt>bit</tt> は前進しないことに注意してほしい．よって，後続の <tt>bit.next()</tt> の呼び出しは <tt>bit.head</tt> と同じ値を返す．<p>次へ: <a href="collections_45.html">一からコレクションを作成する</a> 
+<hr> 
+<table width="100%" cellpadding="0" cellspacing="2">
+<tr> <td bgcolor="#99ccff"><img alt="" src="http://lampwww.epfl.ch/~odersky/images/blank.png"></td><td bgcolor="#99ccff"><a href="collections_43.html"><img border="0" alt="イテレータ" src="http://lampwww.epfl.ch/~odersky/images/up.png"></a></td><td bgcolor="#99ccff"><img alt="" src="http://lampwww.epfl.ch/~odersky/images/blank.png"></td><td align="center" bgcolor="#99ccff" width="100%"><b>バッファ付きイテレータ</b></td><td bgcolor="#99ccff" align="center"><a href="collections_49.html">目次</a></td></tr></table>
+</body>
+</html>
