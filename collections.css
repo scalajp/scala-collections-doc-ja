@@ -1,0 +1,20 @@
+em {
+  font-style: normal;
+  font-weight: bold;
+}
+
+body {
+  width: 42em;
+}
+
+table.ops
+{
+  border-right: 1px solid gray;
+  border-bottom: 1px solid gray;
+}
+
+table.ops td
+{
+  border-top: 1px solid gray;
+  border-left: 1px solid gray;
+}

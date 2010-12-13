@@ -16,7 +16,7 @@ div.verse, div.quote, div.quotation {
   margin-right: 10%;
 }
 </style>
-
+<link rel="stylesheet" type="text/css" href="collections.css" />
 
 </head> <body dir="ltr">
 <table width="100%" cellpadding="0" cellspacing="2"><tr> <td bgcolor="#99ccff"><a href="collections_4.html"><img border="0" alt="Iterable トレイト" src="next.png"></a></td>
@@ -24,92 +24,102 @@ div.verse, div.quote, div.quotation {
 		<td bgcolor="#99ccff"><a href="collections_2.html"><img border="0" alt="コレクション API の概要" src="previous.png"></a></td>
 <td align="center" bgcolor="#99ccff" width="100%"><b>Traversable トレイト</b></td><td bgcolor="#99ccff" align="center"><a href="collections_49.html">目次</a></td></tr></table>
 <h1><tt>Traversable</tt> トレイト</h1> 
-<p>コレクション階層の最上位にあるのが <tt>Traversable</tt> トレイトだ．抽象的な演算は foreach のみ:<div class="quote"><p><tt></tt><table cellspacing="1" cellpadding="0"><tt></tt><tr><tt> </tt><td colspan="99" align="left"><tt><font color="#0000e5">def</font> foreach[U](f: <font color="#660099">Elem</font> =&gt; U )</tt></td></tr></table><tt> </tt></p></div><p><tt>Traverable</tt> を実装するコレクションクラスはこのメソッドだけを定義する必要がある．逆に言うと，その他全てのは <tt>Traversable</tt> から継承することができるということだ．<p>foreach メソッドは，コレクション中の全ての要素を渡り歩いて，渡された演算 <tt>f</tt> を各々の要素に適用することを意図している．この演算の型は <tt>Elem =&gt; U</tt> であり，<tt>Elem</tt> はコレクションの要素の型で，<tt>U</tt> は任意の戻り値型だ．<tt>f</tt>は呼び出しはその副作用のためのみに行われ，全ての <tt>f</tt> の戻り値は <tt>foreach</tt> によって破棄される．
-<p><tt>Traversable</tt> いくつもの具象メソッド (concrete method) を定義し，その全てを<a href="collections_3.html#tab:traversableops">次の表</a> に列挙した．これらのメソッドは次のカテゴリに分類される:<ul>
-<li><em>加算</em>である <tt>++</tt>は，2つの traversable を連結するか，イテレータ内の全ての要素を traversable に追加する．<li><em>map 演算</em>である<tt>map</tt>, <tt>flatMap</tt>, 及び <tt>collect</tt> はコレクションの要素に何らかの関数を適用して新しいコレクションを生成する．
-<li><em>変換演算</em>である <tt>toArray</tt>, <tt>toList</tt>, <tt>toIterable</tt>, <tt>toSeq</tt>, <tt>toIndexedSeq</tt>, <tt>toStream</tt>, <tt>toSet</tt>, <tt>toMap</tt> は <tt>Traversable</tt>なコレクションを別のより特定のものに変える．実行時のコレクション型が既に要求されているコレクション型と一致する場合，これらの全ての変換は引数をそのまま返す．例えば，list に <tt>toList</tt> を適用した場合，list 自身を返す．
-<li><em>コピー演算</em> <tt>copyToBuffer</tt> と <tt>copyToArray</tt>．名前のとおり，これらの演算はコレクションの要素を buffer または配列にコピーする．
-<li><em>サイズ演算</em> <tt>isEmpty</tt>, <tt>nonEmpty</tt>, <tt>size</tt>, および <tt>hasDefiniteSize</tt>．Traversableなコレクションは有限または無限のサイズを取りうる．無限の traversable コレクションの例としては自然数のストリームである <tt>Stream.from(0)</tt> がある．<tt>hasDefiniteSize</tt> メソッドはコレクションが無限である可能性があるかを示す．<tt>hasDefiniteSize</tt> が true を返す場合，コレクション確実に有限だ．false を返す場合，コレクションはまだ完全に展開されていないことを示し，それは無限か有限のどちらである可能性もある．
-<li><em>要素取得演算</em> <tt>head</tt>, <tt>last</tt>, <tt>headOption</tt>, <tt>lastOption</tt>, および <tt>find</tt>．これらはコレクションの最初または最後の要素，または他の条件に一致する最初の要素を選択する．しかし，全てのコレクションにおいて「最初」と「最後」の意味が明確に定義されているわけではないことに注意してほしい．たとえば，ハッシュセットはハッシュキーの並びで要素を格納するかもしれないが，ハッシュキーは実行するたびに変わる可能性がある．その場合，ハッシュセットの「最初」の要素はプログラムを実行するたびに異なるかもしれない．あるコレクションから常に同じ順序で要素を得られる場合，そのコレクションは<em>順序付け</em>されているという．ほとんどのコレクションは順序付けされているが，いくつかの (例えばハッシュセットなど) のコレクションは順序付けされていない ― 順序付けを省くことで多少効率が上がるのだ．順序付けは再現性のあるテストを書くのに不可欠であり，デバッグの役に立つ．そのため Scala のコレクションは，全てのコレクション型に対して順序付けされた選択肢を用意してある．例えば，<tt>HashSet</tt> に代わる順次付けされたものは <tt>LinkedHashSet</tt> だ．
+<p>探索可能(<a href="http://www.scala-lang.org/api/current/scala/collection/Traversable.html"><tt>Traversable</tt></a>)トレイトはコレクション階層の最上位に位置する．
+[訳注: 木構造などでノードを一つづつ探索することを traverse と言う．また，-able で終わるトレイトは名詞としても使われるため，探索可能なものと考えることもできる．]<br>
+<tt>Traversable</tt> の抽象的な演算は <tt>foreach</tt> のみだ:
+<div class="quote"><p><tt></tt><table cellspacing="1" cellpadding="0"><tt></tt><tr><tt> </tt><td colspan="99" align="left"><tt><font color="#0000e5">def</font> foreach[U](f: <font color="#660099">Elem</font> =&gt; U )</tt></td></tr></table><tt> </tt></p></div><p><tt>Traverable</tt> を実装するコレクションクラスはこのメソッドだけを定義する必要がある．逆に言うと，その他全てのメソッドは <tt>Traversable</tt> から継承することができる．<p><tt>foreach</tt> メソッドは，コレクション中の全ての要素を探索して，渡された演算 <tt>f</tt> を各々の要素に適用することを意図している．この演算の型は <tt>Elem =&gt; U</tt> であり，<tt>Elem</tt> はコレクションの要素の型で，<tt>U</tt> は任意の戻り値型だ．<tt>f</tt> の呼び出しはそれに伴う副作用のためだけに行われ，<tt>f</tt> の戻り値の全ては <tt>foreach</tt> によって破棄される．
+<p><tt>Traversable</tt> が定義する全ての具象メソッドを<a href="collections_3.html#tab:traversableops">次の表</a> に列挙した．
+これらのメソッドは次のカテゴリに分類される:
+<ul>
+<li><em>加算</em>である <tt>++</tt>は，2つの <tt>Traversable</tt> を連結するか，あるイテレータが返す全ての要素を <tt>Traversable</tt> に追加する．
+<li><em>map 演算</em>である<tt>map</tt>, <tt>flatMap</tt>, 及び <tt>collect</tt> はコレクションの要素に何らかの関数を適用して新しいコレクションを生成する．
+<li><em>変換演算</em>である <tt>toArray</tt>, <tt>toList</tt>, <tt>toIterable</tt>, <tt>toSeq</tt>, <tt>toIndexedSeq</tt>, <tt>toStream</tt>, <tt>toSet</tt>, <tt>toMap</tt> は <tt>Traversable</tt>なコレクションを別のより特定のものに変える．実行時のコレクション型が既に要求されているコレクション型と一致する場合，これらの全ての変換は引数をそのまま返す．例えば，リストに <tt>toList</tt> を適用した場合，リストそのものを返す．
+<li><em>コピー演算</em> <tt>copyToBuffer</tt> と <tt>copyToArray</tt>．名前のとおり，これらの演算はコレクションの要素をバッファまたは配列にコピーする．
+<li><em>サイズ演算</em> <tt>isEmpty</tt>, <tt>nonEmpty</tt>, <tt>size</tt>, および <tt>hasDefiniteSize</tt>．
+<tt>Traversable</tt> なコレクションは有限または無限のサイズを取りうる．
+無限の <tt>Traversable</tt> コレクションの例としては自然数のストリームである <tt>Stream.from(0)</tt> がある．<tt>hasDefiniteSize</tt> メソッドはコレクションが無限である可能性があるかを示す．<tt>hasDefiniteSize</tt> が <tt>true</tt> を返す場合，コレクション確実に有限だ．<tt>false</tt> を返す場合，コレクションはまだ完全に展開されていないことを示し，それは無限か有限のどちらである可能性もある．
+<li><em>要素取得演算</em> <tt>head</tt>, <tt>last</tt>, <tt>headOption</tt>, <tt>lastOption</tt>, および <tt>find</tt>．これらはコレクションの最初または最後の要素，または他の条件に一致する最初の要素を選択する．しかし，全てのコレクションにおいて「最初」と「最後」の意味が明確に定義されているわけではないことに注意してほしい．たとえば，ハッシュ集合はハッシュキーの並びで要素を格納するかもしれないが，ハッシュキーは実行するたびに変わる可能性がある．その場合，ハッシュ集合の「最初」の要素はプログラムを実行するたびに異なるかもしれない．あるコレクションから常に同じ順序で要素を得られる場合，そのコレクションは<em>順序付け</em>されているという．ほとんどのコレクションは順序付けされているが，いくつかの (例えばハッシュ集合など) のコレクションは順序付けされていない ― 順序付けを省くことで多少効率が上がるのだ．順序付けは再現性のあるテストを書くのに不可欠であり，デバッグの役に立つ．そのため Scala のコレクションは，全てのコレクション型に対して順序付けされた選択肢を用意してある．例えば，<tt>HashSet</tt> に代わる順次付けされたものは <tt>LinkedHashSet</tt> だ．
 <li><em>サブコレクション取得演算</em> <tt>tail</tt>, <tt>init</tt>, <tt>slice</tt>, <tt>take</tt>, <tt>drop</tt>, <tt>takeWhile</tt>, <tt>dropWhile</tt>, <tt>filter</tt>, <tt>filterNot</tt>, <tt>withFilter</tt>.これら全ての演算は添字の範囲や何らかの条件関数によって識別されたサブコレクションを返す．<li><em>分割演算</em>である <tt>splitAt</tt>, <tt>span</tt>, <tt>partition</tt>, <tt>groupBy</tt> の全てはコレクションの要素をいくつかのサブコレクションに分割する．
 <li><em>要素条件演算</em>である<tt>exists</tt>, <tt>forall</tt>, <tt>count</tt> は与えられた条件関数を使ってコレクションをテストする．
 <li><em>fold 演算</em>である <tt>foldLeft</tt>, <tt>foldRight</tt>, <tt>/:</tt>, <tt>:\</tt>, <tt>reduceLeft</tt>, <tt>reduceRight</tt> は次々と二項演算を隣接する要素に適用していく．
 <li><em>特定 fold 演算</em>である <tt>sum</tt>, <tt>product</tt>, <tt>min</tt>, <tt>max</tt> は特定の型(numeric か comparable)のコレクションでのみ動作する．
 <li><em>文字列演算</em>である <tt>mkString</tt>, <tt>addString</tt>, <tt>stringPrefix</tt> はコレクションを文字列に変換する方法を提供する．<li><em>ビュー演算</em>はオーバーロードされた二つの <tt>view</tt> メソッドによって構成される．ビューは遅延評価されたコレクションだ．ビューについての詳細は<a href="collections_42.html">後で</a> ．</ul>
 
-<table border=""><tbody><tr><td colspan="1" align="left">
-	<div align="center"><b>class <a href="http://www.scala-lang.org/api/current/scala/collection/Traversable.html">Traversable</a> 内の演算</b></div><a name="tab:traversableops">&nbsp;</a></td></tr>
-<tr><td colspan="1" align="left"> <p><b>使用例</b></p></td><td colspan="1" align="left"><b>振る舞い</b></td></tr>
-<tr><td colspan="1" align="left"> <p><b><font color="#00007f">抽象メソッド:</font></b></p></td></tr>
-<tr><td colspan="1" align="left"><tt>xs foreach f</tt></td><td colspan="1" align="left"><tt>xs</tt>内の全ての要素に対して関数 <tt>f</tt> を実行する．</td></tr>
-<tr><td colspan="1" align="left"> <p><b><font color="#00007f">加算:</font></b> </p></td></tr>
-<tr><td colspan="1" align="left"><tt>xs ++ ys</tt></td><td colspan="1" align="left"><tt>xs</tt> と <tt>ys</tt> の両方の要素から成るコレクション．<tt>ys</tt> は <a href="http://www.scala-lang.org/api/current/scala/collection/TraversableOnce.html">TraversableOnce</a> なコレクション，つまり <a href="http://www.scala-lang.org/api/current/scala/collection/Traversable.html">Traversable</a> または <a href="http://www.scala-lang.org/api/current/scala/collection/Iterator.html">イテレータ</a>だ．</td></tr>
-<tr><td colspan="1" align="left"> <p><b><font color="#00007f">map 演算:</font></b> </p></td></tr>
-<tr><td colspan="1" align="left"><tt>xs map f</tt></td><td colspan="1" align="left"><tt>xs</tt>内の全ての要素に関数 <tt>f</tt> を適用することによって得られるコレクション．</td></tr>
-<tr><td colspan="1" align="left"><tt>xs flatMap f</tt></td><td colspan="1" align="left"><tt>xs</tt>内の全ての要素に対してコレクション値を返す関数 <tt>f</tt> を適用し，その結果を連結したコレクション．</td></tr>
-<tr><td colspan="1" align="left"><tt>xs collect f</tt></td><td colspan="1" align="left"><tt>xs</tt>内の全ての要素に対して部分関数 <tt>f</tt> が定義されている場合のみ適応し，その結果を集めたコレクション．</td></tr>
-<tr><td colspan="1" align="left"> <p><b><font color="#00007f">変換演算:</font></b> </p></td><td colspan="1" align="left"></td></tr>
-<tr><td colspan="1" align="left"><tt>xs.toArray</tt></td><td colspan="1" align="left">コレクションを配列に変換する．</td></tr>
-<tr><td colspan="1" align="left"><tt>xs.toList</tt></td><td colspan="1" align="left">コレクションをリストに変換する．</td></tr>
-<tr><td colspan="1" align="left"><tt>xs.toIterable</tt></td><td colspan="1" align="left">コレクションを iterable に変換する．</td></tr> 
-<tr><td colspan="1" align="left"><tt>xs.toSeq</tt></td><td colspan="1" align="left">コレクションを列に変換する．</td></tr> 
-<tr><td colspan="1" align="left"><tt>xs.toIndexedSeq</tt></td><td colspan="1" align="left">コレクションを添字付き列に変換する．</td></tr> 
-<tr><td colspan="1" align="left"><tt>xs.toStream</tt></td><td colspan="1" align="left">コレクションを遅延評価されたストリームに変換する．</td></tr> 
-<tr><td colspan="1" align="left"><tt>xs.toSet</tt></td><td colspan="1" align="left">コレクションを set に変換する．</td></tr> 
-<tr><td colspan="1" align="left"><tt>xs.toMap</tt></td><td colspan="1" align="left">キー/値のペアを持つコレクションを map に変換する．コレクションが要素としてのペアを持たない場合，この演算を呼び出すと静的型エラーがおこる．</td></tr> 
-<tr><td colspan="1" align="left"> <p><b><font color="#00007f">コピー演算:</font></b> </p></td></tr> 
-<tr><td colspan="1" align="left"><tt>xs copyToBuffer buf</tt></td><td colspan="1" align="left">コレクション内の全ての要素をバッファ <tt>buf</tt> にコピーする．</td></tr> 
-<tr><td colspan="1" align="left"><tt>xs copyToArray(arr, s, n)</tt></td><td colspan="1" align="left">最大 <tt>n</tt> 個のコレクションの要素を配列 <tt>arr</tt> の添字 <tt>s</tt> より始まる位置にコピーする．最後の2つの引数は省略可能だ．</td></tr> 
-<tr><td colspan="1" align="left"> <p><b><font color="#00007f">サイズ演算:</font></b></p></td></tr> 
-<tr><td colspan="1" align="left"><tt>xs.isEmpty</tt></td><td colspan="1" align="left">コレクションが空であるかどうかを調べる．</td></tr> 
-<tr><td colspan="1" align="left"><tt>xs.nonEmpty</tt></td><td colspan="1" align="left">コレクションに要素が含まれているかを調べる．</td></tr> 
-<tr><td colspan="1" align="left"><tt>xs.size</tt></td><td colspan="1" align="left">コレクション内の要素の数．</td></tr> 
-<tr><td colspan="1" align="left"><tt>xs.hasDefiniteSize</tt></td><td colspan="1" align="left"><tt>xs</tt> が有限のサイズであることが明らかな場合 true を返す．</td></tr> 
-<tr><td colspan="1" align="left"> <p><b><font color="#00007f">要素取得演算:</font></b></p></td></tr> 
-<tr><td colspan="1" align="left"><tt>xs.head</tt></td><td colspan="1" align="left">コレクションの最初の要素 (順序が定義されていない場合は，任意の要素)．</td></tr> 
-<tr><td colspan="1" align="left"><tt>xs.headOption</tt></td><td colspan="1" align="left"><tt>xs</tt>の最初の要素のオプション値，または <tt>xs</tt> が空の場合 <tt>None</tt>．</td></tr> 
-<tr><td colspan="1" align="left"><tt>xs.last</tt></td><td colspan="1" align="left">コレクションの最後の要素 (順序が定義されていない場合は，任意の要素)．</td></tr> 
-<tr><td colspan="1" align="left"><tt>xs.lastOption</tt></td><td colspan="1" align="left"><tt>xs</tt>の最後の要素のオプション値，または <tt>xs</tt> が空の場合 <tt>None</tt>．</td></tr> 
-<tr><td colspan="1" align="left"><tt>xs find p</tt></td><td colspan="1" align="left"><tt>xs</tt> の中で条件関数 <tt>p</tt> を満たす最初の要素のオプション値，または条件を満たす要素が無い場合 <tt>None</tt>．</td></tr> 
-<tr><td colspan="1" align="left"> <p><b><font color="#00007f">サブコレクション取得演算:</font></b></p></td></tr> 
-<tr><td colspan="1" align="left"><tt>xs.tail</tt></td><td colspan="1" align="left">コレクションから <tt>xs.head</tt> を除いた残りの部分．</td></tr> 
-<tr><td colspan="1" align="left"><tt>xs.init</tt></td><td colspan="1" align="left">コレクションから <tt>xs.last</tt> を除いた残りの部分．</td></tr> 
-<tr><td colspan="1" align="left"><tt>xs slice (from, to)</tt></td><td colspan="1" align="left"><tt>xs</tt> の一部の添字範囲内 (<tt>from</tt> 以上 <tt>to</tt> 未満) にある要素から成るコレクション．</td></tr> 
-<tr><td colspan="1" align="left"><tt>xs take n</tt></td><td colspan="1" align="left"><tt>xs</tt> の最初の <tt>n</tt>個の要素から成るコレクション (順序が定義されていない場合は，任意の <tt>n</tt>個の要素から成るコレクション)．</td></tr> 
-<tr><td colspan="1" align="left"><tt>xs drop n</tt></td><td colspan="1" align="left">コレクションから <tt>xs take n</tt> を除いた残りの部分．</td></tr> 
-<tr><td colspan="1" align="left"><tt>xs takeWhile p</tt></td><td colspan="1" align="left"><tt>xs</tt>内の要素を最初から次々とみて，条件関数 <tt>p</tt> を満たす限りつないでいったコレクション．</td></tr> 
-<tr><td colspan="1" align="left"><tt>xs dropWhile p</tt></td><td colspan="1" align="left"><tt>xs</tt>内の要素を最初から次々とみて，条件関数 <tt>p</tt> を満たす限り除いていったコレクション．</td></tr> 
-<tr><td colspan="1" align="left"><tt>xs filter p</tt></td><td colspan="1" align="left"><tt>xs</tt>内の要素で条件関数 <tt>p</tt> を満たすものから成るコレクション．</td></tr> 
-<tr><td colspan="1" align="left"><tt>xs withFilter p</tt></td><td colspan="1" align="left">このコレクションを非正格(non-strict) に filter したもの．後続の <tt>map</tt>, <tt>flatMap</tt>, <tt>foreach</tt>, および <tt>withFilter</tt> への呼び出しは <tt>xs</tt> の要素のうち条件関数 <tt>p</tt> が true に評価されるもののみに適用される．</td></tr> 
-<tr><td colspan="1" align="left"><tt>xs filterNot p</tt></td><td colspan="1" align="left"><tt>xs</tt>内の要素で条件関数 <tt>p</tt> を満たさないものから成るコレクション．</td></tr> 
-<tr><td colspan="1" align="left"> <p><b><font color="#00007f">分割演算:</font></b></p></td></tr> 
-<tr><td colspan="1" align="left"><tt>xs splitAt n</tt></td><td colspan="1" align="left"><tt>xs</tt> を <tt>n</tt> の位置で二分して <tt>(xs take n, xs drop n)</tt> と同値のコレクションのペアを返す．</td></tr> 
-<tr><td colspan="1" align="left"><tt>xs span p</tt></td><td colspan="1" align="left"><tt>xs</tt> を条件関数 <tt>p</tt> に応じて二分して <tt>(xs takeWhile p, xs.dropWhile p)</tt> と同値のペアを返す．</td></tr> 
-<tr><td colspan="1" align="left"><tt>xs partition p</tt></td><td colspan="1" align="left"><tt>xs</tt> を条件関数 <tt>p</tt> を満たすコレクションと満たさないものに二分して <tt>(xs filter p, xs.filterNot p)</tt> と同値のペアを返す．</td></tr> 
-<tr><td colspan="1" align="left"><tt>xs groupBy f</tt></td><td colspan="1" align="left"><tt>xs</tt> を判別関数 <tt>f</tt> に応じてコレクションの map に分割する．</td></tr> 
-<tr><td colspan="1" align="left"> <p><b><font color="#00007f">要素条件演算:</font></b></p></td></tr> 
-<tr><td colspan="1" align="left"><tt>xs forall p</tt></td><td colspan="1" align="left"><tt>xs</tt>内の全ての要素に条件関数 <tt>p</tt> が当てはまるかを示す boolean 値．</td></tr> 
-<tr><td colspan="1" align="left"><tt>xs exists p</tt></td><td colspan="1" align="left"><tt>xs</tt>内に条件関数 <tt>p</tt> を満たす要素があるかどうかを示す boolean 値．</td></tr> 
-<tr><td colspan="1" align="left"><tt>xs count p</tt></td><td colspan="1" align="left"><tt>xs</tt>内の要素で条件関数 <tt>p</tt> 満たすものの数．</td></tr> 
-<tr><td colspan="1" align="left"> <p><b><font color="#00007f">fold 演算:</font></b></p></td></tr> 
-<tr><td colspan="1" align="left"><tt>(z /: xs)(op)</tt></td><td colspan="1" align="left"><tt>z</tt> から始めて，左から右へと <tt>xs</tt>内の隣接する要素に二項演算 <tt>op</tt> を次々と適用したもの．</td></tr> 
-<tr><td colspan="1" align="left"><tt>(xs :\ z)(op)</tt></td><td colspan="1" align="left"><tt>z</tt> から始めて，右から左へと <tt>xs</tt>内の隣接する要素に二項演算 <tt>op</tt> を次々と適用したもの．</td></tr> 
-<tr><td colspan="1" align="left"><tt>xs.foldLeft(z)(op)</tt></td><td colspan="1" align="left"><tt>(z /: xs)(op)</tt> に同じ．</td></tr> 
-<tr><td colspan="1" align="left"><tt>xs.foldRight(z)(op)</tt></td><td colspan="1" align="left"><tt>(xs :\ z)(op)</tt> に同じ．</td></tr> 
-<tr><td colspan="1" align="left"><tt>xs reduceLeft op</tt></td><td colspan="1" align="left">左から右へと空ではないコレクション <tt>xs</tt>内の隣接する要素に二項演算 <tt>op</tt> を次々と適用したもの．</td></tr> 
-<tr><td colspan="1" align="left"><tt>xs reduceRight op</tt></td><td colspan="1" align="left">右から左へと空ではないコレクション <tt>xs</tt>内の隣接する要素に二項演算 <tt>op</tt> を次々と適用したもの．</td></tr> 
-<tr><td colspan="1" align="left"> <p><b><font color="#00007f">特定 fold 演算:</font></b></p></td></tr> 
-<tr><td colspan="1" align="left"><tt>xs.sum</tt></td><td colspan="1" align="left">コレクション <tt>xs</tt>内の数値要素の値の和．</td></tr> 
-<tr><td colspan="1" align="left"><tt>xs.product</tt></td><td colspan="1" align="left">コレクション <tt>xs</tt>内の数値要素の値の積．</td></tr> 
-<tr><td colspan="1" align="left"><tt>xs.min</tt></td><td colspan="1" align="left">コレクション <tt>xs</tt>内の順序付けされたの値の最小値．</td></tr> 
-<tr><td colspan="1" align="left"><tt>xs.max</tt></td><td colspan="1" align="left">コレクション <tt>xs</tt>内の順序付けされたの値の最大値．</td></tr> 
-<tr><td colspan="1" align="left"> <p><b><font color="#00007f">文字列演算:</font></b> </p></td></tr> 
-<tr><td colspan="1" align="left"><tt>xs addString (b, start, sep, end)</tt></td><td colspan="1" align="left"><tt>xs</tt>内の要素を <tt>sep</tt> で区切った後，<tt>start</tt> と <tt>end</tt> で挟んだ文字列を　<tt>StringBuilder b</tt> に追加する． <tt>start</tt>, <tt>sep</tt>, <tt>end</tt> は全て省略可能．</td></tr> 
-<tr><td colspan="1" align="left"><tt>xs mkString (start, sep, end)</tt></td><td colspan="1" align="left"><tt>xs</tt>内の要素を <tt>sep</tt> で区切った後，<tt>start</tt> と <tt>end</tt> で挟んだ文字列に変換する． <tt>start</tt>, <tt>sep</tt>, <tt>end</tt> は全て省略可能．</td></tr> 
-<tr><td colspan="1" align="left"><tt>xs.stringPrefix</tt></td><td colspan="1" align="left"><tt>xs.toString</tt> で返される文字列の先頭にあるコレクション名．</td></tr> 
-<tr><td colspan="1" align="left"> <p><b><font color="#00007f">ビュー演算:</font></b> </p></td></tr> 
-<tr><td colspan="1" align="left"><tt>xs.view</tt></td><td colspan="1" align="left"><tt>xs</tt> に対するビューを生成する．</td></tr> 
-<tr><td colspan="1" align="left"><tt>xs view (from, to)</tt></td><td colspan="1" align="left"><tt>xs</tt> の一部の添字範囲内を表すビューを生成する．</td></tr></tbody></table> <p>次へ： <a href="collections_4.html"><tt>Iterable</tt> トレイト</a><hr>
+<table class="ops" border="0" cellspacing="0"><tbody>
+<tr><td align="center" colspan="2">
+<b><a href="http://www.scala-lang.org/api/current/scala/collection/Traversable.html"><tt>Traversable</tt></a> トレイトの演算</b><a name="tab:traversableops">&nbsp;</a></td></tr>
+<tr><td align="left" width="270"><b>使用例</b></td><td align="left"><b>振る舞い</b></td></tr>
+<tr><td align="left" colspan="2"><b><font color="#00007f">抽象メソッド:</font></b></td></tr>
+<tr><td align="left"><tt>xs foreach f</tt></td><td align="left"><tt>xs</tt>内の全ての要素に対して関数 <tt>f</tt> を実行する．</td></tr>
+<tr><td align="left" colspan="2"><b><font color="#00007f">加算:</font></b></td></tr>
+<tr><td align="left"><tt>xs ++ ys</tt></td><td align="left"><tt>xs</tt> と <tt>ys</tt> の両方の要素から成るコレクション．<tt>ys</tt> は <a href="http://www.scala-lang.org/api/current/scala/collection/TraversableOnce.html"><tt>TraversableOnce</tt></a> なコレクション，つまり <a href="http://www.scala-lang.org/api/current/scala/collection/Traversable.html"><tt>Traversable</tt></a> または <a href="http://www.scala-lang.org/api/current/scala/collection/Iterator.html"><tt>Iterator</tt></a> だ．</td></tr>
+<tr><td align="left" colspan="2"> <b><font color="#00007f">map 演算:</font></b></td></tr>
+<tr><td align="left"><tt>xs map f</tt></td><td align="left"><tt>xs</tt>内の全ての要素に関数 <tt>f</tt> を適用することによって得られるコレクション．</td></tr>
+<tr><td align="left"><tt>xs flatMap f</tt></td><td align="left"><tt>xs</tt>内の全ての要素に対してコレクション値を返す関数 <tt>f</tt> を適用し，その結果を連結したコレクション．</td></tr>
+<tr><td align="left"><tt>xs collect f</tt></td><td align="left"><tt>xs</tt>内の全ての要素に対して部分関数 <tt>f</tt> が定義されている場合のみ適応し，その結果を集めたコレクション．</td></tr>
+<tr><td align="left" colspan="2"><b><font color="#00007f">変換演算:</font></b></td></tr>
+<tr><td align="left"><tt>xs.toArray</tt></td><td align="left">コレクションを配列に変換する．</td></tr>
+<tr><td align="left"><tt>xs.toList</tt></td><td align="left">コレクションをリストに変換する．</td></tr>
+<tr><td align="left"><tt>xs.toIterable</tt></td><td align="left">コレクションを <tt>Iterable</tt> に変換する．</td></tr> 
+<tr><td align="left"><tt>xs.toSeq</tt></td><td align="left">コレクションを列に変換する．</td></tr> 
+<tr><td align="left"><tt>xs.toIndexedSeq</tt></td><td align="left">コレクションを添字付き列に変換する．</td></tr> 
+<tr><td align="left"><tt>xs.toStream</tt></td><td align="left">コレクションを遅延評価されたストリームに変換する．</td></tr> 
+<tr><td align="left"><tt>xs.toSet</tt></td><td align="left">コレクションを集合に変換する．</td></tr> 
+<tr><td align="left"><tt>xs.toMap</tt></td><td align="left">キー/値のペアを持つコレクションをマップに変換する．コレクションが要素としてのペアを持たない場合，この演算を呼び出すと静的型エラーがおこる．</td></tr> 
+<tr><td align="left" colspan="2"><b><font color="#00007f">コピー演算:</font></b></td></tr> 
+<tr><td align="left"><tt>xs copyToBuffer buf</tt></td><td align="left">コレクション内の全ての要素をバッファ <tt>buf</tt> にコピーする．</td></tr> 
+<tr><td align="left"><tt>xs copyToArray(arr, s, n)</tt></td><td align="left">最大 <tt>n</tt> 個のコレクションの要素を配列 <tt>arr</tt> の添字 <tt>s</tt> より始まる位置にコピーする．最後の2つの引数は省略可能だ．</td></tr> 
+<tr><td align="left" colspan="2"><b><font color="#00007f">サイズ演算:</font></b></td></tr> 
+<tr><td align="left"><tt>xs.isEmpty</tt></td><td align="left">コレクションが空であるかどうかを調べる．</td></tr> 
+<tr><td align="left"><tt>xs.nonEmpty</tt></td><td align="left">コレクションに要素が含まれているかを調べる．</td></tr> 
+<tr><td align="left"><tt>xs.size</tt></td><td align="left">コレクション内の要素の数．</td></tr> 
+<tr><td align="left"><tt>xs.hasDefiniteSize</tt></td><td align="left"><tt>xs</tt> が有限のサイズであることが明らかな場合 true を返す．</td></tr> 
+<tr><td align="left" colspan="2"><b><font color="#00007f">要素取得演算:</font></b></td></tr> 
+<tr><td align="left"><tt>xs.head</tt></td><td align="left">コレクションの最初の要素 (順序が定義されていない場合は，任意の要素)．</td></tr> 
+<tr><td align="left"><tt>xs.headOption</tt></td><td align="left"><tt>xs</tt>の最初の要素のオプション値，または <tt>xs</tt> が空の場合 <tt>None</tt>．</td></tr> 
+<tr><td align="left"><tt>xs.last</tt></td><td align="left">コレクションの最後の要素 (順序が定義されていない場合は，任意の要素)．</td></tr> 
+<tr><td align="left"><tt>xs.lastOption</tt></td><td align="left"><tt>xs</tt>の最後の要素のオプション値，または <tt>xs</tt> が空の場合 <tt>None</tt>．</td></tr> 
+<tr><td align="left"><tt>xs find p</tt></td><td align="left"><tt>xs</tt> の中で条件関数 <tt>p</tt> を満たす最初の要素のオプション値，または条件を満たす要素が無い場合 <tt>None</tt>．</td></tr> 
+<tr><td align="left" colspan="2"><b><font color="#00007f">サブコレクション取得演算:</font></b></td></tr> 
+<tr><td align="left"><tt>xs.tail</tt></td><td align="left">コレクションから <tt>xs.head</tt> を除いた残りの部分．</td></tr> 
+<tr><td align="left"><tt>xs.init</tt></td><td align="left">コレクションから <tt>xs.last</tt> を除いた残りの部分．</td></tr> 
+<tr><td align="left"><tt>xs slice (from, to)</tt></td><td align="left"><tt>xs</tt> の一部の添字範囲内 (<tt>from</tt> 以上 <tt>to</tt> 未満) にある要素から成るコレクション．</td></tr> 
+<tr><td align="left"><tt>xs take n</tt></td><td align="left"><tt>xs</tt> の最初の <tt>n</tt>個の要素から成るコレクション (順序が定義されていない場合は，任意の <tt>n</tt>個の要素から成るコレクション)．</td></tr> 
+<tr><td align="left"><tt>xs drop n</tt></td><td align="left">コレクションから <tt>xs take n</tt> を除いた残りの部分．</td></tr> 
+<tr><td align="left"><tt>xs takeWhile p</tt></td><td align="left"><tt>xs</tt>内の要素を最初から次々とみて，条件関数 <tt>p</tt> を満たす限りつないでいったコレクション．</td></tr> 
+<tr><td align="left"><tt>xs dropWhile p</tt></td><td align="left"><tt>xs</tt>内の要素を最初から次々とみて，条件関数 <tt>p</tt> を満たす限り除いていったコレクション．</td></tr> 
+<tr><td align="left"><tt>xs filter p</tt></td><td align="left"><tt>xs</tt>内の要素で条件関数 <tt>p</tt> を満たすものから成るコレクション．</td></tr> 
+<tr><td align="left"><tt>xs withFilter p</tt></td><td align="left">このコレクションを非正格(non-strict) に filter したもの．後続の <tt>map</tt>, <tt>flatMap</tt>, <tt>foreach</tt>, および <tt>withFilter</tt> への呼び出しは <tt>xs</tt> の要素のうち条件関数 <tt>p</tt> が true に評価されるもののみに適用される．</td></tr> 
+<tr><td align="left"><tt>xs filterNot p</tt></td><td align="left"><tt>xs</tt>内の要素で条件関数 <tt>p</tt> を満たさないものから成るコレクション．</td></tr> 
+<tr><td align="left" colspan="2"><b><font color="#00007f">分割演算:</font></b></td></tr> 
+<tr><td align="left"><tt>xs splitAt n</tt></td><td align="left"><tt>xs</tt> を <tt>n</tt> の位置で二分して <tt>(xs take n, xs drop n)</tt> と同値のコレクションのペアを返す．</td></tr> 
+<tr><td align="left"><tt>xs span p</tt></td><td align="left"><tt>xs</tt> を条件関数 <tt>p</tt> に応じて二分して <tt>(xs takeWhile p, xs.dropWhile p)</tt> と同値のペアを返す．</td></tr> 
+<tr><td align="left"><tt>xs partition p</tt></td><td align="left"><tt>xs</tt> を条件関数 <tt>p</tt> を満たすコレクションと満たさないものに二分して <tt>(xs filter p, xs.filterNot p)</tt> と同値のペアを返す．</td></tr> 
+<tr><td align="left"><tt>xs groupBy f</tt></td><td align="left"><tt>xs</tt> を判別関数 <tt>f</tt> に応じてコレクションの map に分割する．</td></tr> 
+<tr><td align="left" colspan="2"><b><font color="#00007f">要素条件演算:</font></b></td></tr> 
+<tr><td align="left"><tt>xs forall p</tt></td><td align="left"><tt>xs</tt>内の全ての要素に条件関数 <tt>p</tt> が当てはまるかを示す boolean 値．</td></tr> 
+<tr><td align="left"><tt>xs exists p</tt></td><td align="left"><tt>xs</tt>内に条件関数 <tt>p</tt> を満たす要素があるかどうかを示す boolean 値．</td></tr> 
+<tr><td align="left"><tt>xs count p</tt></td><td align="left"><tt>xs</tt>内の要素で条件関数 <tt>p</tt> 満たすものの数．</td></tr> 
+<tr><td align="left" colspan="2"><b><font color="#00007f">fold 演算:</font></b></td></tr> 
+<tr><td align="left"><tt>(z /: xs)(op)</tt></td><td align="left"><tt>z</tt> から始めて，左から右へと <tt>xs</tt>内の隣接する要素に二項演算 <tt>op</tt> を次々と適用したもの．</td></tr> 
+<tr><td align="left"><tt>(xs :\ z)(op)</tt></td><td align="left"><tt>z</tt> から始めて，右から左へと <tt>xs</tt>内の隣接する要素に二項演算 <tt>op</tt> を次々と適用したもの．</td></tr> 
+<tr><td align="left"><tt>xs.foldLeft(z)(op)</tt></td><td align="left"><tt>(z /: xs)(op)</tt> に同じ．</td></tr> 
+<tr><td align="left"><tt>xs.foldRight(z)(op)</tt></td><td align="left"><tt>(xs :\ z)(op)</tt> に同じ．</td></tr> 
+<tr><td align="left"><tt>xs reduceLeft op</tt></td><td align="left">左から右へと空ではないコレクション <tt>xs</tt>内の隣接する要素に二項演算 <tt>op</tt> を次々と適用したもの．</td></tr> 
+<tr><td align="left"><tt>xs reduceRight op</tt></td><td align="left">右から左へと空ではないコレクション <tt>xs</tt>内の隣接する要素に二項演算 <tt>op</tt> を次々と適用したもの．</td></tr> 
+<tr><td align="left" colspan="2"><b><font color="#00007f">特定 fold 演算:</font></b></td></tr> 
+<tr><td align="left"><tt>xs.sum</tt></td><td align="left">コレクション <tt>xs</tt>内の数値要素の値の和．</td></tr> 
+<tr><td align="left"><tt>xs.product</tt></td><td align="left">コレクション <tt>xs</tt>内の数値要素の値の積．</td></tr> 
+<tr><td align="left"><tt>xs.min</tt></td><td align="left">コレクション <tt>xs</tt>内の順序付けされたの値の最小値．</td></tr> 
+<tr><td align="left"><tt>xs.max</tt></td><td align="left">コレクション <tt>xs</tt>内の順序付けされたの値の最大値．</td></tr> 
+<tr><td align="left" colspan="2"><b><font color="#00007f">文字列演算:</font></b></td></tr> 
+<tr><td align="left"><tt>xs addString (b, start, sep, end)</tt></td><td align="left"><tt>xs</tt>内の要素を <tt>sep</tt> で区切った後，<tt>start</tt> と <tt>end</tt> で挟んだ文字列を　<tt>StringBuilder b</tt> に追加する． <tt>start</tt>, <tt>sep</tt>, <tt>end</tt> は全て省略可能．</td></tr> 
+<tr><td align="left"><tt>xs mkString (start, sep, end)</tt></td><td align="left"><tt>xs</tt>内の要素を <tt>sep</tt> で区切った後，<tt>start</tt> と <tt>end</tt> で挟んだ文字列に変換する． <tt>start</tt>, <tt>sep</tt>, <tt>end</tt> は全て省略可能．</td></tr> 
+<tr><td align="left"><tt>xs.stringPrefix</tt></td><td align="left"><tt>xs.toString</tt> で返される文字列の先頭にあるコレクション名．</td></tr> 
+<tr><td align="left" colspan="2"><b><font color="#00007f">ビュー演算:</font></b></td></tr> 
+<tr><td align="left"><tt>xs.view</tt></td><td align="left"><tt>xs</tt> に対するビューを生成する．</td></tr> 
+<tr><td align="left"><tt>xs view (from, to)</tt></td><td align="left"><tt>xs</tt> の一部の添字範囲内を表すビューを生成する．</td></tr></tbody></table> 
+<p>次へ： <a href="collections_4.html"><tt>Iterable</tt> トレイト</a><hr>
 	
 	<table width="100%" cellpadding="0" cellspacing="2">
 <tr> <td bgcolor="#99ccff"><a href="collections_4.html"><img border="0" alt="Iterable トレイト" src="next.png"></a></td>
