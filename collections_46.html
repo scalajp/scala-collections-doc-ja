@@ -16,7 +16,7 @@ div.verse, div.quote, div.quotation {
   margin-right: 10%;
 }
 </style>
-
+<link rel="stylesheet" type="text/css" href="collections.css" />
 
 </head> <body dir="ltr"> <table width="100%" cellpadding="0" cellspacing="2">
 <tr> <td bgcolor="#99ccff"><a href="collections_47.html"><img border="0" alt="Scala 2.7 からの移行" src="next.png"></a></td><td bgcolor="#99ccff"><a href="collections_0.html"><img border="0" alt="トップ" src="up.png"></a></td><td bgcolor="#99ccff"><a href="collections_45.html"><img border="0" alt="コレクションの作成" src="previous.png"></a></td><td align="center" bgcolor="#99ccff" width="100%"><b>Java と Scala 間のコレクションの変換</b></td><td bgcolor="#99ccff" align="center"><a href="collections_49.html">目次</a></td></tr></table> <h1>Java と Scala 間のコレクションの変換</h1> <p>Scala と同様に，Java にも豊富なコレクションライブラリがある．両者には多くの共通点がある．例えば，両方のライブラリともイテレータ，iterable, 集合，マップ，そして列を提供する．しかし，両者には重要な違いもある．特に，Scala では不変コレクションに要点を置き，コレクションを別のものに変換する演算も多く提供している．<p>時として，コレクションを一方のフレームワークから他方へと渡す必要がある．例えば，既存の Java のコレクションを Scala のコレクションであるかのようにアクセスしたいこともあるだろう．もしくは，Scala のコレクションを Java のコレクションを期待している Java メソッドに渡したいと思うかもしれない．Scala は <a href="http://www.scala-lang.org/api/current/scala/collection/JavaConversions$.html">JavaConversions</a> オブジェクトにより主要なコレクション間の暗黙の変換 (implicit conversion) を提供するため，簡単に相互運用できる．特に以下の型に関しては，双方向変換を提供する．
