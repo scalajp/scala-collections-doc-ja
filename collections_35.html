@@ -1,30 +1,49 @@
-﻿<html dir="ltr"> <head>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html dir="ltr" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta name="generator" content=
+"HTML Tidy for Mac OS X (vers 25 March 2009), see www.w3.org" />
 <title>Scala 2.8 コレクション API -- ウィークハッシュマップ</title>
-
-<style type="text/css">.maketitle {
-  /* align: center; */
-}
-div.abstract {
-  margin-left: 20%;
-  margin-right: 10%;
-}
-h3.abstract {
-  /* align: center; */
-}
-div.verse, div.quote, div.quotation {
-  margin-left: 10%;
-  margin-right: 10%;
-}
-</style>
 <link rel="stylesheet" type="text/css" href="collections.css" />
-
-</head> 
-<body dir="ltr"> 
-<table width="100%" cellpadding="0" cellspacing="2"><tr> <td bgcolor="#99ccff"><a href="collections_36.html"><img border="0" alt="並行マップ" src="next.png"></a></td><td bgcolor="#99ccff"><a href="collections_23.html"><img border="0" alt="具象可変コレクションクラス" src="up.png"></a></td><td bgcolor="#99ccff"><a href="collections_34.html"><img border="0" alt="ハッシュテーブル" src="previous.png"></a></td><td align="center" bgcolor="#99ccff" width="100%"><b>ウィークハッシュマップ</b></td><td bgcolor="#99ccff" align="center"><a href="collections_49.html">目次</a></td></tr></table> 
-<h2>ウィークハッシュマップ</h2> 
-<p>ウィークハッシュマップは，ガーベッジコレクタがマップから「弱キー」への参照を追跡しないという特殊なハッシュマップだ．これはキーとその関連する値は，他にキーを参照するものが無くなると，マップから勝手にいなくなることを意味する．ウィークハッシュマップは，同じキーに対する時間のかかる計算結果を再利用するキャッシュのような用途に向いている．もしキーとその計算結果が普通のハッシュマップに格納されたなら，そのマップは限りなく大きくなり続け，キーはガベージコレクタに永遠に回収されない．ウィークハッシュマップを使うことでこの問題を回避できる．キーオブジェクトが到達不可能になり次第，そのエントリーごとウィークハッシュマップから削除される．
-Scala のウィークハッシュマップは，Java による実装  <tt>java.util.WeakHashMap</tt> のラッパーである <a href="http://www.scala-lang.org/api/current/scala/collection/mutable/WeakHashMap.html">WeakHashMap</a> クラスにより実装されている．
-<p>次へ: <a href="collections_36.html">並行マップ</a> <hr> <table width="100%" cellpadding="0" cellspacing="2"><tr> <td bgcolor="#99ccff"><a href="collections_36.html"><img border="0" alt="並行マップ" src="next.png"></a></td><td bgcolor="#99ccff"><a href="collections_23.html"><img border="0" alt="具象可変コレクションクラス" src="up.png"></a></td><td bgcolor="#99ccff"><a href="collections_34.html"><img border="0" alt="ハッシュテーブル" src="previous.png"></a></td><td align="center" bgcolor="#99ccff" width="100%"><b>ウィークハッシュマップ</b></td><td bgcolor="#99ccff" align="center"><a href="collections_49.html">目次</a></td></tr>
+</head>
+<body dir="ltr">
+<table width="100%" cellpadding="0" cellspacing="2">
+<tr>
+<td bgcolor="#99CCFF"><a href="collections_36.html"><img border="0"
+alt="並行マップ" src="next.png" /></a></td>
+<td bgcolor="#99CCFF"><a href="collections_23.html"><img border="0"
+alt="具象可変コレクションクラス" src="up.png" /></a></td>
+<td bgcolor="#99CCFF"><a href="collections_34.html"><img border="0"
+alt="ハッシュテーブル" src="previous.png" /></a></td>
+<td align="center" bgcolor="#99CCFF" width="100%">
+<b>ウィークハッシュマップ</b></td>
+<td bgcolor="#99CCFF" align="center"><a href=
+"collections_49.html">目次</a></td>
+</tr>
+</table>
+<h2>ウィークハッシュマップ</h2>
+<p>
+ウィークハッシュマップは，ガーベッジコレクタがマップから「弱キー」への参照を追跡しないという特殊なハッシュマップだ．これはキーとその関連する値は，他にキーを参照するものが無くなると，マップから勝手にいなくなることを意味する．ウィークハッシュマップは，同じキーに対する時間のかかる計算結果を再利用するキャッシュのような用途に向いている．もしキーとその計算結果が普通のハッシュマップに格納されたなら，そのマップは限りなく大きくなり続け，キーはガベージコレクタに永遠に回収されない．ウィークハッシュマップを使うことでこの問題を回避できる．キーオブジェクトが到達不可能になり次第，そのエントリーごとウィークハッシュマップから削除される．
+Scala のウィークハッシュマップは，Java による実装 <tt>java.util.WeakHashMap</tt>
+のラッパーである <a href=
+"http://www.scala-lang.org/api/current/scala/collection/mutable/WeakHashMap.html">
+WeakHashMap</a> クラスにより実装されている．</p>
+<p>次へ: <a href="collections_36.html">並行マップ</a></p>
+<hr />
+<table width="100%" cellpadding="0" cellspacing="2">
+<tr>
+<td bgcolor="#99CCFF"><a href="collections_36.html"><img border="0"
+alt="並行マップ" src="next.png" /></a></td>
+<td bgcolor="#99CCFF"><a href="collections_23.html"><img border="0"
+alt="具象可変コレクションクラス" src="up.png" /></a></td>
+<td bgcolor="#99CCFF"><a href="collections_34.html"><img border="0"
+alt="ハッシュテーブル" src="previous.png" /></a></td>
+<td align="center" bgcolor="#99CCFF" width="100%">
+<b>ウィークハッシュマップ</b></td>
+<td bgcolor="#99CCFF" align="center"><a href=
+"collections_49.html">目次</a></td>
+</tr>
 </table>
 </body>
 </html>

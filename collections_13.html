@@ -1,29 +1,53 @@
-﻿<html dir="ltr"> <head>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html dir="ltr" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta name="generator" content=
+"HTML Tidy for Mac OS X (vers 25 March 2009), see www.w3.org" />
 <title>Scala 2.8 コレクション API -- リスト</title>
-
-<style type="text/css">.maketitle {
-  /* align: center; */
-}
-div.abstract {
-  margin-left: 20%;
-  margin-right: 10%;
-}
-h3.abstract {
-  /* align: center; */
-}
-div.verse, div.quote, div.quotation {
-  margin-left: 10%;
-  margin-right: 10%;
-}
-</style>
 <link rel="stylesheet" type="text/css" href="collections.css" />
-
-</head> 
-<body dir="ltr"> 
-<table width="100%" cellpadding="0" cellspacing="2"><tr> <td bgcolor="#99ccff"><a href="collections_14.html"><img border="0" alt="ストリーム" src="next.png"></a></td><td bgcolor="#99ccff"><a href="collections_12.html"><img border="0" alt="具象不変コレクションクラス" src="up.png"></a></td><td bgcolor="#99ccff"><img alt="" src="blank.png"></td><td align="center" bgcolor="#99ccff" width="100%"><b>リスト</b></td><td bgcolor="#99ccff" align="center"><a href="collections_49.html">目次</a></td></tr></table> 
-<h2>リスト</h2> 
-<p>リスト (<a href="http://www.scala-lang.org/api/current/scala/collection/immutable/List.html">List</a>) は有限の不変列だ．リストは最初の要素とリストの残りの部分に定数時間でアクセスでき，また，新たな要素をリストの先頭に追加する定数時間の cons 演算を持つ．他の多くの演算は線形時間で行われる．<p>リストは Scala プログラミングの働き者であり続けてきたので，あえてここで語るべきことは多くない．Scala 2.8 での大きな変更点は <tt>List</tt> クラスはそのサブクラスである <tt>::</tt> とそのサブオブジェクトである <tt>Nil</tt> とともに，論理的にふさわしい <tt>scala.collection.immutable</tt> パッケージで定義されるようになったことだ．<tt>scala</tt> パッケージには <tt>List</tt>, <tt>Nil</tt>, および <tt>::</tt> へのエイリアスがあるため，ユーザの立場から見ると，リストは今まで通り使うことができる．<p>もう一つの変更点は，リストは以前のような特殊扱いではなく，コレクションフレームワークにより緊密に統合されたことだ．例えば， <tt>List</tt> のコンパニオンオブジェクトにあった多くのメソッドは廃止予定になった．代わりに，それらは全てのコレクションが継承する<a href="collections_45.html">共通作成メソッド</a>に取って代わられた．
-<p>次へ: <a href="collections_14.html">ストリーム</a> <hr>
-<table width="100%" cellpadding="0" cellspacing="2"><tr> <td bgcolor="#99ccff"><a href="collections_14.html"><img border="0" alt="ストリーム" src="next.png"></a></td><td bgcolor="#99ccff"><a href="collections_12.html"><img border="0" alt="具象不変コレクションクラス" src="up.png"></a></td><td bgcolor="#99ccff"><img alt="" src="blank.png"></td><td align="center" bgcolor="#99ccff" width="100%"><b>リスト</b></td><td bgcolor="#99ccff" align="center"><a href="collections_49.html">目次</a></td></tr></table>
+</head>
+<body dir="ltr">
+<table width="100%" cellpadding="0" cellspacing="2">
+<tr>
+<td bgcolor="#99CCFF"><a href="collections_14.html"><img border="0"
+alt="ストリーム" src="next.png" /></a></td>
+<td bgcolor="#99CCFF"><a href="collections_12.html"><img border="0"
+alt="具象不変コレクションクラス" src="up.png" /></a></td>
+<td bgcolor="#99CCFF"><img alt="" src="blank.png" /></td>
+<td align="center" bgcolor="#99CCFF" width="100%"><b>リスト</b></td>
+<td bgcolor="#99CCFF" align="center"><a href=
+"collections_49.html">目次</a></td>
+</tr>
+</table>
+<h2>リスト</h2>
+<p>リスト (<a href=
+"http://www.scala-lang.org/api/current/scala/collection/immutable/List.html">List</a>)
+は有限の不変列だ．リストは最初の要素とリストの残りの部分に定数時間でアクセスでき，また，新たな要素をリストの先頭に追加する定数時間の
+cons 演算を持つ．他の多くの演算は線形時間で行われる．</p>
+<p>リストは Scala プログラミングの働き者であり続けてきたので，あえてここで語るべきことは多くない．Scala 2.8
+での大きな変更点は <tt>List</tt> クラスはそのサブクラスである <tt>::</tt> とそのサブオブジェクトである
+<tt>Nil</tt> とともに，論理的にふさわしい <tt>scala.collection.immutable</tt>
+パッケージで定義されるようになったことだ．<tt>scala</tt> パッケージには <tt>List</tt>,
+<tt>Nil</tt>, および <tt>::</tt>
+へのエイリアスがあるため，ユーザの立場から見ると，リストは今まで通り使うことができる．</p>
+<p>もう一つの変更点は，リストは以前のような特殊扱いではなく，コレクションフレームワークにより緊密に統合されたことだ．例えば，
+<tt>List</tt>
+のコンパニオンオブジェクトにあった多くのメソッドは廃止予定になった．代わりに，それらは全てのコレクションが継承する<a href=
+"collections_45.html">共通作成メソッド</a>に取って代わられた．</p>
+<p>次へ: <a href="collections_14.html">ストリーム</a></p>
+<hr />
+<table width="100%" cellpadding="0" cellspacing="2">
+<tr>
+<td bgcolor="#99CCFF"><a href="collections_14.html"><img border="0"
+alt="ストリーム" src="next.png" /></a></td>
+<td bgcolor="#99CCFF"><a href="collections_12.html"><img border="0"
+alt="具象不変コレクションクラス" src="up.png" /></a></td>
+<td bgcolor="#99CCFF"><img alt="" src="blank.png" /></td>
+<td align="center" bgcolor="#99CCFF" width="100%"><b>リスト</b></td>
+<td bgcolor="#99CCFF" align="center"><a href=
+"collections_49.html">目次</a></td>
+</tr>
+</table>
 </body>
 </html>

@@ -1,47 +1,176 @@
-﻿<html dir="ltr"> <head>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html dir="ltr" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta name="generator" content=
+"HTML Tidy for Mac OS X (vers 25 March 2009), see www.w3.org" />
 <title>Scala 2.8 コレクション API -- スタック</title>
-
-<style type="text/css">.maketitle {
-  /* align: center; */
-}
-div.abstract {
-  margin-left: 20%;
-  margin-right: 10%;
-}
-h3.abstract {
-  /* align: center; */
-}
-div.verse, div.quote, div.quotation {
-  margin-left: 10%;
-  margin-right: 10%;
-}
-</style>
 <link rel="stylesheet" type="text/css" href="collections.css" />
-
-</head> 
-<body dir="ltr"> 
-<table width="100%" cellpadding="0" cellspacing="2"><tr> <td bgcolor="#99ccff"><a href="collections_33.html"><img border="0" alt="配列スタック" src="next.png"></a></td><td bgcolor="#99ccff"><a href="collections_23.html"><img border="0" alt="具象可変コレクションクラス" src="up.png"></a></td><td bgcolor="#99ccff"><a href="collections_31.html"><img border="0" alt="配列シーケンス" src="previous.png"></a></td><td align="center" bgcolor="#99ccff" width="100%"><b>スタック</b></td><td bgcolor="#99ccff" align="center"><a href="collections_49.html">目次</a></td></tr></table> 
-<h2>スタック</h2> 
-<p>既に不変スタックについては説明した．スタックには，<a href="http://www.scala-lang.org/api/current/scala/collection/mutable/Stack.html">mutable.Stack</a> クラスにより実装される可変バージョンもある．変更が上書き処理されるという違いの他は，不変バージョンと全く同じように動作する．
-<div class="quote"><p><tt></tt><table cellspacing="1" cellpadding="0"><td><tt></tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt>scala&gt; <font color="#0000e5">val</font> stack = <font color="#0000e5">new</font> <font color="#660099">scala.collection.mutable.</font></tt><tt><font color="#660099">Stack[Int]</font>           </tt></td></tr><td><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt><font color="#590000">stack: scala.collection.mutable.</font></tt><tt><font color="#590000">Stack[Int] = Stack()</font></tt></td></tr><td><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt>scala&gt; stack.push(<font color="#000000">1</font>)</tt></td></tr><td><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt><font color="#590000">res0: stack.type = Stack(1)</font></tt></td></tr><td><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt>scala&gt; stack</tt></td></tr><td><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt><font color="#590000">res1: scala.collection.mutable.</font></tt><tt><font color="#590000">Stack[Int] = Stack(1)</font></tt></td></tr><td><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt>scala&gt; stack.push(<font color="#000000">2</font>)</tt></td></tr><td><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt><font color="#590000">res0: stack.type = Stack(1, 2)</font></tt></td></tr><td><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt>scala&gt; stack</tt></td></tr><td><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt><font color="#590000">res3: scala.collection.mutable.</font></tt><tt><font color="#590000">Stack[Int] = Stack(1, 2)</font></tt></td></tr><td><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt>scala&gt; stack.top</tt></td></tr><td><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt><font color="#590000">res8: Int = 2</font></tt></td></tr><td><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt>scala&gt; stack</tt></td></tr><td><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt><font color="#590000">res9: scala.collection.mutable.</font></tt><tt><font color="#590000">Stack[Int] = Stack(1, 2)</font></tt></td></tr><td><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt>scala&gt; stack.pop    </tt></td></tr><td><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt><font color="#590000">res10: Int = 2</font></tt></td></tr><td><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt>scala&gt; stack    </tt></td></tr><td><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt><font color="#590000">res11: scala.collection.mutable.</font></tt><tt><font color="#590000">Stack[Int] = Stack(1) </font></tt></td></tr></td></td></td></td></td></td></td></td></td></td></td></td></td></td></td></td></td></td></table><tt> </tt></p></div>
-<p>次へ: <a href="collections_33.html">配列スタック</a> <hr> <table width="100%" cellpadding="0" cellspacing="2"><tr> <td bgcolor="#99ccff"><a href="collections_33.html"><img border="0" alt="配列スタック" src="next.png"></a></td><td bgcolor="#99ccff"><a href="collections_23.html"><img border="0" alt="具象可変コレクションクラス" src="up.png"></a></td><td bgcolor="#99ccff"><a href="collections_31.html"><img border="0" alt="配列シーケンス" src="previous.png"></a></td><td align="center" bgcolor="#99ccff" width="100%"><b>スタック</b></td><td bgcolor="#99ccff" align="center"><a href="collections_49.html">目次</a></td></tr></table>
+</head>
+<body dir="ltr">
+<table width="100%" cellpadding="0" cellspacing="2">
+<tr>
+<td bgcolor="#99CCFF"><a href="collections_33.html"><img border="0"
+alt="配列スタック" src="next.png" /></a></td>
+<td bgcolor="#99CCFF"><a href="collections_23.html"><img border="0"
+alt="具象可変コレクションクラス" src="up.png" /></a></td>
+<td bgcolor="#99CCFF"><a href="collections_31.html"><img border="0"
+alt="配列シーケンス" src="previous.png" /></a></td>
+<td align="center" bgcolor="#99CCFF" width="100%"><b>スタック</b></td>
+<td bgcolor="#99CCFF" align="center"><a href=
+"collections_49.html">目次</a></td>
+</tr>
+</table>
+<h2>スタック</h2>
+<p>既に不変スタックについては説明した．スタックには，<a href=
+"http://www.scala-lang.org/api/current/scala/collection/mutable/Stack.html">mutable.Stack</a>
+クラスにより実装される可変バージョンもある．変更が上書き処理されるという違いの他は，不変バージョンと全く同じように動作する．</p>
+<div class="quote">
+<table cellspacing="1" cellpadding="0">
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt>scala&gt;&nbsp;<font color=
+"#0000E5">val</font>&nbsp;stack&nbsp;=&nbsp;<font color=
+"#0000E5">new</font>&nbsp;<font color=
+"#660099">scala.collection.mutable.</font></tt><tt><font color=
+"#660099">Stack[Int]</font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt><font color=
+"#590000">stack:&nbsp;scala.collection.mutable.</font></tt><tt><font color="#590000">Stack[Int]&nbsp;=&nbsp;Stack()</font></tt></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left">
+<tt>scala&gt;&nbsp;stack.push(<font color=
+"#000000">1</font>)</tt></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt><font color=
+"#590000">res0:&nbsp;stack.type&nbsp;=&nbsp;Stack(1)</font></tt></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt>scala&gt;&nbsp;stack</tt></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt><font color=
+"#590000">res1:&nbsp;scala.collection.mutable.</font></tt><tt><font color="#590000">Stack[Int]&nbsp;=&nbsp;Stack(1)</font></tt></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left">
+<tt>scala&gt;&nbsp;stack.push(<font color=
+"#000000">2</font>)</tt></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt><font color=
+"#590000">res0:&nbsp;stack.type&nbsp;=&nbsp;Stack(1,&nbsp;2)</font></tt></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt>scala&gt;&nbsp;stack</tt></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt><font color=
+"#590000">res3:&nbsp;scala.collection.mutable.</font></tt><tt><font color="#590000">Stack[Int]&nbsp;=&nbsp;Stack(1,&nbsp;2)</font></tt></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left">
+<tt>scala&gt;&nbsp;stack.top</tt></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt><font color=
+"#590000">res8:&nbsp;Int&nbsp;=&nbsp;2</font></tt></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt>scala&gt;&nbsp;stack</tt></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt><font color=
+"#590000">res9:&nbsp;scala.collection.mutable.</font></tt><tt><font color="#590000">Stack[Int]&nbsp;=&nbsp;Stack(1,&nbsp;2)</font></tt></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left">
+<tt>scala&gt;&nbsp;stack.pop&nbsp;&nbsp;&nbsp;&nbsp;</tt></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt><font color=
+"#590000">res10:&nbsp;Int&nbsp;=&nbsp;2</font></tt></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left">
+<tt>scala&gt;&nbsp;stack&nbsp;&nbsp;&nbsp;&nbsp;</tt></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt><font color=
+"#590000">res11:&nbsp;scala.collection.mutable.</font></tt><tt><font color="#590000">Stack[Int]&nbsp;=&nbsp;Stack(1)</font></tt></td>
+</tr>
+</table>
+</div>
+<p>次へ: <a href="collections_33.html">配列スタック</a></p>
+<hr />
+<table width="100%" cellpadding="0" cellspacing="2">
+<tr>
+<td bgcolor="#99CCFF"><a href="collections_33.html"><img border="0"
+alt="配列スタック" src="next.png" /></a></td>
+<td bgcolor="#99CCFF"><a href="collections_23.html"><img border="0"
+alt="具象可変コレクションクラス" src="up.png" /></a></td>
+<td bgcolor="#99CCFF"><a href="collections_31.html"><img border="0"
+alt="配列シーケンス" src="previous.png" /></a></td>
+<td align="center" bgcolor="#99CCFF" width="100%"><b>スタック</b></td>
+<td bgcolor="#99CCFF" align="center"><a href=
+"collections_49.html">目次</a></td>
+</tr>
+</table>
 </body>
 </html>

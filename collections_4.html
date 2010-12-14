@@ -1,72 +1,265 @@
-﻿<html dir="ltr"> <head>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html dir="ltr" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta name="generator" content=
+"HTML Tidy for Mac OS X (vers 25 March 2009), see www.w3.org" />
 <title>Scala 2.8 コレクション API - Iterable トレイト</title>
-
-<style type="text/css">.maketitle {
-  /* align: center; */
-}
-div.abstract {
-  margin-left: 20%;
-  margin-right: 10%;
-}
-h3.abstract {
-  /* align: center; */
-}
-div.verse, div.quote, div.quotation {
-  margin-left: 10%;
-  margin-right: 10%;
-}
-</style>
 <link rel="stylesheet" type="text/css" href="collections.css" />
-
 </head>
 <body dir="ltr">
 <table width="100%" cellpadding="0" cellspacing="2">
-<tr> <td bgcolor="#99ccff"><a href="collections_5.html"><img border="0" alt="列トレイト Seq, IndexedSeq, および LinearSeq" src="next.png"></a></td><td bgcolor="#99ccff"><a href="collections_0.html"><img border="0" alt="トップ" src="up.png"></a></td><td bgcolor="#99ccff"><a href="collections_3.html"><img border="0" alt="Traversable トレイト" src="previous.png"></a></td><td align="center" bgcolor="#99ccff" width="100%"><b>Iterable トレイト</b></td><td bgcolor="#99ccff" align="center"><a href="collections_49.html">目次</a></td></tr></table>
+<tr>
+<td bgcolor="#99CCFF"><a href="collections_5.html"><img border="0"
+alt="列トレイト Seq, IndexedSeq, および LinearSeq" src=
+"next.png" /></a></td>
+<td bgcolor="#99CCFF"><a href="collections_0.html"><img border="0"
+alt="トップ" src="up.png" /></a></td>
+<td bgcolor="#99CCFF"><a href="collections_3.html"><img border="0"
+alt="Traversable トレイト" src="previous.png" /></a></td>
+<td align="center" bgcolor="#99CCFF" width="100%"><b>Iterable
+トレイト</b></td>
+<td bgcolor="#99CCFF" align="center"><a href=
+"collections_49.html">目次</a></td>
+</tr>
+</table>
 <h1><tt>Iterable</tt> トレイト</h1>
-<p>反復可能(<a href="http://www.scala-lang.org/api/current/scala/collection/Iterable.html"><tt>Iterable</tt></a>)トレイトは<a href="collections_2.html#id1">コレクション階層</a>の上から2番目に位置する．
-このトレイトの全メソッドは，コレクション内の要素を一つづつ返す抽象メソッド <tt>iterator</tt> に基づいている．<tt>Iterable</tt> では，<tt>Traversable</tt> トレイトの <tt>foreach</tt> メソッドも <tt>iterator</tt> に基づいて実装されている．以下が実際の実装だ:<div class="quote"><p><tt></tt><table cellspacing="1" cellpadding="0"><tt></tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt><font color="#0000e5">def</font> foreach[U](f: <font color="#660099">Elem</font> =&gt; U): <font color="#660099">Unit</font> = {</tt></td></tr><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt>  <font color="#0000e5">val</font> it = iterator</tt></td></tr><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt>  <font color="#0000e5">while</font> (it.hasNext) f(it.next())</tt></td></tr><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt>}  </tt></td></tr></table><tt> </tt></p></div>多くの <tt>Iterable</tt> のサブクラスは，より効率的な実装を提供するため，上の <tt>foreach</tt> の標準実装をオーバーライドしている．<tt>foreach</tt> は <tt>Traversable</tt> の全ての演算の基となっているため，効率的であることが重要なのだ．<p><tt>Iterable</tt> にはイテレータを返すもう二つのメソッドがある: <tt>grouped</tt> と <tt>sliding</tt> だ．これらのイテレータは単一の要素を返すのではなく，元のコレクションの部分列を返す．これらのメソッドに渡された引数がこの部分列の最大サイズとなる．<tt>grouped</tt> メソッドは要素を n個づつの「かたまり」にして返すのに対し， <tt>sliding</tt> は n個の要素から成る「窓」をスライドさせて返す．この二つのメソッドの違いは REPL でのやりとりを見れば明らかになるはずだ．<div class="quote"><p><tt></tt>
-
-<table cellspacing="1" cellpadding="0"><tt></tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt>scala&gt; <font color="#0000e5">val</font> xs = <font color="#660099">List</font>(<font color="#000000">1</font>, <font color="#000000">2</font>, <font color="#000000">3</font>, <font color="#000000">4</font>, <font color="#000000">5</font>)</tt></td></tr><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt><font color="#590000">xs: List[Int] = List(1, 2, 3, 4, 5)</font></tt></td></tr><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt>scala&gt; <font color="#0000e5">val</font> git = xs grouped <font color="#000000">3</font></tt></td></tr><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt><font color="#590000">git: Iterator[List[Int]] = non-empty iterator</font></tt></td></tr><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt>scala&gt; git.next()</tt></td></tr><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt><font color="#590000">res0: List[Int] = List(2, 3, 4)</font></tt></td></tr><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt>scala&gt; git.next()</tt></td></tr><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt><font color="#590000">res4: List[Int] = List(4, 5)</font></tt></td></tr><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt>scala&gt; <font color="#0000e5">val</font> sit = xs sliding <font color="#000000">3</font></tt></td></tr><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt><font color="#590000">sit: Iterator[List[Int]] = non-empty iterator</font></tt></td></tr><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt>scala&gt; sit.next()</tt></td></tr><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt><font color="#590000">res0: List[Int] = List(2, 3, 4)</font></tt></td></tr><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt>scala&gt; sit.next()</tt></td></tr><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt><font color="#590000">res0: List[Int] = List(2, 3, 4)</font></tt></td></tr><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt>scala&gt; sit.next()</tt></td></tr><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt><font color="#590000">res0: List[Int] = List(2, 3, 4)</font></tt></td></tr></table><tt> </tt></p></div><tt>Iterable</tt> トレイトは， <tt>Traversable</tt> からのメソッドの他に，イテレータがあることで効率的に実装することができる他のメソッドを追加する．それらのメソッドを以下の表にまとめる．
-
-<table border="0" cellspacing="0" class="ops"><tbody>
-<tr><td colspan="2" align="center"><b><a href="http://www.scala-lang.org/api/current/scala/collection/Iterable.html">Iterable</a> トレイトの演算 <a name="id1">　</a></b><a name="tab:iterableops"> </a></td></tr>
-<tr><td align="left" width="250"> <p><b>使用例</b> </p></td><td align="left"> <b>振る舞い</b> </td></tr>
-<tr><td align="left" colspan="2"> <p><b><font color="#00007f">抽象メソッド:</font></b> </p></td></tr>
-<tr><td align="left"> <tt>xs.iterator</tt> </td><td align="left"><tt>xs</tt>内の全ての要素を <tt>foreach</tt> が歩くのと同じ順序で返すイテレータ．</td></tr>
-<tr><td align="left" colspan="2"> <p><b><font color="#00007f">他のイテレータ:</font></b> </p></td></tr>
-<tr><td align="left"> <tt>xs</tt> <tt>grouped</tt> <tt>size</tt> </td><td align="left">このコレクション内の要素を固定サイズの「かたまり」にして返すイテレータ．</td></tr> 
-<tr><td align="left"> <tt>xs</tt> <tt>sliding</tt> <tt>size</tt> </td><td align="left">このコレクション内の要素を固定サイズの「窓」をスライドさせて返すイテレータ．</td></tr> 
-<tr><td align="left" colspan="2"> <p><b><font color="#00007f">サブコレクション取得演算:</font></b> </p></td></tr> 
-<tr><td align="left"> <tt>xs</tt> <tt>takeRight</tt> <tt>n</tt> </td><td align="left"><tt>xs</tt> の最後の <tt>n</tt>個の要素から成るコレクション (順序が定義されていない場合は，任意の <tt>n</tt>個の要素から成るコレクション)．</td></tr> 
-<tr><td align="left"> <tt>xs</tt> <tt>dropRight</tt> <tt>n</tt> </td><td align="left">コレクションから <tt>xs</tt> <tt>takeRight</tt> <tt>n</tt> を除いた残りの部分．</td></tr> 
-<tr><td align="left" colspan="2"> <p><b><font color="#00007f">zip 演算:</font></b> </p></td></tr> 
-<tr><td align="left"> <tt>xs</tt> <tt>zip</tt> <tt>ys</tt> </td><td align="left"><tt>xs</tt> と <tt>ys</tt> のそれぞれから対応する要素をペアにした iterable．</td></tr> 
-<tr><td align="left"> <tt>xs</tt> <tt>zipAll</tt> <tt>(ys,</tt> <tt>x,</tt> <tt>y)</tt> </td><td align="left"><tt>xs</tt> と <tt>ys</tt> のそれぞれから対応する要素をペアにした iterable で，もし片方が短い場合は <tt>x</tt> か <tt>y</tt> を使って長いほうに合わせる．</td></tr> 
-<tr><td align="left"> <tt>xs.zipWithIndex</tt> </td><td align="left"><tt>xs</tt>内の要素とその添字をペアにした iterable．</td></tr> 
-<tr><td align="left" colspan="2"> <p><b><font color="#00007f">比較演算:</font></b> </p></td></tr> 
-<tr><td align="left"> <tt>xs</tt> <tt>sameElements</tt> <tt>ys</tt> </td><td align="left"><tt>xs</tt> と <tt>ys</tt> が同じ要素を同じ順序で格納しているかを調べる．</td></tr></tbody></table> <p>継承階層では <tt>Iterable</tt> 直下に <a href="collections_5.html"><tt>Seq</tt></a>，<a href="collections_7.html"><tt>Set</tt></a>，<a href="collections_10.html"><tt>Map</tt></a> と三つのトレイトがある ．この三つのトレイトに共通することは <tt>apply</tt> メソッドと <tt>isDefinedAt</tt> メソッドを持ったトレイト <a href="http://www.scala-lang.org/api/current/scala/PartialFunction.html"><tt>PartialFunction</tt></a> を実装しているということだ．しかし，<a href="http://www.scala-lang.org/api/current/scala/PartialFunction.html"><tt>PartialFunction</tt></a> の実装方法は三者三様である． <p>列は <tt>apply</tt> を位置的な添字として用いられており，要素は常に <tt>0</tt> から数えられる．だから，<tt>Seq(1,</tt> <tt>2,</tt> <tt>3)(1)</tt> は <tt>2</tt> を返す．セットでは <tt>apply</tt> は所属を調べるのに用いられる．例えば，<tt>Set(&#39;a&#39;,</tt> <tt>&#39;b&#39;,</tt> <tt>&#39;c&#39;)(&#39;b&#39;)</tt> は <tt>true</tt> を返し，<tt>Set()(&#39;a&#39;)</tt> は <tt>false</tt> を返す． 最後に，マップでは <tt>apply</tt> は要素の選択に用いられている．例えば，<tt>Map(&#39;a&#39;</tt> <tt>-&gt;</tt> <tt>1,</tt> <tt>&#39;b&#39;</tt> <tt>-&gt;</tt> <tt>10,</tt> <tt>&#39;c&#39;</tt> <tt>-&gt;</tt> <tt>100)(&#39;b&#39;)</tt> は <tt>10</tt> を返す．
-<p>次に，この三つのコレクションをより詳しく説明しよう．
-<p>次へ: <a href="collections_5.html">列トレイト <tt>Seq</tt>，<tt>IndexedSeq</tt>，および <tt>LinearSeq</tt></a>
-<hr>
-<table width="100%" cellpadding="0" cellspacing="2"><tr> <td bgcolor="#99ccff"><a href="collections_5.html"><img border="0" alt="列トレイト Seq, IndexedSeq, および LinearSeq" src="next.png"></a></td><td bgcolor="#99ccff"><a href="collections_0.html"><img border="0" alt="トップ" src="up.png"></a></td><td bgcolor="#99ccff"><a href="collections_3.html"><img border="0" alt="Traversable トレイト" src="previous.png"></a></td><td align="center" bgcolor="#99ccff" width="100%"><b>Iterable トレイト</b></td><td bgcolor="#99ccff" align="center"><a href="collections_49.html">目次</a></td></tr></table>
-</body></html>
+<p>反復可能(<a href=
+"http://www.scala-lang.org/api/current/scala/collection/Iterable.html"><tt>Iterable</tt></a>)トレイトは<a href="collections_2.html#id1">コレクション階層</a>の上から2番目に位置する．
+このトレイトの全メソッドは，コレクション内の要素を一つづつ返す抽象メソッド <tt>iterator</tt>
+に基づいている．<tt>Iterable</tt> では，<tt>Traversable</tt> トレイトの
+<tt>foreach</tt> メソッドも <tt>iterator</tt>
+に基づいて実装されている．以下が実際の実装だ:</p>
+<div class="quote">
+<table cellspacing="1" cellpadding="0">
+<tr>
+<td colspan="99" align="left"><tt><font color=
+"#0000E5">def</font>&nbsp;foreach[U](f:&nbsp;<font color=
+"#660099">Elem</font>&nbsp;=&gt;&nbsp;U):&nbsp;<font color=
+"#660099">Unit</font>&nbsp;=&nbsp;{</tt></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt>&nbsp;&nbsp;<font color=
+"#0000E5">val</font>&nbsp;it&nbsp;=&nbsp;iterator</tt></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt>&nbsp;&nbsp;<font color=
+"#0000E5">while</font>&nbsp;(it.hasNext)&nbsp;f(it.next())</tt></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt>}&nbsp;</tt></td>
+</tr>
+</table>
+</div>
+<p>多くの <tt>Iterable</tt> のサブクラスは，より効率的な実装を提供するため，上の
+<tt>foreach</tt> の標準実装をオーバーライドしている．<tt>foreach</tt> は
+<tt>Traversable</tt> の全ての演算の基となっているため，効率的であることが重要なのだ．</p>
+<p><tt>Iterable</tt> にはイテレータを返すもう二つのメソッドがある: <tt>grouped</tt> と
+<tt>sliding</tt>
+だ．これらのイテレータは単一の要素を返すのではなく，元のコレクションの部分列を返す．これらのメソッドに渡された引数がこの部分列の最大サイズとなる．<tt>grouped</tt>
+メソッドは要素を n個づつの「かたまり」にして返すのに対し， <tt>sliding</tt> は
+n個の要素から成る「窓」をスライドさせて返す．この二つのメソッドの違いは REPL でのやりとりを見れば明らかになるはずだ．</p>
+<div class="quote">
+<table cellspacing="1" cellpadding="0">
+<tr>
+<td colspan="99" align="left"><tt>scala&gt;&nbsp;<font color=
+"#0000E5">val</font>&nbsp;xs&nbsp;=&nbsp;<font color=
+"#660099">List</font>(<font color=
+"#000000">1</font>,&nbsp;<font color=
+"#000000">2</font>,&nbsp;<font color=
+"#000000">3</font>,&nbsp;<font color=
+"#000000">4</font>,&nbsp;<font color="#000000">5</font>)</tt></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt><font color=
+"#590000">xs:&nbsp;List[Int]&nbsp;=&nbsp;List(1,&nbsp;2,&nbsp;3,&nbsp;4,&nbsp;5)</font></tt></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt>scala&gt;&nbsp;<font color=
+"#0000E5">val</font>&nbsp;git&nbsp;=&nbsp;xs&nbsp;grouped&nbsp;<font color="#000000">3</font></tt></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt><font color=
+"#590000">git:&nbsp;Iterator[List[Int]]&nbsp;=&nbsp;non-empty&nbsp;iterator</font></tt></td>
+</tr>
+<tr>
+<td colspan="99" align="left">
+<tt>scala&gt;&nbsp;git.next()</tt></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt><font color="#590000">res0:
+List[Int] = List(2, 3, 4)</font></tt></td>
+</tr>
+<tr>
+<td colspan="99" align="left">
+<tt>scala&gt;&nbsp;git.next()</tt></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt><font color=
+"#590000">res4:&nbsp;List[Int]&nbsp;=&nbsp;List(4,&nbsp;5)</font></tt></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt>scala&gt;&nbsp;<font color=
+"#0000E5">val</font>&nbsp;sit&nbsp;=&nbsp;xs&nbsp;sliding&nbsp;<font color="#000000">3</font></tt></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt><font color=
+"#590000">sit:&nbsp;Iterator[List[Int]]&nbsp;=&nbsp;non-empty&nbsp;iterator</font></tt></td>
+</tr>
+<tr>
+<td colspan="99" align="left">
+<tt>scala&gt;&nbsp;sit.next()</tt></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt><font color="#590000">res0:
+List[Int] = List(2, 3, 4)</font></tt></td>
+</tr>
+<tr>
+<td colspan="99" align="left">
+<tt>scala&gt;&nbsp;sit.next()</tt></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt><font color="#590000">res0:
+List[Int] = List(2, 3, 4)</font></tt></td>
+</tr>
+<tr>
+<td colspan="99" align="left">
+<tt>scala&gt;&nbsp;sit.next()</tt></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt><font color="#590000">res0:
+List[Int] = List(2, 3, 4)</font></tt></td>
+</tr>
+</table>
+</div>
+<p><tt>Iterable</tt> トレイトは， <tt>Traversable</tt>
+からのメソッドの他に，イテレータがあることで効率的に実装することができる他のメソッドを追加する．それらのメソッドを以下の表にまとめる．</p>
+<table border="0" cellspacing="0" class="ops">
+<tbody>
+<tr>
+<td colspan="2" align="center"><b><a href=
+"http://www.scala-lang.org/api/current/scala/collection/Iterable.html">
+Iterable</a> トレイトの演算 <a name="id1" id="id1">　</a></b><a name=
+"tab:iterableops" id="tab:iterableops">&nbsp;</a></td>
+</tr>
+<tr>
+<td align="left" width="250">
+<p><b>使用例</b></p>
+</td>
+<td align="left"><b>振る舞い</b></td>
+</tr>
+<tr>
+<td align="left" colspan="2">
+<p><b><font color="#00007F">抽象メソッド:</font></b></p>
+</td>
+</tr>
+<tr>
+<td align="left"><tt>xs.iterator</tt></td>
+<td align="left"><tt>xs</tt>内の全ての要素を <tt>foreach</tt>
+が歩くのと同じ順序で返すイテレータ．</td>
+</tr>
+<tr>
+<td align="left" colspan="2">
+<p><b><font color="#00007F">他のイテレータ:</font></b></p>
+</td>
+</tr>
+<tr>
+<td align="left">
+<tt>xs</tt>&nbsp;<tt>grouped</tt>&nbsp;<tt>size</tt></td>
+<td align="left">このコレクション内の要素を固定サイズの「かたまり」にして返すイテレータ．</td>
+</tr>
+<tr>
+<td align="left">
+<tt>xs</tt>&nbsp;<tt>sliding</tt>&nbsp;<tt>size</tt></td>
+<td align="left">このコレクション内の要素を固定サイズの「窓」をスライドさせて返すイテレータ．</td>
+</tr>
+<tr>
+<td align="left" colspan="2">
+<p><b><font color="#00007F">サブコレクション取得演算:</font></b></p>
+</td>
+</tr>
+<tr>
+<td align="left">
+<tt>xs</tt>&nbsp;<tt>takeRight</tt>&nbsp;<tt>n</tt></td>
+<td align="left"><tt>xs</tt> の最後の <tt>n</tt>個の要素から成るコレクション
+(順序が定義されていない場合は，任意の <tt>n</tt>個の要素から成るコレクション)．</td>
+</tr>
+<tr>
+<td align="left">
+<tt>xs</tt>&nbsp;<tt>dropRight</tt>&nbsp;<tt>n</tt></td>
+<td align="left">コレクションから <tt>xs</tt> <tt>takeRight</tt> <tt>n</tt>
+を除いた残りの部分．</td>
+</tr>
+<tr>
+<td align="left" colspan="2">
+<p><b><font color="#00007F">zip 演算:</font></b></p>
+</td>
+</tr>
+<tr>
+<td align="left">
+<tt>xs</tt>&nbsp;<tt>zip</tt>&nbsp;<tt>ys</tt></td>
+<td align="left"><tt>xs</tt> と <tt>ys</tt> のそれぞれから対応する要素をペアにした
+iterable．</td>
+</tr>
+<tr>
+<td align="left">
+<tt>xs</tt>&nbsp;<tt>zipAll</tt>&nbsp;<tt>(ys,</tt>&nbsp;<tt>x,</tt>&nbsp;<tt>y)</tt></td>
+<td align="left"><tt>xs</tt> と <tt>ys</tt> のそれぞれから対応する要素をペアにした
+iterable で，もし片方が短い場合は <tt>x</tt> か <tt>y</tt> を使って長いほうに合わせる．</td>
+</tr>
+<tr>
+<td align="left"><tt>xs.zipWithIndex</tt></td>
+<td align="left"><tt>xs</tt>内の要素とその添字をペアにした iterable．</td>
+</tr>
+<tr>
+<td align="left" colspan="2">
+<p><b><font color="#00007F">比較演算:</font></b></p>
+</td>
+</tr>
+<tr>
+<td align="left">
+<tt>xs</tt>&nbsp;<tt>sameElements</tt>&nbsp;<tt>ys</tt></td>
+<td align="left"><tt>xs</tt> と <tt>ys</tt>
+が同じ要素を同じ順序で格納しているかを調べる．</td>
+</tr>
+</tbody>
+</table>
+<p>継承階層では <tt>Iterable</tt> 直下に <a href=
+"collections_5.html"><tt>Seq</tt></a>，<a href=
+"collections_7.html"><tt>Set</tt></a>，<a href=
+"collections_10.html"><tt>Map</tt></a> と三つのトレイトがある
+．この三つのトレイトに共通することは <tt>apply</tt> メソッドと <tt>isDefinedAt</tt>
+メソッドを持ったトレイト <a href=
+"http://www.scala-lang.org/api/current/scala/PartialFunction.html"><tt>
+PartialFunction</tt></a> を実装しているということだ．しかし，<a href=
+"http://www.scala-lang.org/api/current/scala/PartialFunction.html"><tt>PartialFunction</tt></a>
+の実装方法は三者三様である．</p>
+<p>列は <tt>apply</tt> を位置的な添字として用いられており，要素は常に <tt>0</tt>
+から数えられる．だから，<tt>Seq(1,</tt>&nbsp;<tt>2,</tt>&nbsp;<tt>3)(1)</tt> は
+<tt>2</tt> を返す．セットでは <tt>apply</tt>
+は所属を調べるのに用いられる．例えば，<tt>Set('a',</tt>&nbsp;<tt>'b',</tt>&nbsp;<tt>'c')('b')</tt>
+は <tt>true</tt> を返し，<tt>Set()('a')</tt> は <tt>false</tt> を返す．
+最後に，マップでは <tt>apply</tt>
+は要素の選択に用いられている．例えば，<tt>Map('a'</tt>&nbsp;<tt>-&gt;</tt>&nbsp;<tt>1,</tt>&nbsp;<tt>'b'</tt>&nbsp;<tt>-&gt;</tt>&nbsp;<tt>10,</tt>&nbsp;<tt>'c'</tt>&nbsp;<tt>-&gt;</tt>&nbsp;<tt>100)('b')</tt>
+は <tt>10</tt> を返す．</p>
+<p>次に，この三つのコレクションをより詳しく説明しよう．</p>
+<p>次へ: <a href="collections_5.html">列トレイト
+<tt>Seq</tt>，<tt>IndexedSeq</tt>，および <tt>LinearSeq</tt></a></p>
+<hr />
+<table width="100%" cellpadding="0" cellspacing="2">
+<tr>
+<td bgcolor="#99CCFF"><a href="collections_5.html"><img border="0"
+alt="列トレイト Seq, IndexedSeq, および LinearSeq" src=
+"next.png" /></a></td>
+<td bgcolor="#99CCFF"><a href="collections_0.html"><img border="0"
+alt="トップ" src="up.png" /></a></td>
+<td bgcolor="#99CCFF"><a href="collections_3.html"><img border="0"
+alt="Traversable トレイト" src="previous.png" /></a></td>
+<td align="center" bgcolor="#99CCFF" width="100%"><b>Iterable
+トレイト</b></td>
+<td bgcolor="#99CCFF" align="center"><a href=
+"collections_49.html">目次</a></td>
+</tr>
+</table>
+</body>
+</html>

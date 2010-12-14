@@ -1,117 +1,534 @@
-﻿<html dir="ltr"> <head>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html dir="ltr" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta name="generator" content=
+"HTML Tidy for Mac OS X (vers 25 March 2009), see www.w3.org" />
 <title>Scala 2.8 コレクション API -- マップ</title>
-
-<style type="text/css">.maketitle {
-  /* align: center; */
-}
-div.abstract {
-  margin-left: 20%;
-  margin-right: 10%;
-}
-h3.abstract {
-  /* align: center; */
-}
-div.verse, div.quote, div.quotation {
-  margin-left: 10%;
-  margin-right: 10%;
-}
-</style>
 <link rel="stylesheet" type="text/css" href="collections.css" />
-
-</head> 
+</head>
 <body dir="ltr">
 <table width="100%" cellpadding="0" cellspacing="2">
-<tr> <td bgcolor="#99ccff"><a href="collections_12.html"><img border="0" alt="具象不変コレクションクラス" src="next.png"></a></td><td bgcolor="#99ccff"><a href="collections_0.html"><img border="0" alt="トップ" src="up.png"></a></td><td bgcolor="#99ccff"><a href="collections_7.html"><img border="0" alt="集合" src="previous.png"></a></td><td align="center" bgcolor="#99ccff" width="100%"><b>マップ</b></td><td bgcolor="#99ccff" align="center"><a href="collections_49.html">目次</a></td></tr></table>
-<h1>マップ</h1>
-<p>マップ (<a href="http://www.scala-lang.org/api/current/scala/collection/Map.html"><tt>Map</tt></a>) はキーと値により構成されるペアの <a href="http://www.scala-lang.org/api/current/scala/collection/Iterable.html"><tt>Iterable</tt></a> の一種だ (<em>写像</em>や<em>関連</em>とも呼ばれる)．Scala の <a href="http://www.scala-lang.org/api/current/scala/Predef$.html"><tt>Predef</tt></a> クラスは，ペアの <tt>(key,</tt> <tt>value)</tt> を <tt>key</tt> <tt>-&gt;</tt> <tt>value</tt> と書けるような暗黙の変換を提供する．例えば，<tt>Map(&quot;x&quot;</tt> <tt>-&gt;</tt> <tt>24,</tt> <tt>&quot;y&quot;</tt> <tt>-&gt;</tt> <tt>25,</tt> <tt>&quot;z&quot;</tt> <tt>-&gt;</tt> <tt>26)</tt> は <tt>Map((&quot;x&quot;,</tt> <tt>24),</tt> <tt>(&quot;y&quot;,</tt> <tt>25),</tt> <tt>(&quot;z&quot;,</tt> <tt>26))</tt> と全く同じことを意味するがより可読性がある．
-<p>マップの基本的な演算は集合のものと似ている．それらは，<a href="collections_10.html#tab:mapops">以下の表</a> にまとめられており，以下のカテゴリーに分類できる:<ul>
-<li><em>検索演算</em>には <tt>apply</tt>, <tt>get</tt>, <tt>getOrElse</tt>, <tt>contains</tt>, および <tt>isDefinedAt</tt> がある．これらはマップをキーから値への部分関数に変える．マップの最も基本的な検索メソッドは:<div class="quote"><p><tt></tt><table cellspacing="1" cellpadding="0"><td><tt></tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt><font color="#0000e5">def</font> get(key): <font color="#660099">Option[Value]</font>  </tt></td></tr></td></table><tt> </tt></p></div>&quot;<tt>m</tt> <tt>get</tt> <tt>key</tt>&quot; という演算はマップが <tt>key</tt> に関連する値があるかを調べる．もしあれば，マップはその関連する値を <tt>Some</tt> に包んで返す．<tt>key</tt> がマップ中に定義されていなければ <tt>get</tt> は <tt>None</tt> を返す．マップはまた，任意のキーに関連する値を <tt>Option</tt> に包まずに直接返す <tt>apply</tt> メソッドも定義する．マップにキーが定義されていない場合は，例外が発生する．
-<li><em>加算と更新演算</em>である <tt>+</tt>, <tt>++</tt>, <tt>updated</tt> は，マップに新しい対応関係を追加するか，既存の対応関係を更新する．
-<li><em>削除演算</em>である <tt>-</tt>, <tt>--</tt> は，対応関係をマップから削除する．
-<li><em>サブコレクション取得演算</em>である <tt>keys</tt>, <tt>keySet</tt>, <tt>keysIterator</tt>, <tt>values</tt>, <tt>valuesIterator</tt> は，マップのキーや値を様々な形で別に返す．
-<li><em>変換演算</em>である <tt>filterKeys</tt> と <tt>mapValues</tt> は，既存のマップの対応関係をフィルターしたり変換することで新たなマップを生成する．</li></ul> 
-<table border="0" cellspacing="0" class="ops"><tbody>
-<tr><td align="center" colspan="2"><b><tt>Map</tt> トレイトの演算<a name="id1"> </a></b><a name="tab:mapops"> </a></td></tr> 
-<tr><td align="left" width="250"> <p><b>使用例</b> </p></td><td align="left"> <b>振る舞い</b> </td></tr> 
-<tr><td align="left" colspan="2"> <p><b><font color="#00007f">検索演算:</font></b> </p></td></tr> 
-<tr><td align="left"> <tt>ms</tt> <tt>get</tt> <tt>k</tt> </td><td align="left">マップ <tt>ms</tt> 内のキー <tt>k</tt> に関連付けられた値のオプション値，もしくは，キーが見つからない場合，<tt>None</tt>． </td></tr> 
-<tr><td align="left"> <tt>ms(k)</tt> </td><td align="left"> (展開した場合，<tt>ms</tt> <tt>apply</tt> <tt>k</tt>) マップ <tt>ms</tt> 内のキー <tt>k</tt> に関連付けられた値，もしくは，キーが見つからない場合は例外． </td></tr> 
-<tr><td align="left"> <tt>ms</tt> <tt>getOrElse</tt> <tt>(k,</tt> <tt>d)</tt> </td><td align="left">マップ <tt>ms</tt> 内のキー <tt>k</tt> に関連付けられた値，もしくは，キーが見つからない場合，デフォルト値 <tt>d</tt>． </td></tr> 
-<tr><td align="left"> <tt>ms</tt> <tt>contains</tt> <tt>k</tt> </td><td align="left"><tt>ms</tt> がキー <tt>k</tt> への写像を含むかを調べる．</td></tr> 
-<tr><td align="left"> <tt>ms</tt> <tt>isDefinedAt</tt> <tt>k</tt> </td><td align="left"><tt>contains</tt> に同じ．</td></tr> 
-<tr><td align="left" colspan="2"> <p><b><font color="#00007f">加算と更新演算: </font></b> </p></td></tr> 
-<tr><td align="left"> <tt>ms</tt> <tt>+</tt> <tt>(k</tt> <tt>-&gt;</tt> <tt>v)</tt> </td><td align="left"><tt>ms</tt> 内の全ての写像と，キー <tt>k</tt> から値 <tt>v</tt> への写像 <tt>k</tt> <tt>-&gt;</tt> <tt>v</tt> を含むマップ．</td></tr> 
-<tr><td align="left"> <tt>ms</tt> <tt>+</tt> <tt>(k</tt> <tt>-&gt;</tt> <tt>v,</tt> <tt>l</tt> <tt>-&gt;</tt> <tt>w)</tt> </td><td align="left"><tt>ms</tt> 内の全ての写像と，渡されたキーと値のペアを含むマップ．</td></tr> 
-<tr><td align="left"> <tt>ms</tt> <tt>++</tt> <tt>kvs</tt> </td><td align="left"><tt>ms</tt> 内の全ての写像と，<tt>kvs</tt>内の全てのキーと値のペアを含むマップ．</td></tr> 
-<tr><td align="left"> <tt>ms</tt> <tt>updated</tt> <tt>(k,</tt> <tt>v)</tt> </td><td align="left"><tt>ms</tt> <tt>+</tt> <tt>(k</tt> <tt>-&gt;</tt> <tt>v)</tt> に同じ．</td></tr> 
-<tr><td align="left" colspan="2"> <p><b><font color="#00007f">減算:</font></b> </p></td></tr> 
-<tr><td align="left"> <tt>ms</tt> <tt>-</tt> <tt>k</tt> </td><td align="left">キー <tt>k</tt> からの写像を除く，<tt>ms</tt> 内の全ての写像．</td></tr> 
-<tr><td align="left"> <tt>ms</tt> <tt>-</tt> <tt>(k,</tt> <tt>l,</tt> <tt>m)</tt> </td><td align="left">渡されたキーからの写像を除く，<tt>ms</tt> 内の全ての写像．</td></tr> 
-<tr><td align="left"> <tt>ms</tt> <tt>--</tt> <tt>ks</tt> </td><td align="left"><tt>ks</tt>内のキーからの写像を除く，<tt>ms</tt> 内の全ての写像．</td></tr> 
-<tr><td align="left" colspan="2"> <p><b><font color="#00007f">サブコレクション取得演算:</font></b> </p></td></tr> 
-<tr><td align="left"> <tt>ms.keys</tt> </td><td align="left"><tt>ms</tt>内の全てのキーを含む iterable．</td></tr> 
-<tr><td align="left"> <tt>ms.keySet</tt> </td><td align="left"><tt>ms</tt>内の全てのキーを含む集合．</td></tr> 
-<tr><td align="left"> <tt>ms.keysIterator</tt> </td><td align="left"><tt>ms</tt>内の全てのキーを返すイテレータ．</td></tr> 
-<tr><td align="left"> <tt>ms.values</tt></td><td align="left"><tt>ms</tt>内のキーに関連付けられた全ての値を含む iterable．</td></tr> 
-<tr><td align="left"> <tt>ms.valuesIterator</tt> </td><td align="left"><tt>ms</tt>内のキーに関連付けられた全ての値を返すイテレータ．</td></tr> 
-<tr><td align="left" colspan="2"> <p><b><font color="#00007f">変換演算:</font></b> </p></td></tr> 
-<tr><td align="left"> <tt>ms</tt> <tt>filterKeys</tt> <tt>p</tt> </td><td align="left">キーが条件関数 <tt>p</tt> を満たす <tt>ms</tt>内の写像のみを含むマップのビュー．</td></tr> 
-<tr><td align="left"> <tt>ms</tt> <tt>mapValues</tt> <tt>f</tt> </td><td align="left"><tt>ms</tt>内のキーに関連付けられた全ての値に関数 <tt>f</tt> を適用して得られるマップのビュー．</td></tr></tbody></table> <p>可変マップは他にも以下の表にまとめた演算をサポートする．
-
-<table border="0" cellspacing="0" class="ops"><tbody>
-<tr><td align="center" colspan="2"><b><tt>mutable.Map</tt> クラスの演算</b><a name="tab:mutmapops"> </a></td></tr> 
-<tr><td align="left" width="250"> <p><b>使用例</b> </p></td><td align="left"> <b>振る舞い</b> </td></tr> 
-<tr><td align="left" colspan="2"> <p><b><font color="#00007f">加算と更新演算: </font></b> </p></td></tr> 
-<tr><td align="left"> <tt>ms(k)</tt> <tt>=</tt> <tt>v</tt> </td><td align="left"> (展開した場合，<tt>ms.update(x,</tt> <tt>v)</tt>)．マップ <tt>ms</tt> に副作用としてキー <tt>k</tt> から値 <tt>v</tt> への写像を加え，既に <tt>k</tt> からの写像がある場合は上書きする ．</td></tr> 
-<tr><td align="left"> <tt>ms</tt> <tt>+=</tt> <tt>(k</tt> <tt>-&gt;</tt> <tt>v)</tt> </td><td align="left">マップ <tt>ms</tt> に副作用としてキー <tt>k</tt> から値 <tt>v</tt> への写像を加え，<tt>ms</tt>自身を返す ．</td></tr> 
-<tr><td align="left"> <tt>ms</tt> <tt>+=</tt> <tt>(k</tt> <tt>-&gt;</tt> <tt>v,</tt> <tt>l</tt> <tt>-&gt;</tt> <tt>w)</tt> </td><td align="left">マップ <tt>ms</tt> に副作用として渡された写像を加え，<tt>ms</tt>自身を返す ．</td></tr> 
-<tr><td align="left"> <tt>ms</tt> <tt>++=</tt> <tt>kvs</tt> </td><td align="left">マップ <tt>ms</tt> に副作用として  <tt>kvs</tt>内の全ての写像を加え，<tt>ms</tt>自身を返す ．</td></tr> 
-<tr><td align="left"> <tt>ms</tt> <tt>put</tt> <tt>(k,</tt> <tt>v)</tt> </td><td align="left">マップ <tt>ms</tt> にキー <tt>k</tt> から値 <tt>v</tt> への写像を加え，以前の <tt>k</tt> からの写像のオプション値を返す ．</td></tr> 
-<tr><td align="left"> <tt>ms</tt> <tt>getOrElseUpdate</tt> <tt>(k,</tt> <tt>d)</tt> </td><td align="left">マップ <tt>ms</tt>内にキー <tt>k</tt> が定義されている場合は，関連付けられた値を返す．定義されていない場合は，<tt>ms</tt> に写像 <tt>k</tt> <tt>-&gt;</tt> <tt>d</tt> を加え，<tt>d</tt> を返す．</td></tr> 
-<tr><td align="left" colspan="2"> <p><b><font color="#00007f">減算:</font></b> </p></td></tr> 
-<tr><td align="left"> <tt>ms</tt> <tt>-=</tt> <tt>k</tt> </td><td align="left">マップ <tt>ms</tt> から副作用としてキー <tt>k</tt> からの写像を削除して，<tt>ms</tt>自身を返す ．</td></tr> 
-<tr><td align="left"> <tt>ms</tt> <tt>-=</tt> <tt>(k,</tt> <tt>l,</tt> <tt>m)</tt> </td><td align="left">マップ <tt>ms</tt> から副作用として渡されたキーからの写像を削除して，<tt>ms</tt>自身を返す ．</td></tr> 
-<tr><td align="left"> <tt>ms</tt> <tt>--=</tt> <tt>ks</tt> </td><td align="left">マップ <tt>ms</tt> から副作用として <tt>ks</tt>内の全てのキーからの写像を削除して，<tt>ms</tt>自身を返す ．</td></tr> 
-<tr><td align="left"> <tt>ms</tt> <tt>remove</tt> <tt>k</tt></td><td align="left">マップ <tt>ms</tt> からキー <tt>k</tt> からの写像を削除して，以前の <tt>k</tt> からの写像のオプション値を返す ．</td></tr> 
-<tr><td align="left"> <tt>ms</tt> <tt>retain</tt> <tt>p</tt></td><td align="left"><tt>ms</tt>内の写像でキーが条件関数 <tt>p</tt> を満たすものだけを残す．</td></tr> 
-<tr><td align="left"> <tt>ms.clear()</tt></td><td align="left"><tt>ms</tt> から全ての写像を削除する．</td></tr> 
-<tr><td align="left" colspan="2"> <p><b><font color="#00007f">変換演算:</font></b> </p></td></tr> 
-<tr><td align="left"> <tt>ms</tt> <tt>transform</tt> <tt>f</tt></td><td align="left">マップ <tt>ms</tt>内の全ての関連付けされた値を関数 <tt>f</tt> を使って変換する．</td></tr> 
-<tr><td align="left" colspan="2"> <p><b><font color="#00007f">クローン演算:</font></b> </p></td></tr> 
-<tr><td align="left"> <tt>ms.clone</tt></td><td align="left"><tt>ms</tt> と同じ写像を持つ新しい可変マップを返す．</td></tr></tbody>
+<tr>
+<td bgcolor="#99CCFF"><a href="collections_12.html"><img border="0"
+alt="具象不変コレクションクラス" src="next.png" /></a></td>
+<td bgcolor="#99CCFF"><a href="collections_0.html"><img border="0"
+alt="トップ" src="up.png" /></a></td>
+<td bgcolor="#99CCFF"><a href="collections_7.html"><img border="0"
+alt="集合" src="previous.png" /></a></td>
+<td align="center" bgcolor="#99CCFF" width="100%"><b>マップ</b></td>
+<td bgcolor="#99CCFF" align="center"><a href=
+"collections_49.html">目次</a></td>
+</tr>
 </table>
-<p>マップの加算と減算は，集合のそれにならう．集合と同様，非破壊的な演算である <tt>+</tt>, <tt>-</tt>, と <tt>updated</tt> を提供するが，加算マップをコピーする必要があるため，これらはあまり使われることがない．そのかわり，可変マップは通常 <tt>m(key)</tt> <tt>=</tt> <tt>value</tt> か <tt>m</tt> <tt>+=</tt> <tt>(key</tt> <tt>-&gt;</tt> <tt>value)</tt> という二種類の更新演算を使って上書き更新される．さらに前に <tt>key</tt> から関連付けされていた値を <tt>Option</tt>値で返すか，マップに <tt>key</tt>  が無ければ <tt>None</tt> を返すというバリアントである <tt>m</tt> <tt>put</tt> <tt>(key,</tt> <tt>value)</tt> もある．<p><tt>getOrElseUpdate</tt> はキャッシュとして振る舞うマップにアクセスするのに役立つ．例えば，関数 <tt>f</tt> により呼び出される時間のかかる計算があるとする:<div class="quote"><p><tt></tt>
-<table cellspacing="1" cellpadding="0"><td><tt></tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt>scala&gt; <font color="#0000e5">def</font> f(x: <font color="#660099">String</font>) = { </tt></td></tr><td><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt>       println(<font color="#000000">&quot;taking my time.&quot;</font>); sleep(<font color="#000000">100</font>)</tt></td></tr><td><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt>       x.reverse }</tt></td></tr><td><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt><font color="#590000">f: (x: String)String </font></tt></td></tr></td></td></td></td></table><tt> </tt></p></div>さらに，<tt>f</tt> には副作用を伴わず，同じ引数で何回呼び出しても同じ戻り値が返ってくると仮定する．この場合，引数と以前の  <tt>f</tt> 計算結果の対応関係をマップに格納して，引数がマップに無いときだけ <tt>f</tt> の結果を計算すれば時間を節約できる．この時，マップは関数 <tt>f</tt> の計算の<em>キャッシュ</em>であると言える．<div class="quote"><p><tt></tt><table cellspacing="1" cellpadding="0"><td><tt></tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt><font color="#0000e5">val</font> cache = <font color="#660099">collection.mutable.</font></tt><tt><font color="#660099">Map[String, String]</font>()</tt></td></tr><td><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt><font color="#590000">cache: scala.collection.mutable.</font></tt><tt><font color="#590000">Map[String,String] = Map() </font></tt></td></tr></td></td>
-</table><tt> </tt></p></div>
-これにより，より効率的な，キャッシュするバージョンの関数 <tt>f</tt> を作成することができる．<div class="quote"><p><tt></tt><table cellspacing="1" cellpadding="0"><td><tt></tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt>scala&gt; <font color="#0000e5">def</font> cachedF(s: <font color="#660099">String</font>) = cache.getOrElseUpdate(s, f(s))</tt></td></tr><td><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt><font color="#590000">cachedF: (s: String)String</font></tt></td></tr><td><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt>scala&gt; cachedF(<font color="#000000">&quot;abc&quot;</font>)</tt></td></tr><td><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt><font color="#590000">taking my time.</font></tt></td></tr><td><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt><font color="#590000">res3: String = cba</font></tt></td></tr><td><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt>scala&gt; cachedF(<font color="#000000">&quot;abc&quot;</font>)</tt></td></tr><td><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt><font color="#590000">res4: String = cba </font></tt></td></tr>
-</table><tt> </tt></p></div>
-<tt>getOrElseUpdate</tt> の第二引数は「名前渡し」(by-name) であるため，上の <tt>f(&quot;abc&quot;)</tt> は <tt>getOrElseUpdate</tt> が必要とする場合，つまり第一引数が <tt>cache</tt> に無い場合においてのみ計算されることに注意してほしい．
-<tt>cachedF</tt> をより率直に，普通の map 演算を用いて実装することもできるが，コードは少し長くなる:<div class="quote"><p><tt></tt>
-<table cellspacing="1" cellpadding="0"><td><tt></tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt><font color="#0000e5">def</font> cachedF(arg: <font color="#660099">String</font>) = cache get arg <font color="#0000e5">match</font> {</tt></td></tr><td><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt>  <font color="#0000e5">case</font> <font color="#660099">Some</font>(result) =&gt; result</tt></td></tr><td><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt>  <font color="#0000e5">case</font> <font color="#660099">None</font> =&gt; </tt></td></tr><td><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt>    <font color="#0000e5">val</font> result = f(x)</tt></td></tr><td><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt>    cache(arg) = result</tt></td></tr><td><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt>    result</tt></td></tr><td><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt>} </tt></td></tr></table>
-<tt> </tt></p></div><p>次へ:<ul> 
-<li><a href="collections_11.html">同期集合と同期マップ</a> </li></ul> <hr>
+<h1>マップ</h1>
+<p>マップ (<a href=
+"http://www.scala-lang.org/api/current/scala/collection/Map.html"><tt>Map</tt></a>)
+はキーと値により構成されるペアの <a href=
+"http://www.scala-lang.org/api/current/scala/collection/Iterable.html">
+<tt>Iterable</tt></a> の一種だ (<em>写像</em>や<em>関連</em>とも呼ばれる)．Scala の
+<a href=
+"http://www.scala-lang.org/api/current/scala/Predef$.html"><tt>Predef</tt></a>
+クラスは，ペアの <tt>(key,</tt>&nbsp;<tt>value)</tt> を
+<tt>key</tt>&nbsp;<tt>-&gt;</tt>&nbsp;<tt>value</tt>
+と書けるような暗黙の変換を提供する．例えば，<tt>Map("x"</tt>&nbsp;<tt>-&gt;</tt>&nbsp;<tt>24,</tt>&nbsp;<tt>"y"</tt>&nbsp;<tt>-&gt;</tt>&nbsp;<tt>25,</tt>&nbsp;<tt>"z"</tt>&nbsp;<tt>-&gt;</tt>&nbsp;<tt>26)</tt>
+は
+<tt>Map(("x",</tt>&nbsp;<tt>24),</tt>&nbsp;<tt>("y",</tt>&nbsp;<tt>25),</tt>&nbsp;<tt>("z",</tt>&nbsp;<tt>26))</tt>
+と全く同じことを意味するがより可読性がある．</p>
+<p>マップの基本的な演算は集合のものと似ている．それらは，<a href=
+"collections_10.html#tab:mapops">以下の表</a>
+にまとめられており，以下のカテゴリーに分類できる:</p>
+<ul>
+<li><em>検索演算</em>には <tt>apply</tt>, <tt>get</tt>,
+<tt>getOrElse</tt>, <tt>contains</tt>, および <tt>isDefinedAt</tt>
+がある．これらはマップをキーから値への部分関数に変える．マップの最も基本的な検索メソッドは:
+<div class="quote">
+<table cellspacing="1" cellpadding="0">
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt><font color=
+"#0000E5">def</font>&nbsp;get(key):&nbsp;<font color=
+"#660099">Option[Value]</font>&nbsp;</tt></td>
+</tr>
+</table>
+</div>
+<p>"<tt>m</tt>&nbsp;<tt>get</tt>&nbsp;<tt>key</tt>" という演算はマップが
+<tt>key</tt> に関連する値があるかを調べる．もしあれば，マップはその関連する値を <tt>Some</tt>
+に包んで返す．<tt>key</tt> がマップ中に定義されていなければ <tt>get</tt> は <tt>None</tt>
+を返す．マップはまた，任意のキーに関連する値を <tt>Option</tt> に包まずに直接返す <tt>apply</tt>
+メソッドも定義する．マップにキーが定義されていない場合は，例外が発生する．</p>
+</li>
+<li><em>加算と更新演算</em>である <tt>+</tt>, <tt>++</tt>, <tt>updated</tt>
+は，マップに新しい対応関係を追加するか，既存の対応関係を更新する．</li>
+<li><em>削除演算</em>である <tt>-</tt>, <tt>--</tt> は，対応関係をマップから削除する．</li>
+<li><em>サブコレクション取得演算</em>である <tt>keys</tt>, <tt>keySet</tt>,
+<tt>keysIterator</tt>, <tt>values</tt>, <tt>valuesIterator</tt>
+は，マップのキーや値を様々な形で別に返す．</li>
+<li><em>変換演算</em>である <tt>filterKeys</tt> と <tt>mapValues</tt>
+は，既存のマップの対応関係をフィルターしたり変換することで新たなマップを生成する．</li>
+</ul>
+<table border="0" cellspacing="0" class="ops">
+<tbody>
+<tr>
+<td align="center" colspan="2"><b><tt>Map</tt> トレイトの演算<a name="id1"
+id="id1">&nbsp;</a></b><a name="tab:mapops" id=
+"tab:mapops">&nbsp;</a></td>
+</tr>
+<tr>
+<td align="left" width="250">
+<p><b>使用例</b></p>
+</td>
+<td align="left"><b>振る舞い</b></td>
+</tr>
+<tr>
+<td align="left" colspan="2">
+<p><b><font color="#00007F">検索演算:</font></b></p>
+</td>
+</tr>
+<tr>
+<td align="left"><tt>ms</tt>&nbsp;<tt>get</tt>&nbsp;<tt>k</tt></td>
+<td align="left">マップ <tt>ms</tt> 内のキー <tt>k</tt>
+に関連付けられた値のオプション値，もしくは，キーが見つからない場合，<tt>None</tt>．</td>
+</tr>
+<tr>
+<td align="left"><tt>ms(k)</tt></td>
+<td align="left">
+(展開した場合，<tt>ms</tt>&nbsp;<tt>apply</tt>&nbsp;<tt>k</tt>) マップ
+<tt>ms</tt> 内のキー <tt>k</tt> に関連付けられた値，もしくは，キーが見つからない場合は例外．</td>
+</tr>
+<tr>
+<td align="left">
+<tt>ms</tt>&nbsp;<tt>getOrElse</tt>&nbsp;<tt>(k,</tt>&nbsp;<tt>d)</tt></td>
+<td align="left">マップ <tt>ms</tt> 内のキー <tt>k</tt>
+に関連付けられた値，もしくは，キーが見つからない場合，デフォルト値 <tt>d</tt>．</td>
+</tr>
+<tr>
+<td align="left">
+<tt>ms</tt>&nbsp;<tt>contains</tt>&nbsp;<tt>k</tt></td>
+<td align="left"><tt>ms</tt> がキー <tt>k</tt> への写像を含むかを調べる．</td>
+</tr>
+<tr>
+<td align="left">
+<tt>ms</tt>&nbsp;<tt>isDefinedAt</tt>&nbsp;<tt>k</tt></td>
+<td align="left"><tt>contains</tt> に同じ．</td>
+</tr>
+<tr>
+<td align="left" colspan="2">
+<p><b><font color="#00007F">加算と更新演算:</font></b></p>
+</td>
+</tr>
+<tr>
+<td align="left">
+<tt>ms</tt>&nbsp;<tt>+</tt>&nbsp;<tt>(k</tt>&nbsp;<tt>-&gt;</tt>&nbsp;<tt>v)</tt></td>
+<td align="left"><tt>ms</tt> 内の全ての写像と，キー <tt>k</tt> から値 <tt>v</tt>
+への写像 <tt>k</tt>&nbsp;<tt>-&gt;</tt>&nbsp;<tt>v</tt> を含むマップ．</td>
+</tr>
+<tr>
+<td align="left">
+<tt>ms</tt>&nbsp;<tt>+</tt>&nbsp;<tt>(k</tt>&nbsp;<tt>-&gt;</tt>&nbsp;<tt>v,</tt>&nbsp;<tt>l</tt>&nbsp;<tt>-&gt;</tt>&nbsp;<tt>w)</tt></td>
+<td align="left"><tt>ms</tt> 内の全ての写像と，渡されたキーと値のペアを含むマップ．</td>
+</tr>
+<tr>
+<td align="left">
+<tt>ms</tt>&nbsp;<tt>++</tt>&nbsp;<tt>kvs</tt></td>
+<td align="left"><tt>ms</tt>
+内の全ての写像と，<tt>kvs</tt>内の全てのキーと値のペアを含むマップ．</td>
+</tr>
+<tr>
+<td align="left">
+<tt>ms</tt>&nbsp;<tt>updated</tt>&nbsp;<tt>(k,</tt>&nbsp;<tt>v)</tt></td>
+<td align="left">
+<tt>ms</tt>&nbsp;<tt>+</tt>&nbsp;<tt>(k</tt>&nbsp;<tt>-&gt;</tt>&nbsp;<tt>v)</tt>
+に同じ．</td>
+</tr>
+<tr>
+<td align="left" colspan="2">
+<p><b><font color="#00007F">減算:</font></b></p>
+</td>
+</tr>
+<tr>
+<td align="left"><tt>ms</tt>&nbsp;<tt>-</tt>&nbsp;<tt>k</tt></td>
+<td align="left">キー <tt>k</tt> からの写像を除く，<tt>ms</tt> 内の全ての写像．</td>
+</tr>
+<tr>
+<td align="left">
+<tt>ms</tt>&nbsp;<tt>-</tt>&nbsp;<tt>(k,</tt>&nbsp;<tt>l,</tt>&nbsp;<tt>m)</tt></td>
+<td align="left">渡されたキーからの写像を除く，<tt>ms</tt> 内の全ての写像．</td>
+</tr>
+<tr>
+<td align="left"><tt>ms</tt>&nbsp;<tt>--</tt>&nbsp;<tt>ks</tt></td>
+<td align="left"><tt>ks</tt>内のキーからの写像を除く，<tt>ms</tt> 内の全ての写像．</td>
+</tr>
+<tr>
+<td align="left" colspan="2">
+<p><b><font color="#00007F">サブコレクション取得演算:</font></b></p>
+</td>
+</tr>
+<tr>
+<td align="left"><tt>ms.keys</tt></td>
+<td align="left"><tt>ms</tt>内の全てのキーを含む iterable．</td>
+</tr>
+<tr>
+<td align="left"><tt>ms.keySet</tt></td>
+<td align="left"><tt>ms</tt>内の全てのキーを含む集合．</td>
+</tr>
+<tr>
+<td align="left"><tt>ms.keysIterator</tt></td>
+<td align="left"><tt>ms</tt>内の全てのキーを返すイテレータ．</td>
+</tr>
+<tr>
+<td align="left"><tt>ms.values</tt></td>
+<td align="left"><tt>ms</tt>内のキーに関連付けられた全ての値を含む iterable．</td>
+</tr>
+<tr>
+<td align="left"><tt>ms.valuesIterator</tt></td>
+<td align="left"><tt>ms</tt>内のキーに関連付けられた全ての値を返すイテレータ．</td>
+</tr>
+<tr>
+<td align="left" colspan="2">
+<p><b><font color="#00007F">変換演算:</font></b></p>
+</td>
+</tr>
+<tr>
+<td align="left">
+<tt>ms</tt>&nbsp;<tt>filterKeys</tt>&nbsp;<tt>p</tt></td>
+<td align="left">キーが条件関数 <tt>p</tt> を満たす
+<tt>ms</tt>内の写像のみを含むマップのビュー．</td>
+</tr>
+<tr>
+<td align="left">
+<tt>ms</tt>&nbsp;<tt>mapValues</tt>&nbsp;<tt>f</tt></td>
+<td align="left"><tt>ms</tt>内のキーに関連付けられた全ての値に関数 <tt>f</tt>
+を適用して得られるマップのビュー．</td>
+</tr>
+</tbody>
+</table>
+<p>可変マップは他にも以下の表にまとめた演算をサポートする．</p>
+<table border="0" cellspacing="0" class="ops">
+<tbody>
+<tr>
+<td align="center" colspan="2"><b><tt>mutable.Map</tt>
+クラスの演算</b><a name="tab:mutmapops" id=
+"tab:mutmapops">&nbsp;</a></td>
+</tr>
+<tr>
+<td align="left" width="250">
+<p><b>使用例</b></p>
+</td>
+<td align="left"><b>振る舞い</b></td>
+</tr>
+<tr>
+<td align="left" colspan="2">
+<p><b><font color="#00007F">加算と更新演算:</font></b></p>
+</td>
+</tr>
+<tr>
+<td align="left">
+<tt>ms(k)</tt>&nbsp;<tt>=</tt>&nbsp;<tt>v</tt></td>
+<td align="left">
+(展開した場合，<tt>ms.update(x,</tt>&nbsp;<tt>v)</tt>)．マップ <tt>ms</tt>
+に副作用としてキー <tt>k</tt> から値 <tt>v</tt> への写像を加え，既に <tt>k</tt>
+からの写像がある場合は上書きする ．</td>
+</tr>
+<tr>
+<td align="left">
+<tt>ms</tt>&nbsp;<tt>+=</tt>&nbsp;<tt>(k</tt>&nbsp;<tt>-&gt;</tt>&nbsp;<tt>v)</tt></td>
+<td align="left">マップ <tt>ms</tt> に副作用としてキー <tt>k</tt> から値
+<tt>v</tt> への写像を加え，<tt>ms</tt>自身を返す ．</td>
+</tr>
+<tr>
+<td align="left">
+<tt>ms</tt>&nbsp;<tt>+=</tt>&nbsp;<tt>(k</tt>&nbsp;<tt>-&gt;</tt>&nbsp;<tt>v,</tt>&nbsp;<tt>l</tt>&nbsp;<tt>-&gt;</tt>&nbsp;<tt>w)</tt></td>
+<td align="left">マップ <tt>ms</tt> に副作用として渡された写像を加え，<tt>ms</tt>自身を返す
+．</td>
+</tr>
+<tr>
+<td align="left">
+<tt>ms</tt>&nbsp;<tt>++=</tt>&nbsp;<tt>kvs</tt></td>
+<td align="left">マップ <tt>ms</tt> に副作用として
+<tt>kvs</tt>内の全ての写像を加え，<tt>ms</tt>自身を返す ．</td>
+</tr>
+<tr>
+<td align="left">
+<tt>ms</tt>&nbsp;<tt>put</tt>&nbsp;<tt>(k,</tt>&nbsp;<tt>v)</tt></td>
+<td align="left">マップ <tt>ms</tt> にキー <tt>k</tt> から値 <tt>v</tt>
+への写像を加え，以前の <tt>k</tt> からの写像のオプション値を返す ．</td>
+</tr>
+<tr>
+<td align="left">
+<tt>ms</tt>&nbsp;<tt>getOrElseUpdate</tt>&nbsp;<tt>(k,</tt>&nbsp;<tt>d)</tt></td>
+<td align="left">マップ <tt>ms</tt>内にキー <tt>k</tt>
+が定義されている場合は，関連付けられた値を返す．定義されていない場合は，<tt>ms</tt> に写像
+<tt>k</tt>&nbsp;<tt>-&gt;</tt>&nbsp;<tt>d</tt> を加え，<tt>d</tt>
+を返す．</td>
+</tr>
+<tr>
+<td align="left" colspan="2">
+<p><b><font color="#00007F">減算:</font></b></p>
+</td>
+</tr>
+<tr>
+<td align="left"><tt>ms</tt>&nbsp;<tt>-=</tt>&nbsp;<tt>k</tt></td>
+<td align="left">マップ <tt>ms</tt> から副作用としてキー <tt>k</tt>
+からの写像を削除して，<tt>ms</tt>自身を返す ．</td>
+</tr>
+<tr>
+<td align="left">
+<tt>ms</tt>&nbsp;<tt>-=</tt>&nbsp;<tt>(k,</tt>&nbsp;<tt>l,</tt>&nbsp;<tt>m)</tt></td>
+<td align="left">マップ <tt>ms</tt>
+から副作用として渡されたキーからの写像を削除して，<tt>ms</tt>自身を返す ．</td>
+</tr>
+<tr>
+<td align="left">
+<tt>ms</tt>&nbsp;<tt>--=</tt>&nbsp;<tt>ks</tt></td>
+<td align="left">マップ <tt>ms</tt> から副作用として
+<tt>ks</tt>内の全てのキーからの写像を削除して，<tt>ms</tt>自身を返す ．</td>
+</tr>
+<tr>
+<td align="left">
+<tt>ms</tt>&nbsp;<tt>remove</tt>&nbsp;<tt>k</tt></td>
+<td align="left">マップ <tt>ms</tt> からキー <tt>k</tt> からの写像を削除して，以前の
+<tt>k</tt> からの写像のオプション値を返す ．</td>
+</tr>
+<tr>
+<td align="left">
+<tt>ms</tt>&nbsp;<tt>retain</tt>&nbsp;<tt>p</tt></td>
+<td align="left"><tt>ms</tt>内の写像でキーが条件関数 <tt>p</tt>
+を満たすものだけを残す．</td>
+</tr>
+<tr>
+<td align="left"><tt>ms.clear()</tt></td>
+<td align="left"><tt>ms</tt> から全ての写像を削除する．</td>
+</tr>
+<tr>
+<td align="left" colspan="2">
+<p><b><font color="#00007F">変換演算:</font></b></p>
+</td>
+</tr>
+<tr>
+<td align="left">
+<tt>ms</tt>&nbsp;<tt>transform</tt>&nbsp;<tt>f</tt></td>
+<td align="left">マップ <tt>ms</tt>内の全ての関連付けされた値を関数 <tt>f</tt>
+を使って変換する．</td>
+</tr>
+<tr>
+<td align="left" colspan="2">
+<p><b><font color="#00007F">クローン演算:</font></b></p>
+</td>
+</tr>
+<tr>
+<td align="left"><tt>ms.clone</tt></td>
+<td align="left"><tt>ms</tt> と同じ写像を持つ新しい可変マップを返す．</td>
+</tr>
+</tbody>
+</table>
+<p>マップの加算と減算は，集合のそれにならう．集合と同様，非破壊的な演算である <tt>+</tt>, <tt>-</tt>, と
+<tt>updated</tt>
+を提供するが，加算マップをコピーする必要があるため，これらはあまり使われることがない．そのかわり，可変マップは通常
+<tt>m(key)</tt>&nbsp;<tt>=</tt>&nbsp;<tt>value</tt> か
+<tt>m</tt>&nbsp;<tt>+=</tt>&nbsp;<tt>(key</tt>&nbsp;<tt>-&gt;</tt>&nbsp;<tt>value)</tt>
+という二種類の更新演算を使って上書き更新される．さらに前に <tt>key</tt> から関連付けされていた値を
+<tt>Option</tt>値で返すか，マップに <tt>key</tt> が無ければ <tt>None</tt>
+を返すというバリアントである
+<tt>m</tt>&nbsp;<tt>put</tt>&nbsp;<tt>(key,</tt>&nbsp;<tt>value)</tt>
+もある．</p>
+<p><tt>getOrElseUpdate</tt> はキャッシュとして振る舞うマップにアクセスするのに役立つ．例えば，関数
+<tt>f</tt> により呼び出される時間のかかる計算があるとする:</p>
+<div class="quote">
+<table cellspacing="1" cellpadding="0">
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt>scala&gt;&nbsp;<font color=
+"#0000E5">def</font>&nbsp;f(x:&nbsp;<font color=
+"#660099">String</font>)&nbsp;=&nbsp;{&nbsp;</tt></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left">
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;println(<font color=
+"#000000">"taking&nbsp;my&nbsp;time."</font>);&nbsp;sleep(<font color="#000000">100</font>)</tt></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left">
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;x.reverse&nbsp;}</tt></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt><font color=
+"#590000">f:&nbsp;(x:&nbsp;String)String</font></tt></td>
+</tr>
+</table>
+</div>
+<p>さらに，<tt>f</tt>
+には副作用を伴わず，同じ引数で何回呼び出しても同じ戻り値が返ってくると仮定する．この場合，引数と以前の <tt>f</tt>
+計算結果の対応関係をマップに格納して，引数がマップに無いときだけ <tt>f</tt>
+の結果を計算すれば時間を節約できる．この時，マップは関数 <tt>f</tt>
+の計算の<em>キャッシュ</em>であると言える．</p>
+<div class="quote">
+<table cellspacing="1" cellpadding="0">
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt><font color=
+"#0000E5">val</font>&nbsp;cache&nbsp;=&nbsp;<font color=
+"#660099">collection.mutable.</font></tt><tt><font color=
+"#660099">Map[String, String]</font>()</tt></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt><font color=
+"#590000">cache:&nbsp;scala.collection.mutable.</font></tt><tt><font color="#590000">Map[String,String]&nbsp;=&nbsp;Map()</font></tt></td>
+</tr>
+</table>
+</div>
+<p>これにより，より効率的な，キャッシュするバージョンの関数 <tt>f</tt> を作成することができる．</p>
+<div class="quote">
+<table cellspacing="1" cellpadding="0">
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt>scala&gt;&nbsp;<font color=
+"#0000E5">def</font>&nbsp;cachedF(s:&nbsp;<font color=
+"#660099">String</font>)&nbsp;=&nbsp;cache.getOrElseUpdate(s,&nbsp;f(s))</tt></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt><font color=
+"#590000">cachedF:&nbsp;(s:&nbsp;String)String</font></tt></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left">
+<tt>scala&gt;&nbsp;cachedF(<font color=
+"#000000">"abc"</font>)</tt></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt><font color=
+"#590000">taking&nbsp;my&nbsp;time.</font></tt></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt><font color=
+"#590000">res3:&nbsp;String&nbsp;=&nbsp;cba</font></tt></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left">
+<tt>scala&gt;&nbsp;cachedF(<font color=
+"#000000">"abc"</font>)</tt></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt><font color=
+"#590000">res4:&nbsp;String&nbsp;=&nbsp;cba</font></tt></td>
+</tr>
+</table>
+</div>
+<p><tt>getOrElseUpdate</tt> の第二引数は「名前渡し」(by-name) であるため，上の
+<tt>f("abc")</tt> は <tt>getOrElseUpdate</tt> が必要とする場合，つまり第一引数が
+<tt>cache</tt> に無い場合においてのみ計算されることに注意してほしい． <tt>cachedF</tt>
+をより率直に，普通の map 演算を用いて実装することもできるが，コードは少し長くなる:</p>
+<div class="quote">
+<table cellspacing="1" cellpadding="0">
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt><font color=
+"#0000E5">def</font>&nbsp;cachedF(arg:&nbsp;<font color=
+"#660099">String</font>)&nbsp;=&nbsp;cache&nbsp;get&nbsp;arg&nbsp;<font color="#0000E5">match</font>&nbsp;{</tt></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt>&nbsp;&nbsp;<font color=
+"#0000E5">case</font>&nbsp;<font color=
+"#660099">Some</font>(result)&nbsp;=&gt;&nbsp;result</tt></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt>&nbsp;&nbsp;<font color=
+"#0000E5">case</font>&nbsp;<font color=
+"#660099">None</font>&nbsp;=&gt;&nbsp;</tt></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left">
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;<font color=
+"#0000E5">val</font>&nbsp;result&nbsp;=&nbsp;f(x)</tt></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left">
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;cache(arg)&nbsp;=&nbsp;result</tt></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left">
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;result</tt></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt>}</tt></td>
+</tr>
+</table>
+</div>
+<p>次へ:</p>
+<ul>
+<li><a href="collections_11.html">同期集合と同期マップ</a></li>
+</ul>
+<hr />
 <table width="100%" cellpadding="0" cellspacing="2">
-<tr> <td bgcolor="#99ccff"><a href="collections_12.html"><img border="0" alt="具象不変コレクションクラス" src="next.png"></a></td><td bgcolor="#99ccff"><a href="collections_0.html"><img border="0" alt="トップ" src="up.png"></a></td><td bgcolor="#99ccff"><a href="collections_7.html"><img border="0" alt="集合" src="previous.png"></a></td><td align="center" bgcolor="#99ccff" width="100%"><b>マップ</b></td><td bgcolor="#99ccff" align="center"><a href="collections_49.html">Contents</a></td></tr></table>
+<tr>
+<td bgcolor="#99CCFF"><a href="collections_12.html"><img border="0"
+alt="具象不変コレクションクラス" src="next.png" /></a></td>
+<td bgcolor="#99CCFF"><a href="collections_0.html"><img border="0"
+alt="トップ" src="up.png" /></a></td>
+<td bgcolor="#99CCFF"><a href="collections_7.html"><img border="0"
+alt="集合" src="previous.png" /></a></td>
+<td align="center" bgcolor="#99CCFF" width="100%"><b>マップ</b></td>
+<td bgcolor="#99CCFF" align="center"><a href=
+"collections_49.html">Contents</a></td>
+</tr>
+</table>
 </body>
 </html>

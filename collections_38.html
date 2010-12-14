@@ -1,102 +1,636 @@
-﻿<html dir="ltr"> <head>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html dir="ltr" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta name="generator" content=
+"HTML Tidy for Mac OS X (vers 25 March 2009), see www.w3.org" />
 <title>Scala 2.8 コレクション API -- 配列</title>
-
-<style type="text/css">.maketitle {
-  /* align: center; */
-}
-div.abstract {
-  margin-left: 20%;
-  margin-right: 10%;
-}
-h3.abstract {
-  /* align: center; */
-}
-div.verse, div.quote, div.quotation {
-  margin-left: 10%;
-  margin-right: 10%;
-}
-</style>
 <link rel="stylesheet" type="text/css" href="collections.css" />
-
-</head> <body dir="ltr"> <table width="100%" cellpadding="0" cellspacing="2">
-<tr> <td bgcolor="#99ccff"><a href="collections_39.html"><img border="0" alt="文字列" src="next.png"></a></td><td bgcolor="#99ccff"><a href="collections_0.html"><img border="0" alt="トップ" src="up.png"></a></td><td bgcolor="#99ccff"><a href="collections_23.html"><img border="0" alt="具象可変コレクションクラス" src="previous.png"></a></td><td align="center" bgcolor="#99ccff" width="100%"><b>配列</b></td><td bgcolor="#99ccff" align="center"><a href="collections_49.html">目次</a></td></tr></table> 
-<h1>配列</h1> 
-<p>配列 (<a href="http://www.scala-lang.org/api/current/scala/Array.html"><tt>Array</tt></a>) は Scala のコレクションの中でも特殊なものだ．Scala 配列は，Java の配列と一対一で対応する．どういう事かと言うと，Scala の配列 <tt>Array[Int]</tt> は Java の <tt>int[]</tt> で実装されており，<tt>Array[Double]</tt> は Java の <tt>double[]</tt>，<tt>Array[String]</tt> は Java の <tt>String[]</tt> で実装されている．その一方で，Scala の配列は Java のそれに比べて多くの機能を提供する．まず，Scala の配列は<em>ジェネリック</em>であることができる．
-つまり，型パラメータか抽象型の <tt>T</tt> に対する <tt>Array[T]</tt> を定義することができる．次に，Scala の配列は Scala の列と互換性があり，<tt>Seq[T]</tt> が期待されている所に <tt>Array[T]</tt> を渡すことができる．さらに，Scala の配列は列の演算の全てをサポートする．以下に具体例で説明する:
-<div class="quote"><p><tt></tt><table cellspacing="1" cellpadding="0"><td><tt></tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt>scala&gt; <font color="#0000e5">val</font> a1 = <font color="#660099">Array</font>(<font color="#000000">1</font>, <font color="#000000">2</font>, <font color="#000000">3</font>)</tt></td></tr><td><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt><font color="#590000">a1: Array[Int] = Array(1, 2, 3)</font></tt></td></tr><td><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt>scala&gt; <font color="#0000e5">val</font> a2 = a1 map (_ * <font color="#000000">3</font>)</tt></td></tr><td><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt><font color="#590000">a2: Array[Int] = Array(3, 6, 9)</font></tt></td></tr><td><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt>scala&gt; <font color="#0000e5">val</font> a3 = a2 filter (_ <i>%</i> <font color="#000000">2</font> !</tt><tt>= <font color="#000000">0</font>)</tt></td></tr><td><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt><font color="#590000">a3: Array[Int] = Array(3, 9)</font></tt></td></tr><td><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt>scala&gt; a3.reverse</tt></td></tr><td><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt><font color="#590000">res1: Array[Int] = Array(9, 3) </font></tt></td></tr></td></td></td></td></td></td></td></td></table><tt> </tt></p></div>Scala の配列は Java の配列で実装されているのに，どのようにして新たな機能をサポートしてるのだろうか．実は，Scala 2.8 とその前のバージョンではその問に対する答が変わってくる．以前は Scala のコンパイラが，ボックス化 (boxing) とボックス化解除 (unboxing) と呼ばれる「魔法」により配列と <tt>Seq</tt> オブジェクトの間を変換していた．この詳細は，特にジェネリック型の <tt>Array[T]</tt> が作成された場合，非常に複雑なものとなる．不可解な特殊ケースなどもあり，配列演算の性能特性は予想不可能なものとなった．<p>Scala 2.8 の設計はより単純なものだ．ほぼ全てのコンパイラの魔法は無くなった．代わりに，Scala 2.8 配列の実装は全体的に暗黙の変換 (implicit conversion) を利用する．Scala 2.8 では，配列はあたかも列であるようなふりをしない．
-そもそもネイティブな配列のデータ型の実装は <tt>Seq</tt> の子クラスではないため，それは不可能というものだ．代わりに，配列を <tt>Seq</tt>  の子クラスである <tt>scala.collection.mutable.WrappedArray</tt> クラスで「ラッピング」する暗黙の変換が行われる．以下に具体例で説明する:
-<div class="quote"><p><tt></tt><table cellspacing="1" cellpadding="0"><td><tt></tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt>scala&gt; <font color="#0000e5">val</font> seq: <font color="#660099">Seq[Int]</font> = a1</tt></td></tr><td><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt>seq: <font color="#660099">Seq[Int]</font> = <font color="#660099">WrappedArray</font>(<font color="#000000">1</font>, <font color="#000000">2</font>, <font color="#000000">3</font>)</tt></td></tr><td><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt>scala&gt; <font color="#0000e5">val</font> a4: <font color="#660099">Array[Int]</font> = s.toArray</tt></td></tr><td><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt>a4: <font color="#660099">Array[Int]</font> = <font color="#660099">Array</font>(<font color="#000000">1</font>, <font color="#000000">2</font>, <font color="#000000">3</font>)</tt></td></tr><td><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt>scala&gt; a1 eq a4</tt></td></tr><td><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt>res2: <font color="#660099">Boolean</font> = <font color="#0000e5">true</font> </tt></td></tr></td></td></td></td></td></td></table><tt> </tt></p></div>上記のやりとりは，配列から <tt>WrappedArray</tt> への暗黙の変換があるため，配列と列に互換性があることを示す．<tt>WrappedArray</tt> から <tt>Array</tt> へ逆の方向に変換するには，<tt>Traversable</tt> に定義されている <tt>toArray</tt> メソッドを使うことで実現できる．上記の REPL の最後の行は，ラッピングした後，<tt>toArray</tt> でそれを解除したときに，同一の配列が得られることを示す．<p>配列に適用されるもう一つの暗黙の変換がある．この変換は単に列メソッドの全てを配列に「追加」するだけで，配列自身を列には変換しない．この「追加」は，配列が全ての列メソッドをサポートする <tt>ArrayOps</tt> 型のオブジェクトにラッピングされることを意味している．典型的には，この <tt>ArrayOps</tt> は短命で，列メソッドを呼び出し終えた後にはアクセス不可能となり，そのメモリ領域はリサイクルされる．現代的な仮想機械 (VM) は，しばしばこのようなオブジェクトの生成そのものを省略できる．<p>以下の REPL のやりとりで，二つの暗黙の変換の違いを示す:
-<div class="quote"><p><tt></tt><table cellspacing="1" cellpadding="0"><td><tt></tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt>scala&gt; <font color="#0000e5">val</font> seq: <font color="#660099">Seq[Int]</font> = a1</tt></td></tr><td><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt><font color="#590000">seq: Seq[Int] = WrappedArray(1, 2, 3)</font></tt></td></tr><td><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt>scala&gt; seq.reverse</tt></td></tr><td><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt><font color="#590000">res2: Seq[Int] = WrappedArray(3, 2, 1)</font></tt></td></tr><td><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt>scala&gt; <font color="#0000e5">val</font> ops: <font color="#660099">collection.mutable.</font></tt><tt><font color="#660099">ArrayOps[Int]</font> = a1</tt></td></tr><td><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt><font color="#590000">ops: scala.collection.mutable.</font></tt><tt><font color="#590000">ArrayOps[Int] = [I(1, 2, 3)</font></tt></td></tr><td><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt>scala&gt; ops.reverse</tt></td></tr><td><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt><font color="#590000">res3: Array[Int] = Array(3, 2, 1) </font></tt></td></tr></td></td></td></td></td></td></td></td></table><tt> </tt></p></div>
-実際には <tt>WrappedArray</tt> である <tt>seq</tt> に対して <tt>reverse</tt> を呼ぶと再び <tt>WrappedArray</tt> が返っているのが分かる．
-<tt>WrappedArray</tt> は <tt>Seq</tt> であり，<tt>Seq</tt> に対して <tt>reverse</tt> を呼ぶと再び  <tt>Seq</tt> が返るため，この結果は論理的だ．一方，<tt>ArrayOps</tt> クラスの値 <tt>ops</tt> に対して <tt>reverse</tt> を呼ぶと，<tt>Seq</tt> ではなく，<tt>Array</tt> が返る．<p>上記の <tt>ArrayOps</tt> の例は．<tt>WrappedArray</tt> との違いを示すためだけのかなり恣意的な物で，通常は <tt>ArrayOps</tt> クラスの値を定義することはありえない．単に配列に対して <tt>Seq</tt> メソッドを呼び出すだけでいい:
-<div class="quote"><p><tt></tt><table cellspacing="1" cellpadding="0"><td><tt></tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt>scala&gt; a1.reverse</tt></td></tr><td><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt><font color="#590000">res4: Array[Int] = Array(3, 2, 1) </font></tt></td></tr></td></td></table><tt> </tt></p></div><tt>ArrayOps</tt> オブジェクトは暗黙の変換により自動的に導入されるからだ．よって，上の一行は以下に等しく，<div class="quote"><p><tt></tt><table cellspacing="1" cellpadding="0"><td><tt></tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt>scala&gt; intArrayOps(a1).reverse</tt></td></tr><td><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt><font color="#590000">res5: Array[Int] = Array(3, 2, 1) </font></tt></td></tr></td></td></table><tt> </tt></p></div><tt>intArrayOps</tt> が先の例で暗黙の変換により導入されたものだ．ここで問題となるのが，先の例でコンパイラがどうやってもう一つの暗黙の変換である <tt>WrappedArray</tt> に対して <tt>intArrayOps</tt> を優先させたのかということだ．結局の所，両方の変換も配列をインプットが指定した <tt>reverse</tt> メソッドをサポートする型へ変換するものだ．二つの暗黙の変換には優先順序が付けられているというのがこの問への答だ．<tt>ArrayOps</tt> 変換には，<tt>WrappedArray</tt> 変換よりも高い優先順位が与えられている．<tt>ArrayOps</tt> 変換は <tt>Predef</tt> オブジェクトで定義されているのに対し，<tt>WrappedArray</tt> 変換は <tt>Predef</tt> が継承する <tt>scala.LowPritoryImplicits</tt> で定義されている．子クラスや子オブジェクトで定義される暗黙の変換は，親クラスで定義される暗黙の変換に対して優先される．よって，両方の変換が適用可能な場合は，<tt>Predef</tt> で定義されるものが選ばれる．文字列まわりにも似た仕組みがある．<p>これで，配列において列との互換性および全ての列メソッドのサポートを実現しているかが分かったと思う．ジェネリック性についてはどうだろう．Java では型パラメータ <tt>T</tt> に対して <tt>T[]</tt> と書くことはできない．では，Scala の <tt>Array[T]</tt> はどのように実装されるのだろう．<tt>Array[T]</tt> のようなジェネリックな配列は実行時においては，Java の 8つあるプリミティブ型の <tt>byte[]</tt>，<tt>short[]</tt>，<tt>char[]</tt>，<tt>int[]</tt>，<tt>long[]</tt>，<tt>float[]</tt>，<tt>double[]</tt>，<tt>boolean[]</tt> のどれか，もしくはオブジェクトの配列である可能性がある．
-これらの型に共通の実行時の型は <tt>AnyRef</tt> (もしくは，それと等価な <tt>java.lang.Object</tt>) であるので，Scala のコンパイラは <tt>Array[T]</tt> を <tt>AnyRef</tt> にマップする．実行時に，型が <tt>Array[T]</tt> である配列の要素が読み込まれたり，更新された場合，実際の配列型を決定するための型判定手順があり，その後 Java 配列に対して正しい型演算が実行される．この型判定は配列演算を多少遅くする．ジェネリックな配列へのアクセスはプリミティブ型やオブジェクトの配列に比べて 3〜4倍遅いと思っていい．つまり，最高の性能を必要とするなら，ジェネリック配列ではなく具象配列を使ったほうがいいことを意味する．いくらジェネリック配列を実装しても，それを<em>作成する</em>方法がなければ意味が無い．これは更に難しい問題で，あなたにも少し手を借りる必要がある．この問題を説明するのに，配列を作成するジェネリックなメソッドの失敗例を見てほしい．
-<div class="quote"><p><tt></tt><table cellspacing="1" cellpadding="0"><td><tt></tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt><i>// これは間違っている！</i></tt></td></tr><td><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt><font color="#0000e5">def</font> evenElems[T](xs: <font color="#660099">Vector[T]</font>): <font color="#660099">Array[T]</font> = {</tt></td></tr><td><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt>  <font color="#0000e5">val</font> arr = <font color="#0000e5">new</font> <font color="#660099">Array[T]</font>((xs.length + <font color="#000000">1</font>) / <font color="#000000">2</font>)</tt></td></tr><td><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt>  <font color="#0000e5">for</font> (i &lt;- <font color="#000000">0</font> until xs.length by <font color="#000000">2</font>)</tt></td></tr><td><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt>    arr(i / <font color="#000000">2</font>) = xs(i)</tt></td></tr><td><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt>  arr</tt></td></tr><td><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt>} </tt></td></tr></table><tt> </tt></p></div>
-<tt>evenElems</tt> メソッドは，引数のベクトル <tt>xs</tt>内の偶数位置にある全ての要素から成る新しい配列を返す．<tt>evenElems</tt> の本文一行目にて，引数と同じ型を持つ戻り値の配列が定義されている．そのため，実際の型パラメータ <tt>T</tt> の実際の型により，これは <tt>Array[Int]</tt>，<tt>Array[Boolean]</tt>，もしくはその他の Java のプリミティブ型の配列か，参照型の配列であるかもしれない．これらの型は実行時に異なる実装を持つため，Scala ランタイムはどのようにして正しいものを選択するのだろう．実際のところ，型パラメータ <tt>T</tt> に対応する実際の型は実行時に消去されてしまうため，与えられた情報だけでは選択することができない．そのため，上記のコードをコンパイルしようとすると以下のエラーが発生する:<div class="quote"><p><tt></tt><table cellspacing="1" cellpadding="0"><td><tt></tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt>error: cannot find class manifest for element type T</tt></td></tr><td><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt>  <font color="#0000e5">val</font> arr = <font color="#0000e5">new</font> <font color="#660099">Array[T]</font>((arr.length + <font color="#000000">1</font>) / <font color="#000000">2</font>)</tt></td></tr><td><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt>            ^ </tt></td></tr></td></td></td></table><tt> </tt></p></div>あなたがコンパイラを手伝ってあげて，<tt>evenElems</tt> の型パタメータの実際の型が何であるかの実行時のヒントを提供することが必要とされている．この実行時のヒントは <tt>scala.reflect.ClassManifest</tt> 型の<em>クラスマニフェスト</em>という形をとる．クラスマニフェストとは，型の最上位クラスが何であるかを記述する型記述オブジェクトだ．型に関するあらゆる事を記述する <tt>scala.reflect.Manifest</tt> 型の完全マニフェストというものもある．配列の作成にはクラスマニフェストで十分だ．<p>Scala コンパイラは，指示を出すだけでクラスマニフェストを自動的に構築する．「指示を出す」とは，クラスマニフェストを以下のように暗黙のパラメータ (implicit parameter) として要求することを意味する:<div class="quote"><p><tt></tt><table cellspacing="1" cellpadding="0"><td><tt></tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt><font color="#0000e5">def</font> evenElems[T](xs: <font color="#660099">Vector[T]</font>)(<font color="#0000e5">implicit</font> m: <font color="#660099">ClassManifest[T]</font>): <font color="#660099">Array[T]</font> = ... </tt></td></tr></td></table><tt> </tt></p></div><em>context bound</em> という，より短い別の構文を使うことで型がクラスマニフェストを連れてくることを要求できる．これは，型の後にコロン (:) とクラス名 <tt>ClassManifest</tt> を付けることを意味する:<div class="quote"><p><tt></tt><table cellspacing="1" cellpadding="0"><td><tt></tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt><i>// これは動作する</i></tt></td></tr><td><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt><font color="#0000e5">def</font> evenElems[T: <font color="#660099">ClassManifest</font>](xs: <font color="#660099">Vector[T]</font>): <font color="#660099">Array[T]</font> = {</tt></td></tr><td><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt>  <font color="#0000e5">val</font> arr = <font color="#0000e5">new</font> <font color="#660099">Array[T]</font>((xs.length + <font color="#000000">1</font>) / <font color="#000000">2</font>)</tt></td></tr><td><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt>  <font color="#0000e5">for</font> (i &lt;- <font color="#000000">0</font> until xs.length by <font color="#000000">2</font>)</tt></td></tr><td><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt>    arr(i / <font color="#000000">2</font>) = xs(i)</tt></td></tr><td><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt>  arr</tt></td></tr><td><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt>} </tt></td></tr></table><tt> </tt></p></div>
-二つの <tt>evenElems</tt> の改訂版は全く同じことを意味する．どちらの場合も，<tt>Array[T]</tt> が構築されるときにコンパイラは型パラメータ <tt>T</tt> のクラスマニフェスト，つまり <tt>ClassManifest[T]</tt> 型の暗黙の値 (implicit value)，を検索する． 暗黙の値が見つかれば，正しい種類の配列を構築するのにマニフェストが使用される．見つからなければ，その前の例のようにエラーが発生する．<p>以下に <tt>evenElems</tt>  を使った REPL のやりとりを示す．<div class="quote"><p><tt></tt><table cellspacing="1" cellpadding="0"><td><tt></tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt>scala&gt; evenElems(<font color="#660099">Vector</font>(<font color="#000000">1</font>, <font color="#000000">2</font>, <font color="#000000">3</font>, <font color="#000000">4</font>, <font color="#000000">5</font>))</tt></td></tr><td><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt><font color="#590000">res6: Array[Int] = Array(1, 3, 5)</font></tt></td></tr><td><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt>scala&gt; evenElems(<font color="#660099">Vector</font>(<font color="#000000">&quot;this&quot;</font>, <font color="#000000">&quot;is&quot;</font>, <font color="#000000">&quot;a&quot;</font>, <font color="#000000">&quot;test&quot;</font>, <font color="#000000">&quot;run&quot;</font>))</tt></td></tr><td><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt><font color="#590000">res7: Array[java.lang.</font></tt><tt><font color="#590000">String] = Array(this, a, run) </font></tt></td></tr></table><tt> </tt></p></div>
-両者の場合とも，Scala コンパイラは要素型 (<tt>Int</tt>，そして <tt>String</tt>) のクラスマニフェストを自動的に構築して，<tt>evenElems</tt> メソッドの暗黙のパラメータに渡した．コンパイラは全ての具象型についてクラスマニフェストを構築できるが，引数そのものがクラスマニフェストを持たない型パラメータである場合はそれができない．以下に失敗例を示す:<div class="quote"><p><tt></tt><table cellspacing="1" cellpadding="0"><td><tt></tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt>scala&gt; <font color="#0000e5">def</font> wrap[U](xs: <font color="#660099">Array[U]</font>) = evenElems(xs)</tt></td></tr><td><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt><font color="#590000">&lt;console&gt;:6: error: could not find implicit value for </font></tt></td></tr><td><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt><font color="#590000"> evidence parameter of type ClassManifest[U]</font></tt></td></tr><td><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt>     <font color="#0000e5">def</font> wrap[U](xs: <font color="#660099">Array[U]</font>) = evenElems(xs)</tt></td></tr><td><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt>                                          ^ </tt></td></tr>
-</table><tt> </tt></p></div>
-何が起こったかというと，<tt>evenElems</tt> は型パラメータ <tt>U</tt> に関するクラスマニフェストを要求するが，見つからなかったのだ．当然この場合は，<tt>U</tt> に関する暗黙のクラスマニフェストを要求することで解決するため，以下は成功する:
-<div class="quote"><p><tt></tt><table cellspacing="1" cellpadding="0"><td><tt></tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt>scala&gt; <font color="#0000e5">def</font> wrap[U: <font color="#660099">ClassManifest</font>](xs: <font color="#660099">Array[U]</font>) = evenElems(xs)</tt></td></tr><td><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt>wrap: [U](xs: <font color="#660099">Array[U]</font>)(<font color="#0000e5">implicit</font> evidence$1: <font color="#660099">ClassManifest[U]</font>)<font color="#660099">Array[U]</font> </tt>
-</table><tt> </tt></p></div>
-この例から，<tt>U</tt> の定義の context bound 構文は <tt>evidence$1</tt> と呼ばれる <tt>ClassManifest[U]</tt> 型の暗黙のパラメータの略記法であることが分かる．<p>要約すると，ジェネリックな配列の作成はクラスマニフェストを必要とする．型パラメータ <tt>T</tt> の配列を作成する場合，<tt>T</tt> に関する暗黙のクラスマニフェストも提供する必要がある． 
-その最も簡単な方法は，<tt>[T:</tt> <tt>ClassManifest]</tt> のように，型パラメータを context bound 構文で <tt>ClassManifest</tt> と共に定義することだ．
-<p>次へ: <a href="collections_39.html">文字列</a> <hr> <table width="100%" cellpadding="0" cellspacing="2">
-<tr> <td bgcolor="#99ccff"><a href="collections_39.html"><img border="0" alt="文字列" src="next.png"></a></td><td bgcolor="#99ccff"><a href="collections_0.html"><img border="0" alt="トップ" src="up.png"></a></td><td bgcolor="#99ccff"><a href="collections_23.html"><img border="0" alt="具象可変コレクションクラス" src="previous.png"></a></td><td align="center" bgcolor="#99ccff" width="100%"><b>配列</b></td><td bgcolor="#99ccff" align="center"><a href="collections_49.html">Contents</a></td></tr></table>
+</head>
+<body dir="ltr">
+<table width="100%" cellpadding="0" cellspacing="2">
+<tr>
+<td bgcolor="#99CCFF"><a href="collections_39.html"><img border="0"
+alt="文字列" src="next.png" /></a></td>
+<td bgcolor="#99CCFF"><a href="collections_0.html"><img border="0"
+alt="トップ" src="up.png" /></a></td>
+<td bgcolor="#99CCFF"><a href="collections_23.html"><img border="0"
+alt="具象可変コレクションクラス" src="previous.png" /></a></td>
+<td align="center" bgcolor="#99CCFF" width="100%"><b>配列</b></td>
+<td bgcolor="#99CCFF" align="center"><a href=
+"collections_49.html">目次</a></td>
+</tr>
+</table>
+<h1>配列</h1>
+<p>配列 (<a href=
+"http://www.scala-lang.org/api/current/scala/Array.html"><tt>Array</tt></a>)
+は Scala のコレクションの中でも特殊なものだ．Scala 配列は，Java
+の配列と一対一で対応する．どういう事かと言うと，Scala の配列 <tt>Array[Int]</tt> は Java の
+<tt>int[]</tt> で実装されており，<tt>Array[Double]</tt> は Java の
+<tt>double[]</tt>，<tt>Array[String]</tt> は Java の <tt>String[]</tt>
+で実装されている．その一方で，Scala の配列は Java のそれに比べて多くの機能を提供する．まず，Scala
+の配列は<em>ジェネリック</em>であることができる． つまり，型パラメータか抽象型の <tt>T</tt> に対する
+<tt>Array[T]</tt> を定義することができる．次に，Scala の配列は Scala
+の列と互換性があり，<tt>Seq[T]</tt> が期待されている所に <tt>Array[T]</tt>
+を渡すことができる．さらに，Scala の配列は列の演算の全てをサポートする．以下に具体例で説明する:</p>
+<div class="quote">
+<table cellspacing="1" cellpadding="0">
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt>scala&gt;&nbsp;<font color=
+"#0000E5">val</font>&nbsp;a1&nbsp;=&nbsp;<font color=
+"#660099">Array</font>(<font color=
+"#000000">1</font>,&nbsp;<font color=
+"#000000">2</font>,&nbsp;<font color="#000000">3</font>)</tt></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt><font color=
+"#590000">a1:&nbsp;Array[Int]&nbsp;=&nbsp;Array(1,&nbsp;2,&nbsp;3)</font></tt></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt>scala&gt;&nbsp;<font color=
+"#0000E5">val</font>&nbsp;a2&nbsp;=&nbsp;a1&nbsp;map&nbsp;(_&nbsp;*&nbsp;<font color="#000000">3</font>)</tt></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt><font color=
+"#590000">a2:&nbsp;Array[Int]&nbsp;=&nbsp;Array(3,&nbsp;6,&nbsp;9)</font></tt></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt>scala&gt;&nbsp;<font color=
+"#0000E5">val</font>&nbsp;a3&nbsp;=&nbsp;a2&nbsp;filter&nbsp;(_&nbsp;<i>%</i>&nbsp;<font color="#000000">2</font>&nbsp;!</tt><tt>=&nbsp;<font color="#000000">0</font>)</tt></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt><font color=
+"#590000">a3:&nbsp;Array[Int]&nbsp;=&nbsp;Array(3,&nbsp;9)</font></tt></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left">
+<tt>scala&gt;&nbsp;a3.reverse</tt></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt><font color=
+"#590000">res1:&nbsp;Array[Int]&nbsp;=&nbsp;Array(9,&nbsp;3)</font></tt></td>
+</tr>
+</table>
+</div>
+<p>Scala の配列は Java の配列で実装されているのに，どのようにして新たな機能をサポートしてるのだろうか．実は，Scala
+2.8 とその前のバージョンではその問に対する答が変わってくる．以前は Scala のコンパイラが，ボックス化 (boxing)
+とボックス化解除 (unboxing) と呼ばれる「魔法」により配列と <tt>Seq</tt>
+オブジェクトの間を変換していた．この詳細は，特にジェネリック型の <tt>Array[T]</tt>
+が作成された場合，非常に複雑なものとなる．不可解な特殊ケースなどもあり，配列演算の性能特性は予想不可能なものとなった．</p>
+<p>Scala 2.8 の設計はより単純なものだ．ほぼ全てのコンパイラの魔法は無くなった．代わりに，Scala 2.8
+配列の実装は全体的に暗黙の変換 (implicit conversion) を利用する．Scala 2.8
+では，配列はあたかも列であるようなふりをしない． そもそもネイティブな配列のデータ型の実装は <tt>Seq</tt>
+の子クラスではないため，それは不可能というものだ．代わりに，配列を <tt>Seq</tt> の子クラスである
+<tt>scala.collection.mutable.WrappedArray</tt>
+クラスで「ラッピング」する暗黙の変換が行われる．以下に具体例で説明する:</p>
+<div class="quote">
+<table cellspacing="1" cellpadding="0">
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt>scala&gt;&nbsp;<font color=
+"#0000E5">val</font>&nbsp;seq:&nbsp;<font color=
+"#660099">Seq[Int]</font>&nbsp;=&nbsp;a1</tt></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt>seq:&nbsp;<font color=
+"#660099">Seq[Int]</font>&nbsp;=&nbsp;<font color=
+"#660099">WrappedArray</font>(<font color=
+"#000000">1</font>,&nbsp;<font color=
+"#000000">2</font>,&nbsp;<font color="#000000">3</font>)</tt></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt>scala&gt;&nbsp;<font color=
+"#0000E5">val</font>&nbsp;a4:&nbsp;<font color=
+"#660099">Array[Int]</font>&nbsp;=&nbsp;s.toArray</tt></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt>a4:&nbsp;<font color=
+"#660099">Array[Int]</font>&nbsp;=&nbsp;<font color=
+"#660099">Array</font>(<font color=
+"#000000">1</font>,&nbsp;<font color=
+"#000000">2</font>,&nbsp;<font color="#000000">3</font>)</tt></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left">
+<tt>scala&gt;&nbsp;a1&nbsp;eq&nbsp;a4</tt></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt>res2:&nbsp;<font color=
+"#660099">Boolean</font>&nbsp;=&nbsp;<font color=
+"#0000E5">true</font></tt></td>
+</tr>
+</table>
+</div>
+<p>上記のやりとりは，配列から <tt>WrappedArray</tt>
+への暗黙の変換があるため，配列と列に互換性があることを示す．<tt>WrappedArray</tt> から
+<tt>Array</tt> へ逆の方向に変換するには，<tt>Traversable</tt> に定義されている
+<tt>toArray</tt> メソッドを使うことで実現できる．上記の REPL
+の最後の行は，ラッピングした後，<tt>toArray</tt> でそれを解除したときに，同一の配列が得られることを示す．</p>
+<p>
+配列に適用されるもう一つの暗黙の変換がある．この変換は単に列メソッドの全てを配列に「追加」するだけで，配列自身を列には変換しない．この「追加」は，配列が全ての列メソッドをサポートする
+<tt>ArrayOps</tt> 型のオブジェクトにラッピングされることを意味している．典型的には，この
+<tt>ArrayOps</tt>
+は短命で，列メソッドを呼び出し終えた後にはアクセス不可能となり，そのメモリ領域はリサイクルされる．現代的な仮想機械 (VM)
+は，しばしばこのようなオブジェクトの生成そのものを省略できる．</p>
+<p>以下の REPL のやりとりで，二つの暗黙の変換の違いを示す:</p>
+<div class="quote">
+<table cellspacing="1" cellpadding="0">
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt>scala&gt;&nbsp;<font color=
+"#0000E5">val</font>&nbsp;seq:&nbsp;<font color=
+"#660099">Seq[Int]</font>&nbsp;=&nbsp;a1</tt></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt><font color=
+"#590000">seq:&nbsp;Seq[Int]&nbsp;=&nbsp;WrappedArray(1,&nbsp;2,&nbsp;3)</font></tt></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left">
+<tt>scala&gt;&nbsp;seq.reverse</tt></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt><font color=
+"#590000">res2:&nbsp;Seq[Int]&nbsp;=&nbsp;WrappedArray(3,&nbsp;2,&nbsp;1)</font></tt></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt>scala&gt;&nbsp;<font color=
+"#0000E5">val</font>&nbsp;ops:&nbsp;<font color=
+"#660099">collection.mutable.</font></tt><tt><font color=
+"#660099">ArrayOps[Int]</font>&nbsp;=&nbsp;a1</tt></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt><font color=
+"#590000">ops:&nbsp;scala.collection.mutable.</font></tt><tt><font color="#590000">ArrayOps[Int]&nbsp;=&nbsp;[I(1,&nbsp;2,&nbsp;3)</font></tt></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left">
+<tt>scala&gt;&nbsp;ops.reverse</tt></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt><font color=
+"#590000">res3:&nbsp;Array[Int]&nbsp;=&nbsp;Array(3,&nbsp;2,&nbsp;1)</font></tt></td>
+</tr>
+</table>
+</div>
+<p>実際には <tt>WrappedArray</tt> である <tt>seq</tt> に対して
+<tt>reverse</tt> を呼ぶと再び <tt>WrappedArray</tt> が返っているのが分かる．
+<tt>WrappedArray</tt> は <tt>Seq</tt> であり，<tt>Seq</tt> に対して
+<tt>reverse</tt> を呼ぶと再び <tt>Seq</tt>
+が返るため，この結果は論理的だ．一方，<tt>ArrayOps</tt> クラスの値 <tt>ops</tt> に対して
+<tt>reverse</tt> を呼ぶと，<tt>Seq</tt> ではなく，<tt>Array</tt> が返る．</p>
+<p>上記の <tt>ArrayOps</tt> の例は．<tt>WrappedArray</tt>
+との違いを示すためだけのかなり恣意的な物で，通常は <tt>ArrayOps</tt>
+クラスの値を定義することはありえない．単に配列に対して <tt>Seq</tt> メソッドを呼び出すだけでいい:</p>
+<div class="quote">
+<table cellspacing="1" cellpadding="0">
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left">
+<tt>scala&gt;&nbsp;a1.reverse</tt></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt><font color=
+"#590000">res4:&nbsp;Array[Int]&nbsp;=&nbsp;Array(3,&nbsp;2,&nbsp;1)</font></tt></td>
+</tr>
+</table>
+</div>
+<p><tt>ArrayOps</tt>
+オブジェクトは暗黙の変換により自動的に導入されるからだ．よって，上の一行は以下に等しく，</p>
+<div class="quote">
+<table cellspacing="1" cellpadding="0">
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left">
+<tt>scala&gt;&nbsp;intArrayOps(a1).reverse</tt></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt><font color=
+"#590000">res5:&nbsp;Array[Int]&nbsp;=&nbsp;Array(3,&nbsp;2,&nbsp;1)</font></tt></td>
+</tr>
+</table>
+</div>
+<p><tt>intArrayOps</tt>
+が先の例で暗黙の変換により導入されたものだ．ここで問題となるのが，先の例でコンパイラがどうやってもう一つの暗黙の変換である
+<tt>WrappedArray</tt> に対して <tt>intArrayOps</tt>
+を優先させたのかということだ．結局の所，両方の変換も配列をインプットが指定した <tt>reverse</tt>
+メソッドをサポートする型へ変換するものだ．二つの暗黙の変換には優先順序が付けられているというのがこの問への答だ．<tt>ArrayOps</tt>
+変換には，<tt>WrappedArray</tt> 変換よりも高い優先順位が与えられている．<tt>ArrayOps</tt>
+変換は <tt>Predef</tt> オブジェクトで定義されているのに対し，<tt>WrappedArray</tt> 変換は
+<tt>Predef</tt> が継承する <tt>scala.LowPritoryImplicits</tt>
+で定義されている．子クラスや子オブジェクトで定義される暗黙の変換は，親クラスで定義される暗黙の変換に対して優先される．よって，両方の変換が適用可能な場合は，<tt>Predef</tt>
+で定義されるものが選ばれる．文字列まわりにも似た仕組みがある．</p>
+<p>
+これで，配列において列との互換性および全ての列メソッドのサポートを実現しているかが分かったと思う．ジェネリック性についてはどうだろう．Java
+では型パラメータ <tt>T</tt> に対して <tt>T[]</tt> と書くことはできない．では，Scala の
+<tt>Array[T]</tt> はどのように実装されるのだろう．<tt>Array[T]</tt>
+のようなジェネリックな配列は実行時においては，Java の 8つあるプリミティブ型の
+<tt>byte[]</tt>，<tt>short[]</tt>，<tt>char[]</tt>，<tt>int[]</tt>，<tt>long[]</tt>，<tt>float[]</tt>，<tt>double[]</tt>，<tt>boolean[]</tt>
+のどれか，もしくはオブジェクトの配列である可能性がある． これらの型に共通の実行時の型は <tt>AnyRef</tt>
+(もしくは，それと等価な <tt>java.lang.Object</tt>) であるので，Scala のコンパイラは
+<tt>Array[T]</tt> を <tt>AnyRef</tt> にマップする．実行時に，型が
+<tt>Array[T]</tt>
+である配列の要素が読み込まれたり，更新された場合，実際の配列型を決定するための型判定手順があり，その後 Java
+配列に対して正しい型演算が実行される．この型判定は配列演算を多少遅くする．ジェネリックな配列へのアクセスはプリミティブ型やオブジェクトの配列に比べて
+3〜4倍遅いと思っていい．つまり，最高の性能を必要とするなら，ジェネリック配列ではなく具象配列を使ったほうがいいことを意味する．いくらジェネリック配列を実装しても，それを<em>作成する</em>方法がなければ意味が無い．これは更に難しい問題で，あなたにも少し手を借りる必要がある．この問題を説明するのに，配列を作成するジェネリックなメソッドの失敗例を見てほしい．</p>
+<div class="quote">
+<table cellspacing="1" cellpadding="0">
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left">
+<tt><i>//&nbsp;これは間違っている！</i></tt></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt><font color=
+"#0000E5">def</font>&nbsp;evenElems[T](xs:&nbsp;<font color=
+"#660099">Vector[T]</font>):&nbsp;<font color=
+"#660099">Array[T]</font>&nbsp;=&nbsp;{</tt></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt>&nbsp;&nbsp;<font color=
+"#0000E5">val</font>&nbsp;arr&nbsp;=&nbsp;<font color=
+"#0000E5">new</font>&nbsp;<font color=
+"#660099">Array[T]</font>((xs.length&nbsp;+&nbsp;<font color=
+"#000000">1</font>)&nbsp;/&nbsp;<font color=
+"#000000">2</font>)</tt></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt>&nbsp;&nbsp;<font color=
+"#0000E5">for</font>&nbsp;(i&nbsp;&lt;-&nbsp;<font color=
+"#000000">0</font>&nbsp;until&nbsp;xs.length&nbsp;by&nbsp;<font color="#000000">2</font>)</tt></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left">
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;arr(i&nbsp;/&nbsp;<font color=
+"#000000">2</font>)&nbsp;=&nbsp;xs(i)</tt></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt>&nbsp;&nbsp;arr</tt></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt>}</tt></td>
+</tr>
+</table>
+</div>
+<p><tt>evenElems</tt> メソッドは，引数のベクトル
+<tt>xs</tt>内の偶数位置にある全ての要素から成る新しい配列を返す．<tt>evenElems</tt>
+の本文一行目にて，引数と同じ型を持つ戻り値の配列が定義されている．そのため，実際の型パラメータ <tt>T</tt>
+の実際の型により，これは <tt>Array[Int]</tt>，<tt>Array[Boolean]</tt>，もしくはその他の
+Java のプリミティブ型の配列か，参照型の配列であるかもしれない．これらの型は実行時に異なる実装を持つため，Scala
+ランタイムはどのようにして正しいものを選択するのだろう．実際のところ，型パラメータ <tt>T</tt>
+に対応する実際の型は実行時に消去されてしまうため，与えられた情報だけでは選択することができない．そのため，上記のコードをコンパイルしようとすると以下のエラーが発生する:</p>
+<div class="quote">
+<table cellspacing="1" cellpadding="0">
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left">
+<tt>error:&nbsp;cannot&nbsp;find&nbsp;class
+manifest&nbsp;for&nbsp;element&nbsp;type&nbsp;T</tt></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt>&nbsp;&nbsp;<font color=
+"#0000E5">val</font>&nbsp;arr&nbsp;=&nbsp;<font color=
+"#0000E5">new</font>&nbsp;<font color=
+"#660099">Array[T]</font>((arr.length&nbsp;+&nbsp;<font color=
+"#000000">1</font>)&nbsp;/&nbsp;<font color=
+"#000000">2</font>)</tt></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left">
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;^</tt></td>
+</tr>
+</table>
+</div>
+<p>あなたがコンパイラを手伝ってあげて，<tt>evenElems</tt>
+の型パタメータの実際の型が何であるかの実行時のヒントを提供することが必要とされている．この実行時のヒントは
+<tt>scala.reflect.ClassManifest</tt>
+型の<em>クラスマニフェスト</em>という形をとる．クラスマニフェストとは，型の最上位クラスが何であるかを記述する型記述オブジェクトだ．型に関するあらゆる事を記述する
+<tt>scala.reflect.Manifest</tt>
+型の完全マニフェストというものもある．配列の作成にはクラスマニフェストで十分だ．</p>
+<p>Scala
+コンパイラは，指示を出すだけでクラスマニフェストを自動的に構築する．「指示を出す」とは，クラスマニフェストを以下のように暗黙のパラメータ
+(implicit parameter) として要求することを意味する:</p>
+<div class="quote">
+<table cellspacing="1" cellpadding="0">
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt><font color=
+"#0000E5">def</font>&nbsp;evenElems[T](xs:&nbsp;<font color=
+"#660099">Vector[T]</font>)(<font color=
+"#0000E5">implicit</font>&nbsp;m:&nbsp;<font color=
+"#660099">ClassManifest[T]</font>):&nbsp;<font color=
+"#660099">Array[T]</font>&nbsp;=&nbsp;...</tt></td>
+</tr>
+</table>
+</div>
+<p><em>context bound</em>
+という，より短い別の構文を使うことで型がクラスマニフェストを連れてくることを要求できる．これは，型の後にコロン (:) とクラス名
+<tt>ClassManifest</tt> を付けることを意味する:</p>
+<div class="quote">
+<table cellspacing="1" cellpadding="0">
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt><i>//&nbsp;これは動作する</i></tt></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt><font color=
+"#0000E5">def</font>&nbsp;evenElems[T:&nbsp;<font color=
+"#660099">ClassManifest</font>](xs:&nbsp;<font color=
+"#660099">Vector[T]</font>):&nbsp;<font color=
+"#660099">Array[T]</font>&nbsp;=&nbsp;{</tt></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt>&nbsp;&nbsp;<font color=
+"#0000E5">val</font>&nbsp;arr&nbsp;=&nbsp;<font color=
+"#0000E5">new</font>&nbsp;<font color=
+"#660099">Array[T]</font>((xs.length&nbsp;+&nbsp;<font color=
+"#000000">1</font>)&nbsp;/&nbsp;<font color=
+"#000000">2</font>)</tt></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt>&nbsp;&nbsp;<font color=
+"#0000E5">for</font>&nbsp;(i&nbsp;&lt;-&nbsp;<font color=
+"#000000">0</font>&nbsp;until&nbsp;xs.length&nbsp;by&nbsp;<font color="#000000">2</font>)</tt></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left">
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;arr(i&nbsp;/&nbsp;<font color=
+"#000000">2</font>)&nbsp;=&nbsp;xs(i)</tt></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt>&nbsp;&nbsp;arr</tt></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt>}</tt></td>
+</tr>
+</table>
+</div>
+<p>二つの <tt>evenElems</tt>
+の改訂版は全く同じことを意味する．どちらの場合も，<tt>Array[T]</tt> が構築されるときにコンパイラは型パラメータ
+<tt>T</tt> のクラスマニフェスト，つまり <tt>ClassManifest[T]</tt> 型の暗黙の値
+(implicit value)，を検索する．
+暗黙の値が見つかれば，正しい種類の配列を構築するのにマニフェストが使用される．見つからなければ，その前の例のようにエラーが発生する．</p>
+<p>以下に <tt>evenElems</tt> を使った REPL のやりとりを示す．</p>
+<div class="quote">
+<table cellspacing="1" cellpadding="0">
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left">
+<tt>scala&gt;&nbsp;evenElems(<font color=
+"#660099">Vector</font>(<font color=
+"#000000">1</font>,&nbsp;<font color=
+"#000000">2</font>,&nbsp;<font color=
+"#000000">3</font>,&nbsp;<font color=
+"#000000">4</font>,&nbsp;<font color="#000000">5</font>))</tt></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt><font color=
+"#590000">res6:&nbsp;Array[Int]&nbsp;=&nbsp;Array(1,&nbsp;3,&nbsp;5)</font></tt></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left">
+<tt>scala&gt;&nbsp;evenElems(<font color=
+"#660099">Vector</font>(<font color=
+"#000000">"this"</font>,&nbsp;<font color=
+"#000000">"is"</font>,&nbsp;<font color=
+"#000000">"a"</font>,&nbsp;<font color=
+"#000000">"test"</font>,&nbsp;<font color=
+"#000000">"run"</font>))</tt></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt><font color=
+"#590000">res7:&nbsp;Array[java.lang.</font></tt><tt><font color=
+"#590000">String]&nbsp;=&nbsp;Array(this,&nbsp;a,&nbsp;run)</font></tt></td>
+</tr>
+</table>
+</div>
+<p>両者の場合とも，Scala コンパイラは要素型 (<tt>Int</tt>，そして <tt>String</tt>)
+のクラスマニフェストを自動的に構築して，<tt>evenElems</tt>
+メソッドの暗黙のパラメータに渡した．コンパイラは全ての具象型についてクラスマニフェストを構築できるが，引数そのものがクラスマニフェストを持たない型パラメータである場合はそれができない．以下に失敗例を示す:</p>
+<div class="quote">
+<table cellspacing="1" cellpadding="0">
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt>scala&gt;&nbsp;<font color=
+"#0000E5">def</font>&nbsp;wrap[U](xs:&nbsp;<font color=
+"#660099">Array[U]</font>)&nbsp;=&nbsp;evenElems(xs)</tt></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt><font color=
+"#590000">&lt;console&gt;:6:&nbsp;error:&nbsp;could&nbsp;not&nbsp;find&nbsp;implicit&nbsp;value&nbsp;for&nbsp;</font></tt></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt><font color=
+"#590000">&nbsp;evidence&nbsp;parameter&nbsp;of&nbsp;type&nbsp;ClassManifest[U]</font></tt></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left">
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color=
+"#0000E5">def</font>&nbsp;wrap[U](xs:&nbsp;<font color=
+"#660099">Array[U]</font>)&nbsp;=&nbsp;evenElems(xs)</tt></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left">
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;^</tt></td>
+</tr>
+</table>
+</div>
+<p>何が起こったかというと，<tt>evenElems</tt> は型パラメータ <tt>U</tt>
+に関するクラスマニフェストを要求するが，見つからなかったのだ．当然この場合は，<tt>U</tt>
+に関する暗黙のクラスマニフェストを要求することで解決するため，以下は成功する:</p>
+<div class="quote">
+<table cellspacing="1" cellpadding="0">
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt>scala&gt;&nbsp;<font color=
+"#0000E5">def</font>&nbsp;wrap[U:&nbsp;<font color=
+"#660099">ClassManifest</font>](xs:&nbsp;<font color=
+"#660099">Array[U]</font>)&nbsp;=&nbsp;evenElems(xs)</tt></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left">
+<tt>wrap:&nbsp;[U](xs:&nbsp;<font color=
+"#660099">Array[U]</font>)(<font color=
+"#0000E5">implicit</font>&nbsp;evidence$1:&nbsp;<font color=
+"#660099">ClassManifest[U]</font>)<font color=
+"#660099">Array[U]</font></tt></td>
+</tr>
+</table>
+</div>
+<p>この例から，<tt>U</tt> の定義の context bound 構文は <tt>evidence$1</tt>
+と呼ばれる <tt>ClassManifest[U]</tt> 型の暗黙のパラメータの略記法であることが分かる．</p>
+<p>要約すると，ジェネリックな配列の作成はクラスマニフェストを必要とする．型パラメータ <tt>T</tt>
+の配列を作成する場合，<tt>T</tt> に関する暗黙のクラスマニフェストも提供する必要がある．
+その最も簡単な方法は，<tt>[T:</tt>&nbsp;<tt>ClassManifest]</tt> のように，型パラメータを
+context bound 構文で <tt>ClassManifest</tt> と共に定義することだ．</p>
+<p>次へ: <a href="collections_39.html">文字列</a></p>
+<hr />
+<table width="100%" cellpadding="0" cellspacing="2">
+<tr>
+<td bgcolor="#99CCFF"><a href="collections_39.html"><img border="0"
+alt="文字列" src="next.png" /></a></td>
+<td bgcolor="#99CCFF"><a href="collections_0.html"><img border="0"
+alt="トップ" src="up.png" /></a></td>
+<td bgcolor="#99CCFF"><a href="collections_23.html"><img border="0"
+alt="具象可変コレクションクラス" src="previous.png" /></a></td>
+<td align="center" bgcolor="#99CCFF" width="100%"><b>配列</b></td>
+<td bgcolor="#99CCFF" align="center"><a href=
+"collections_49.html">Contents</a></td>
+</tr>
+</table>
 </body>
 </html>

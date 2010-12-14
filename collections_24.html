@@ -1,38 +1,84 @@
-﻿<html dir="ltr"> <head>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html dir="ltr" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta name="generator" content=
+"HTML Tidy for Mac OS X (vers 25 March 2009), see www.w3.org" />
 <title>Scala 2.8 コレクション API -- 配列バッファ</title>
-
-<style type="text/css">.maketitle {
-  /* align: center; */
-}
-div.abstract {
-  margin-left: 20%;
-  margin-right: 10%;
-}
-h3.abstract {
-  /* align: center; */
-}
-div.verse, div.quote, div.quotation {
-  margin-left: 10%;
-  margin-right: 10%;
-}
-</style>
 <link rel="stylesheet" type="text/css" href="collections.css" />
-
-</head> 
-<body dir="ltr"> 
-<table width="100%" cellpadding="0" cellspacing="2"><tr> <td bgcolor="#99ccff"><a href="collections_25.html"><img border="0" alt="リストバッファ" src="next.png"></a></td><td bgcolor="#99ccff"><a href="collections_23.html"><img border="0" alt="具象可変コレクションクラス" src="up.png"></a></td><td bgcolor="#99ccff"><img alt="" src="blank.png"></td><td align="center" bgcolor="#99ccff" width="100%"><b>配列バッファ</b></td><td bgcolor="#99ccff" align="center"><a href="collections_49.html">目次</a></td></tr></table> 
-<h2>配列バッファ</h2> 
-<p>配列バッファ (<a href="http://www.scala-lang.org/api/current/scala/collection/mutable/ArrayBuffer.html">ArrayBuffer</a>) は，配列とサイズを格納するバッファだ．配列バッファの演算のほとんどは，単に内部の配列にアクセスして変更するだけなので，配列の演算と同じ速さで実行される．また，配列バッファは効率的にデータをバッファの最後に追加できる．配列バッファへの要素の追加はならし定数時間 (amortized constant time) で実行される．
-よって，配列バッファは要素が常に最後に追加される場合，大きいコレクションを効率的に構築するのに便利だ．
-<div class="quote"><p><tt></tt><table cellspacing="1" cellpadding="0"><tt></tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt>scala&gt; <font color="#0000e5">val</font> buf = scala.collection.mutable.</tt><tt>ArrayBuffer.empty[<font color="#660099">Int</font>]</tt></td></tr><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt><font color="#590000">buf: scala.collection.mutable.</font></tt><tt><font color="#590000">ArrayBuffer[Int] = ArrayBuffer()</font></tt></td></tr><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt>scala&gt; buf += <font color="#000000">1</font></tt></td></tr><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt><font color="#590000">res32: buf.type = ArrayBuffer(1)</font></tt></td></tr><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt>scala&gt; buf += <font color="#000000">10</font></tt></td></tr><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt><font color="#590000">res33: buf.type = ArrayBuffer(1, 10)</font></tt></td></tr><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt>scala&gt; buf.toArray</tt></td></tr><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt><font color="#590000">res34: Array[Int] = Array(1, 10) </font></tt></td></tr></table><tt> </tt></p></div>
-<p><p>次は: <a href="collections_25.html">リストバッファ</a> <hr> <table width="100%" cellpadding="0" cellspacing="2"><tr> <td bgcolor="#99ccff"><a href="collections_25.html"><img border="0" alt="リストバッファ" src="next.png"></a></td><td bgcolor="#99ccff"><a href="collections_23.html"><img border="0" alt="具象可変コレクションクラス" src="up.png"></a></td><td bgcolor="#99ccff"><img alt="" src="blank.png"></td><td align="center" bgcolor="#99ccff" width="100%"><b>配列バッファ</b></td><td bgcolor="#99ccff" align="center"><a href="collections_49.html">目次</a></td></tr></table>
+</head>
+<body dir="ltr">
+<table width="100%" cellpadding="0" cellspacing="2">
+<tr>
+<td bgcolor="#99CCFF"><a href="collections_25.html"><img border="0"
+alt="リストバッファ" src="next.png" /></a></td>
+<td bgcolor="#99CCFF"><a href="collections_23.html"><img border="0"
+alt="具象可変コレクションクラス" src="up.png" /></a></td>
+<td bgcolor="#99CCFF"><img alt="" src="blank.png" /></td>
+<td align="center" bgcolor="#99CCFF" width="100%">
+<b>配列バッファ</b></td>
+<td bgcolor="#99CCFF" align="center"><a href=
+"collections_49.html">目次</a></td>
+</tr>
+</table>
+<h2>配列バッファ</h2>
+<p>配列バッファ (<a href=
+"http://www.scala-lang.org/api/current/scala/collection/mutable/ArrayBuffer.html">ArrayBuffer</a>)
+は，配列とサイズを格納するバッファだ．配列バッファの演算のほとんどは，単に内部の配列にアクセスして変更するだけなので，配列の演算と同じ速さで実行される．また，配列バッファは効率的にデータをバッファの最後に追加できる．配列バッファへの要素の追加はならし定数時間
+(amortized constant time) で実行される．
+よって，配列バッファは要素が常に最後に追加される場合，大きいコレクションを効率的に構築するのに便利だ．</p>
+<div class="quote">
+<table cellspacing="1" cellpadding="0">
+<tr>
+<td colspan="99" align="left"><tt>scala&gt;&nbsp;<font color=
+"#0000E5">val</font>&nbsp;buf&nbsp;=&nbsp;scala.collection.mutable.</tt><tt>ArrayBuffer.empty[<font color="#660099">Int</font>]</tt></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt><font color=
+"#590000">buf:&nbsp;scala.collection.mutable.</font></tt><tt><font color="#590000">ArrayBuffer[Int]&nbsp;=&nbsp;ArrayBuffer()</font></tt></td>
+</tr>
+<tr>
+<td colspan="99" align="left">
+<tt>scala&gt;&nbsp;buf&nbsp;+=&nbsp;<font color=
+"#000000">1</font></tt></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt><font color=
+"#590000">res32:&nbsp;buf.type&nbsp;=&nbsp;ArrayBuffer(1)</font></tt></td>
+</tr>
+<tr>
+<td colspan="99" align="left">
+<tt>scala&gt;&nbsp;buf&nbsp;+=&nbsp;<font color=
+"#000000">10</font></tt></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt><font color=
+"#590000">res33:&nbsp;buf.type&nbsp;=&nbsp;ArrayBuffer(1,&nbsp;10)</font></tt></td>
+</tr>
+<tr>
+<td colspan="99" align="left">
+<tt>scala&gt;&nbsp;buf.toArray</tt></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt><font color=
+"#590000">res34:&nbsp;Array[Int]&nbsp;=&nbsp;Array(1,&nbsp;10)</font></tt></td>
+</tr>
+</table>
+</div>
+<p>次は: <a href="collections_25.html">リストバッファ</a></p>
+<hr />
+<table width="100%" cellpadding="0" cellspacing="2">
+<tr>
+<td bgcolor="#99CCFF"><a href="collections_25.html"><img border="0"
+alt="リストバッファ" src="next.png" /></a></td>
+<td bgcolor="#99CCFF"><a href="collections_23.html"><img border="0"
+alt="具象可変コレクションクラス" src="up.png" /></a></td>
+<td bgcolor="#99CCFF"><img alt="" src="blank.png" /></td>
+<td align="center" bgcolor="#99CCFF" width="100%">
+<b>配列バッファ</b></td>
+<td bgcolor="#99CCFF" align="center"><a href=
+"collections_49.html">目次</a></td>
+</tr>
+</table>
 </body>
 </html>

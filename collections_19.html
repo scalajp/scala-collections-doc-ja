@@ -1,29 +1,55 @@
-﻿<html dir="ltr"> <head>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html dir="ltr" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta name="generator" content=
+"HTML Tidy for Mac OS X (vers 25 March 2009), see www.w3.org" />
 <title>Scala 2.8 コレクション API -- ハッシュトライ</title>
-
-<style type="text/css">.maketitle {
-  /* align: center; */
-}
-div.abstract {
-  margin-left: 20%;
-  margin-right: 10%;
-}
-h3.abstract {
-  /* align: center; */
-}
-div.verse, div.quote, div.quotation {
-  margin-left: 10%;
-  margin-right: 10%;
-}
-</style>
 <link rel="stylesheet" type="text/css" href="collections.css" />
-
-</head> 
-<body dir="ltr"> 
-<table width="100%" cellpadding="0" cellspacing="2"><tr> <td bgcolor="#99ccff"><a href="collections_20.html"><img border="0" alt="赤黒木" src="next.png"></a></td><td bgcolor="#99ccff"><a href="collections_12.html"><img border="0" alt="具象不変コレクションクラス" src="up.png"></a></td><td bgcolor="#99ccff"><a href="collections_18.html"><img border="0" alt="範囲" src="previous.png"></a></td><td align="center" bgcolor="#99ccff" width="100%"><b>ハッシュトライ</b></td><td bgcolor="#99ccff" align="center"><a href="collections_49.html">目次</a></td></tr></table> 
-<h2>ハッシュトライ</h2> 
-<p>ハッシュトライは不変集合と不変マップを効率的に実装する標準的な方法だ．ハッシュトライは，<a href="http://www.scala-lang.org/api/current/scala/collection/immutable/HashMap.html">immutable.HashMap</a> クラスによりサポートされている．データ構造は，全てのノードに 32個の要素か 32個の部分木があるという意味でベクトルに似ている．しかし，キーの選択はハッシュコードにより行われる．たとえば，マップから任意のキーを検索する場合，まずキーのハッシュコードを計算する．その後，最初の部分木を選択するのにハッシュコードの下位 5ビットが使われ，次の 5ビットで次の部分木が選択される，という具合だ．ノード内の全ての要素が，その階層までで選ばれているビット範囲内でお互いと異なるハッシュコードを持った時点で選択は終了する．
-<p>ハッシュトライは，サイズ相応の高速な検索と，相応に効率的な関数型加算 <tt>(+)</tt> と減算 <tt>(-)</tt> の調度良いバランスが取れている．そのため，ハッシュトライは Scala の不変マップと不変集合のデフォルトの実装を支えている．実は，Scala は要素が 5個未満の不変集合と不変マップに関して，更なる最適化をしている．1 〜 4個の要素を持つ集合とセットは，要素 (マップの場合は，キー/値のペア) をフィールドとして持つ単一のオブジェクトとして格納する．空の不変集合と，空の不変マップは，ぞれぞれ単一のオブジェクトである．空の不変集合や不変マップは，空であり続けるため，データ構造を複製する必要はない．
-<p>次へ: <a href="collections_20.html">赤黒木</a> <hr> <table width="100%" cellpadding="0" cellspacing="2"><tr> <td bgcolor="#99ccff"><a href="collections_20.html"><img border="0" alt="赤黒木" src="next.png"></a></td><td bgcolor="#99ccff"><a href="collections_12.html"><img border="0" alt="具象不変コレクションクラス" src="up.png"></a></td><td bgcolor="#99ccff"><a href="collections_18.html"><img border="0" alt="範囲" src="previous.png"></a></td><td align="center" bgcolor="#99ccff" width="100%"><b>ハッシュトライ</b></td><td bgcolor="#99ccff" align="center"><a href="collections_49.html">目次</a></td></tr></table>
+</head>
+<body dir="ltr">
+<table width="100%" cellpadding="0" cellspacing="2">
+<tr>
+<td bgcolor="#99CCFF"><a href="collections_20.html"><img border="0"
+alt="赤黒木" src="next.png" /></a></td>
+<td bgcolor="#99CCFF"><a href="collections_12.html"><img border="0"
+alt="具象不変コレクションクラス" src="up.png" /></a></td>
+<td bgcolor="#99CCFF"><a href="collections_18.html"><img border="0"
+alt="範囲" src="previous.png" /></a></td>
+<td align="center" bgcolor="#99CCFF" width="100%">
+<b>ハッシュトライ</b></td>
+<td bgcolor="#99CCFF" align="center"><a href=
+"collections_49.html">目次</a></td>
+</tr>
+</table>
+<h2>ハッシュトライ</h2>
+<p>ハッシュトライは不変集合と不変マップを効率的に実装する標準的な方法だ．ハッシュトライは，<a href=
+"http://www.scala-lang.org/api/current/scala/collection/immutable/HashMap.html">immutable.HashMap</a>
+クラスによりサポートされている．データ構造は，全てのノードに 32個の要素か
+32個の部分木があるという意味でベクトルに似ている．しかし，キーの選択はハッシュコードにより行われる．たとえば，マップから任意のキーを検索する場合，まずキーのハッシュコードを計算する．その後，最初の部分木を選択するのにハッシュコードの下位
+5ビットが使われ，次の
+5ビットで次の部分木が選択される，という具合だ．ノード内の全ての要素が，その階層までで選ばれているビット範囲内でお互いと異なるハッシュコードを持った時点で選択は終了する．</p>
+<p>ハッシュトライは，サイズ相応の高速な検索と，相応に効率的な関数型加算 <tt>(+)</tt> と減算 <tt>(-)</tt>
+の調度良いバランスが取れている．そのため，ハッシュトライは Scala
+の不変マップと不変集合のデフォルトの実装を支えている．実は，Scala は要素が
+5個未満の不変集合と不変マップに関して，更なる最適化をしている．1 〜 4個の要素を持つ集合とセットは，要素
+(マップの場合は，キー/値のペア)
+をフィールドとして持つ単一のオブジェクトとして格納する．空の不変集合と，空の不変マップは，ぞれぞれ単一のオブジェクトである．空の不変集合や不変マップは，空であり続けるため，データ構造を複製する必要はない．</p>
+<p>次へ: <a href="collections_20.html">赤黒木</a></p>
+<hr />
+<table width="100%" cellpadding="0" cellspacing="2">
+<tr>
+<td bgcolor="#99CCFF"><a href="collections_20.html"><img border="0"
+alt="赤黒木" src="next.png" /></a></td>
+<td bgcolor="#99CCFF"><a href="collections_12.html"><img border="0"
+alt="具象不変コレクションクラス" src="up.png" /></a></td>
+<td bgcolor="#99CCFF"><a href="collections_18.html"><img border="0"
+alt="範囲" src="previous.png" /></a></td>
+<td align="center" bgcolor="#99CCFF" width="100%">
+<b>ハッシュトライ</b></td>
+<td bgcolor="#99CCFF" align="center"><a href=
+"collections_49.html">目次</a></td>
+</tr>
+</table>
 </body>
 </html>

@@ -1,59 +1,339 @@
-<html dir="ltr"> <head>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html dir="ltr" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta name="generator" content=
+"HTML Tidy for Mac OS X (vers 25 March 2009), see www.w3.org" />
 <title>Scala 2.8 コレクション API -- Java と Scala 間のコレクションの変換</title>
-
-<style type="text/css">.maketitle {
-  /* align: center; */
-}
-div.abstract {
-  margin-left: 20%;
-  margin-right: 10%;
-}
-h3.abstract {
-  /* align: center; */
-}
-div.verse, div.quote, div.quotation {
-  margin-left: 10%;
-  margin-right: 10%;
-}
-</style>
 <link rel="stylesheet" type="text/css" href="collections.css" />
-
-</head> <body dir="ltr"> <table width="100%" cellpadding="0" cellspacing="2">
-<tr> <td bgcolor="#99ccff"><a href="collections_47.html"><img border="0" alt="Scala 2.7 からの移行" src="next.png"></a></td><td bgcolor="#99ccff"><a href="collections_0.html"><img border="0" alt="トップ" src="up.png"></a></td><td bgcolor="#99ccff"><a href="collections_45.html"><img border="0" alt="コレクションの作成" src="previous.png"></a></td><td align="center" bgcolor="#99ccff" width="100%"><b>Java と Scala 間のコレクションの変換</b></td><td bgcolor="#99ccff" align="center"><a href="collections_49.html">目次</a></td></tr></table> <h1>Java と Scala 間のコレクションの変換</h1> <p>Scala と同様に，Java にも豊富なコレクションライブラリがある．両者には多くの共通点がある．例えば，両方のライブラリともイテレータ，iterable, 集合，マップ，そして列を提供する．しかし，両者には重要な違いもある．特に，Scala では不変コレクションに要点を置き，コレクションを別のものに変換する演算も多く提供している．<p>時として，コレクションを一方のフレームワークから他方へと渡す必要がある．例えば，既存の Java のコレクションを Scala のコレクションであるかのようにアクセスしたいこともあるだろう．もしくは，Scala のコレクションを Java のコレクションを期待している Java メソッドに渡したいと思うかもしれない．Scala は <a href="http://www.scala-lang.org/api/current/scala/collection/JavaConversions$.html">JavaConversions</a> オブジェクトにより主要なコレクション間の暗黙の変換 (implicit conversion) を提供するため，簡単に相互運用できる．特に以下の型に関しては，双方向変換を提供する．
-<div class="quote"><p><tt></tt><table cellspacing="1" cellpadding="0"><td><tt></tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt><font color="#660099">Iterator</font>              <i> &lt;=&gt; </i>    <font color="#660099">java.util.</font></tt><tt><font color="#660099">Iterator</font></tt></td></tr><td><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt><font color="#660099">Iterator</font>              <i> &lt;=&gt; </i>    <font color="#660099">java.util.</font></tt><tt><font color="#660099">Enumeration</font></tt></td></tr><td><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt><font color="#660099">Iterable</font>              <i> &lt;=&gt; </i>    <font color="#660099">java.lang.</font></tt><tt><font color="#660099">Iterable</font></tt></td></tr><td><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt><font color="#660099">Iterable</font>              <i> &lt;=&gt; </i>    <font color="#660099">java.util.</font></tt><tt><font color="#660099">Collection</font></tt></td></tr><td><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt><font color="#660099">mutable.</font></tt><tt><font color="#660099">Buffer</font>        <i> &lt;=&gt; </i>    <font color="#660099">java.util.</font></tt><tt><font color="#660099">List</font></tt></td></tr><td><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt><font color="#660099">mutable.</font></tt><tt><font color="#660099">Set</font>           <i> &lt;=&gt; </i>    <font color="#660099">java.util.</font></tt><tt><font color="#660099">Set</font></tt></td></tr><td><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt><font color="#660099">mutable.</font></tt><tt><font color="#660099">Map</font>           <i> &lt;=&gt; </i>    <font color="#660099">java.util.</font></tt><tt><font color="#660099">Map</font></tt></td></tr><td><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt><font color="#660099">mutable.</font></tt><tt><font color="#660099">ConcurrentMap</font> <i> &lt;=&gt; </i>    <font color="#660099">java.util.concurrent.</font></tt><tt><font color="#660099">ConcurrentMap</font> </tt></td></tr></td></td></td></td></td></td></td></td></table><tt> </tt></p></div>
-このような変換を作動させるには，<a href="http://www.scala-lang.org/api/current/scala/collection/JavaConversions$.html">JavaConversions</a> オブジェクトからインポートするだけでいい．
-<div class="quote"><p><tt></tt><table cellspacing="1" cellpadding="0"><td><tt></tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt>scala&gt; <font color="#0000e5">import</font> collection.</tt><tt>JavaConversions.</tt><tt>_</tt></td></tr><td><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt><font color="#0000e5">import</font> collection.</tt><tt>JavaConversions.</tt><tt>_ </tt></td></tr></td></td></table><tt> </tt></p></div>これで Scala コレクションとそれに対応する Java コレクションの自動変換が行われる．<div class="quote"><p><tt></tt><table cellspacing="1" cellpadding="0"><td><tt></tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt>scala&gt; <font color="#0000e5">import</font> collection.mutable.</tt><tt>_</tt></td></tr><td><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt><font color="#590000">import collection.mutable.</font></tt><tt><font color="#590000">_</font></tt></td></tr><td><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt>scala&gt; <font color="#0000e5">val</font> jul: <font color="#660099">java.util.</font></tt><tt><font color="#660099">List[Int]</font> = <font color="#660099">ArrayBuffer</font>(<font color="#000000">1</font>, <font color="#000000">2</font>, <font color="#000000">3</font>)</tt></td></tr><td><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt><font color="#590000">jul: java.util.</font></tt><tt><font color="#590000">List[Int] = [1, 2, 3]</font></tt></td></tr><td><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt>scala&gt; <font color="#0000e5">val</font> buf: <font color="#660099">Seq[Int]</font> = jul</tt></td></tr><td><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt><font color="#590000">buf: scala.collection.mutable.</font></tt><tt><font color="#590000">Seq[Int] = ArrayBuffer(1, 2, 3)</font></tt></td></tr><td><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt>scala&gt; <font color="#0000e5">val</font> m: <font color="#660099">java.util.</font></tt><tt><font color="#660099">Map[String, Int]</font> = <font color="#660099">HashMap</font>(<font color="#000000">&quot;abc&quot;</font> -&gt; <font color="#000000">1</font>, <font color="#000000">&quot;hello&quot;</font> -&gt; <font color="#000000">2</font>)</tt></td></tr><td><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt><font color="#590000">m: java.util.</font></tt><tt><font color="#590000">Map[String,Int] = {hello=2, abc=1} </font></tt></td></tr></td></td></td></td></td></td></td></td></table><tt> </tt></p></div>
-内部では，このような変換は全ての演算を委譲する「ラッパー」オブジェクトを作ることで実現されている．そのため，Java と Scala の間でコレクションを変換してもコレクションはコピーされることはない．興味深い特性として，例えば Java 型から対応する Scala 型に変換して再び Java 型に逆変換するといった，ラウンドトリップを実行した場合，始めた時と同一のオブジェクトが返ってくるというものがある．<p>Scala コレクションの中には，Java 型に変換できるが，逆変換はできないというものもある．それらは以下の通り:
-<div class="quote"><p><tt></tt><table cellspacing="1" cellpadding="0"><td><tt></tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt><font color="#660099">Seq</font>          <i> =&gt; </i>   <font color="#660099">java.util.</font></tt><tt><font color="#660099">List</font> </tt></td></tr><td><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt><font color="#660099">mutable.</font></tt><tt><font color="#660099">Seq</font>  <i> =&gt; </i>   <font color="#660099">java.utl.</font></tt><tt><font color="#660099">List</font></tt></td></tr><td><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt><font color="#660099">Set</font>          <i> =&gt; </i>   <font color="#660099">java.util.</font></tt><tt><font color="#660099">Set</font> </tt></td></tr><td><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt><font color="#660099">Map</font>          <i> =&gt; </i>   <font color="#660099">java.util.</font></tt><tt><font color="#660099">Map</font>  </tt></td></tr></td></td></td></td></table><tt> </tt></p></div>Java は可変コレクションと不変コレクションを型で区別しないため，例えば <tt>scala.immutable.List</tt> からの変換は，上書き演算を呼び出すと UnsupportedOperationException を発生する <tt>java.util.List</tt> を返す． 次に具体例で説明する．
-<div class="quote"><p><tt></tt><table cellspacing="1" cellpadding="0"><td><tt></tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt>scala&gt; jul = <font color="#660099">List</font>(<font color="#000000">1</font>, <font color="#000000">2</font>, <font color="#000000">3</font>)</tt></td></tr><td><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt>jul: <font color="#660099">java.util.</font></tt><tt><font color="#660099">List[Int]</font> = [<font color="#000000">1</font>, <font color="#000000">2</font>, <font color="#000000">3</font>]</tt></td></tr><td><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt>scala&gt; jul.add(<font color="#000000">7</font>)</tt></td></tr><td><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt><font color="#660099">java.lang.</font></tt><tt><font color="#660099">UnsupportedOperationException</font></tt></td></tr><td><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt>        at java.util.</tt><tt>AbstractList.add(AbstractList.java:<font color="#000000">131</font>) </tt></td></tr></td></td></td></td></td></table><tt> </tt></p></div>
-<p>次へ: <a href="collections_47.html">Scala 2.7 からの移行</a> <hr> <table width="100%" cellpadding="0" cellspacing="2">
-<tr> <td bgcolor="#99ccff"><a href="collections_47.html"><img border="0" alt="Scala 2.7 からの移行" src="next.png"></a></td><td bgcolor="#99ccff"><a href="collections_0.html"><img border="0" alt="トップ" src="up.png"></a></td><td bgcolor="#99ccff"><a href="collections_45.html"><img border="0" alt="コレクションの作成" src="previous.png"></a></td><td align="center" bgcolor="#99ccff" width="100%"><b>Java と Scala 間のコレクションの変換</b></td><td bgcolor="#99ccff" align="center"><a href="collections_49.html">目次</a></td></tr></table>
+</head>
+<body dir="ltr">
+<table width="100%" cellpadding="0" cellspacing="2">
+<tr>
+<td bgcolor="#99CCFF"><a href="collections_47.html"><img border="0"
+alt="Scala 2.7 からの移行" src="next.png" /></a></td>
+<td bgcolor="#99CCFF"><a href="collections_0.html"><img border="0"
+alt="トップ" src="up.png" /></a></td>
+<td bgcolor="#99CCFF"><a href="collections_45.html"><img border="0"
+alt="コレクションの作成" src="previous.png" /></a></td>
+<td align="center" bgcolor="#99CCFF" width="100%"><b>Java と Scala
+間のコレクションの変換</b></td>
+<td bgcolor="#99CCFF" align="center"><a href=
+"collections_49.html">目次</a></td>
+</tr>
+</table>
+<h1>Java と Scala 間のコレクションの変換</h1>
+<p>Scala と同様に，Java
+にも豊富なコレクションライブラリがある．両者には多くの共通点がある．例えば，両方のライブラリともイテレータ，iterable,
+集合，マップ，そして列を提供する．しかし，両者には重要な違いもある．特に，Scala
+では不変コレクションに要点を置き，コレクションを別のものに変換する演算も多く提供している．</p>
+<p>時として，コレクションを一方のフレームワークから他方へと渡す必要がある．例えば，既存の Java のコレクションを Scala
+のコレクションであるかのようにアクセスしたいこともあるだろう．もしくは，Scala のコレクションを Java
+のコレクションを期待している Java メソッドに渡したいと思うかもしれない．Scala は <a href=
+"http://www.scala-lang.org/api/current/scala/collection/JavaConversions$.html">
+JavaConversions</a> オブジェクトにより主要なコレクション間の暗黙の変換 (implicit conversion)
+を提供するため，簡単に相互運用できる．特に以下の型に関しては，双方向変換を提供する．</p>
+<div class="quote">
+<table cellspacing="1" cellpadding="0">
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt><font color=
+"#660099">Iterator</font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<i>&lt;=&gt;</i> &nbsp;&nbsp;&nbsp;&nbsp;<font color=
+"#660099">java.util.</font></tt><tt><font color=
+"#660099">Iterator</font></tt></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt><font color=
+"#660099">Iterator</font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<i>&lt;=&gt;</i> &nbsp;&nbsp;&nbsp;&nbsp;<font color=
+"#660099">java.util.</font></tt><tt><font color=
+"#660099">Enumeration</font></tt></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt><font color=
+"#660099">Iterable</font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<i>&lt;=&gt;</i> &nbsp;&nbsp;&nbsp;&nbsp;<font color=
+"#660099">java.lang.</font></tt><tt><font color=
+"#660099">Iterable</font></tt></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt><font color=
+"#660099">Iterable</font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<i>&lt;=&gt;</i> &nbsp;&nbsp;&nbsp;&nbsp;<font color=
+"#660099">java.util.</font></tt><tt><font color=
+"#660099">Collection</font></tt></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt><font color=
+"#660099">mutable.</font></tt><tt><font color=
+"#660099">Buffer</font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<i>&lt;=&gt;</i> &nbsp;&nbsp;&nbsp;&nbsp;<font color=
+"#660099">java.util.</font></tt><tt><font color=
+"#660099">List</font></tt></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt><font color=
+"#660099">mutable.</font></tt><tt><font color=
+"#660099">Set</font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<i>&lt;=&gt;</i> &nbsp;&nbsp;&nbsp;&nbsp;<font color=
+"#660099">java.util.</font></tt><tt><font color=
+"#660099">Set</font></tt></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt><font color=
+"#660099">mutable.</font></tt><tt><font color=
+"#660099">Map</font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<i>&lt;=&gt;</i> &nbsp;&nbsp;&nbsp;&nbsp;<font color=
+"#660099">java.util.</font></tt><tt><font color=
+"#660099">Map</font></tt></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt><font color=
+"#660099">mutable.</font></tt><tt><font color=
+"#660099">ConcurrentMap</font>&nbsp; <i>&lt;=&gt;</i>
+&nbsp;&nbsp;&nbsp;&nbsp;<font color=
+"#660099">java.util.concurrent.</font></tt><tt><font color=
+"#660099">ConcurrentMap</font></tt></td>
+</tr>
+</table>
+</div>
+<p>このような変換を作動させるには，<a href=
+"http://www.scala-lang.org/api/current/scala/collection/JavaConversions$.html">JavaConversions</a>
+オブジェクトからインポートするだけでいい．</p>
+<div class="quote">
+<table cellspacing="1" cellpadding="0">
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt>scala&gt;&nbsp;<font color=
+"#0000E5">import</font>&nbsp;collection.</tt><tt>JavaConversions.</tt><tt>_</tt></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt><font color=
+"#0000E5">import</font>&nbsp;collection.</tt><tt>JavaConversions.</tt><tt>_</tt></td>
+</tr>
+</table>
+</div>
+<p>これで Scala コレクションとそれに対応する Java コレクションの自動変換が行われる．</p>
+<div class="quote">
+<table cellspacing="1" cellpadding="0">
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt>scala&gt;&nbsp;<font color=
+"#0000E5">import</font>&nbsp;collection.mutable.</tt><tt>_</tt></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt><font color=
+"#590000">import&nbsp;collection.mutable.</font></tt><tt><font color="#590000">_</font></tt></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt>scala&gt;&nbsp;<font color=
+"#0000E5">val</font>&nbsp;jul:&nbsp;<font color=
+"#660099">java.util.</font></tt><tt><font color=
+"#660099">List[Int]</font>&nbsp;=&nbsp;<font color=
+"#660099">ArrayBuffer</font>(<font color=
+"#000000">1</font>,&nbsp;<font color=
+"#000000">2</font>,&nbsp;<font color="#000000">3</font>)</tt></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt><font color=
+"#590000">jul:&nbsp;java.util.</font></tt><tt><font color=
+"#590000">List[Int]&nbsp;=&nbsp;[1,&nbsp;2,&nbsp;3]</font></tt></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt>scala&gt;&nbsp;<font color=
+"#0000E5">val</font>&nbsp;buf:&nbsp;<font color=
+"#660099">Seq[Int]</font>&nbsp;=&nbsp;jul</tt></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt><font color=
+"#590000">buf:&nbsp;scala.collection.mutable.</font></tt><tt><font color="#590000">Seq[Int]&nbsp;=&nbsp;ArrayBuffer(1,&nbsp;2,&nbsp;3)</font></tt></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt>scala&gt;&nbsp;<font color=
+"#0000E5">val</font>&nbsp;m:&nbsp;<font color=
+"#660099">java.util.</font></tt><tt><font color=
+"#660099">Map[String, Int]</font>&nbsp;=&nbsp;<font color=
+"#660099">HashMap</font>(<font color=
+"#000000">"abc"</font>&nbsp;-&gt;&nbsp;<font color=
+"#000000">1</font>,&nbsp;<font color=
+"#000000">"hello"</font>&nbsp;-&gt;&nbsp;<font color=
+"#000000">2</font>)</tt></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt><font color=
+"#590000">m:&nbsp;java.util.</font></tt><tt><font color=
+"#590000">Map[String,Int]&nbsp;=&nbsp;{hello=2,&nbsp;abc=1}</font></tt></td>
+</tr>
+</table>
+</div>
+<p>内部では，このような変換は全ての演算を委譲する「ラッパー」オブジェクトを作ることで実現されている．そのため，Java と
+Scala の間でコレクションを変換してもコレクションはコピーされることはない．興味深い特性として，例えば Java 型から対応する
+Scala 型に変換して再び Java
+型に逆変換するといった，ラウンドトリップを実行した場合，始めた時と同一のオブジェクトが返ってくるというものがある．</p>
+<p>Scala コレクションの中には，Java 型に変換できるが，逆変換はできないというものもある．それらは以下の通り:</p>
+<div class="quote">
+<table cellspacing="1" cellpadding="0">
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt><font color=
+"#660099">Seq</font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<i>=&gt;</i> &nbsp;&nbsp;&nbsp;<font color=
+"#660099">java.util.</font></tt><tt><font color=
+"#660099">List</font>&nbsp;</tt></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt><font color=
+"#660099">mutable.</font></tt><tt><font color=
+"#660099">Seq</font>&nbsp;&nbsp; <i>=&gt;</i>
+&nbsp;&nbsp;&nbsp;<font color=
+"#660099">java.utl.</font></tt><tt><font color=
+"#660099">List</font></tt></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt><font color=
+"#660099">Set</font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<i>=&gt;</i> &nbsp;&nbsp;&nbsp;<font color=
+"#660099">java.util.</font></tt><tt><font color=
+"#660099">Set</font>&nbsp;</tt></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt><font color=
+"#660099">Map</font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<i>=&gt;</i> &nbsp;&nbsp;&nbsp;<font color=
+"#660099">java.util.</font></tt><tt><font color=
+"#660099">Map</font>&nbsp;</tt></td>
+</tr>
+</table>
+</div>
+<p>Java は可変コレクションと不変コレクションを型で区別しないため，例えば
+<tt>scala.immutable.List</tt> からの変換は，上書き演算を呼び出すと
+UnsupportedOperationException を発生する <tt>java.util.List</tt> を返す．
+次に具体例で説明する．</p>
+<div class="quote">
+<table cellspacing="1" cellpadding="0">
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left">
+<tt>scala&gt;&nbsp;jul&nbsp;=&nbsp;<font color=
+"#660099">List</font>(<font color=
+"#000000">1</font>,&nbsp;<font color=
+"#000000">2</font>,&nbsp;<font color="#000000">3</font>)</tt></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt>jul:&nbsp;<font color=
+"#660099">java.util.</font></tt><tt><font color=
+"#660099">List[Int]</font>&nbsp;=&nbsp;[<font color=
+"#000000">1</font>,&nbsp;<font color=
+"#000000">2</font>,&nbsp;<font color="#000000">3</font>]</tt></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left">
+<tt>scala&gt;&nbsp;jul.add(<font color=
+"#000000">7</font>)</tt></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt><font color=
+"#660099">java.lang.</font></tt><tt><font color=
+"#660099">UnsupportedOperationException</font></tt></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left">
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;at&nbsp;java.util.</tt><tt>AbstractList.add(AbstractList.java:<font color="#000000">131</font>)</tt></td>
+</tr>
+</table>
+</div>
+<p>次へ: <a href="collections_47.html">Scala 2.7 からの移行</a></p>
+<hr />
+<table width="100%" cellpadding="0" cellspacing="2">
+<tr>
+<td bgcolor="#99CCFF"><a href="collections_47.html"><img border="0"
+alt="Scala 2.7 からの移行" src="next.png" /></a></td>
+<td bgcolor="#99CCFF"><a href="collections_0.html"><img border="0"
+alt="トップ" src="up.png" /></a></td>
+<td bgcolor="#99CCFF"><a href="collections_45.html"><img border="0"
+alt="コレクションの作成" src="previous.png" /></a></td>
+<td align="center" bgcolor="#99CCFF" width="100%"><b>Java と Scala
+間のコレクションの変換</b></td>
+<td bgcolor="#99CCFF" align="center"><a href=
+"collections_49.html">目次</a></td>
+</tr>
+</table>
 </body>
 </html>

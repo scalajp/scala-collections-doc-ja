@@ -7,6 +7,14 @@ body {
   width: 42em;
 }
 
+.perf {
+  color: maroon;
+}
+
+.op {
+  color: navy;
+}
+
 table.ops
 {
   width: 100%;
@@ -43,4 +51,21 @@ table.ops td
 .toc a:hover {
   text-decoration: underline;
   color: black;
+}
+
+.maketitle { 
+}
+
+div.abstract {
+  margin-left: 20%; 
+  margin-right: 10%;
+}
+
+h3.abstract  {
+  align : center
+}
+
+div.verse, div.quote, div.quotation {
+  margin-left : 10%; 
+  margin-right : 10%;
 }

@@ -1,32 +1,93 @@
-﻿<html dir="ltr"> <head>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html dir="ltr" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta name="generator" content=
+"HTML Tidy for Mac OS X (vers 25 March 2009), see www.w3.org" />
 <title>Scala 2.8 コレクション API -- 範囲</title>
-
-<style type="text/css">.maketitle {
-  /* align: center; */
-}
-div.abstract {
-  margin-left: 20%;
-  margin-right: 10%;
-}
-h3.abstract {
-  /* align: center; */
-}
-div.verse, div.quote, div.quotation {
-  margin-left: 10%;
-  margin-right: 10%;
-}
-</style>
 <link rel="stylesheet" type="text/css" href="collections.css" />
-
-</head> 
-<body dir="ltr"> 
-<table width="100%" cellpadding="0" cellspacing="2"><tr> <td bgcolor="#99ccff"><a href="collections_19.html"><img border="0" alt="ハッシュトライ" src="next.png"></a></td><td bgcolor="#99ccff"><a href="collections_12.html"><img border="0" alt="具象不変コレクションクラス" src="up.png"></a></td><td bgcolor="#99ccff"><a href="collections_17.html"><img border="0" alt="不変キュー" src="previous.png"></a></td><td align="center" bgcolor="#99ccff" width="100%"><b>範囲</b></td><td bgcolor="#99ccff" align="center"><a href="collections_49.html">目次</a></td></tr></table> 
-<h2>範囲</h2> 
-<p>範囲 (<a href="http://www.scala-lang.org/api/current/scala/collection/immutable/Range.html">Range</a>) は順序付けされた等間隔の整数の列だ．例えば，「1, 2, 3」は範囲であり，「5, 8, 11, 14」も範囲だ．Scala で範囲を作成するには，予め定義された <tt>to</tt> メソッドと <tt>by</tt> メソッドを使う．
-<div class="quote"><p><tt></tt><table cellspacing="1" cellpadding="0"><tt></tt><tr><tt> </tt><td colspan="99" align="left"><tt>scala&gt; <font color="#000000">1</font> to <font color="#000000">3</font></tt></td></tr><tt> </tt><tr><tt> </tt><td colspan="99" align="left"><tt><font color="#590000">res2: scala.collection.immutable.</font></tt><tt><font color="#590000">Range.</font></tt><tt><font color="#590000">Inclusive</font></tt></td></tr><tt> </tt><tr><tt> </tt><td colspan="99" align="left"><tt><font color="#590000">  with scala.collection.immutable.</font></tt><tt><font color="#590000">Range.</font></tt><tt><font color="#590000">ByOne = Range(1, 2, 3)</font></tt></td></tr><tt> </tt><tr><tt> </tt><td colspan="99" align="left"><tt>scala&gt; <font color="#000000">5</font> to <font color="#000000">14</font> by <font color="#000000">3</font></tt></td></tr><tt> </tt><tr><tt> </tt><td colspan="99" align="left"><tt><font color="#590000">res3: scala.collection.immutable.</font></tt><tt><font color="#590000">Range = Range(5, 8, 11, 14) </font></tt></td></tr></table><tt> </tt></p></div><p>
-上限を含まない範囲を作成したい場合は，<tt>to</tt> の代わりに，便宜上用意された <tt>until</tt> メソッドを使う:
-<div class="quote"><p><tt></tt><table cellspacing="1" cellpadding="0"><tt></tt><tr><tt> </tt><td colspan="99" align="left"><tt>scala&gt; <font color="#000000">1</font> until <font color="#000000">3</font></tt></td></tr><tt> </tt><tr><tt> </tt><td colspan="99" align="left"><tt><font color="#590000">res2: scala.collection.immutable.</font></tt><tt><font color="#590000">Range.</font></tt><tt><font color="#590000">Inclusive</font></tt></td></tr><tt> </tt><tr><tt> </tt><td colspan="99" align="left"><tt><font color="#590000">  with scala.collection.immutable.</font></tt><tt><font color="#590000">Range.</font></tt><tt><font color="#590000">ByOne = Range(1, 2) </font></tt></td></tr></table><tt> </tt></p></div><p>
-範囲は，開始値，終了値，ステップ値という，たった三つの数で定義できため定数空間で表すことができる．そのため，範囲の多くの演算は非常に高速だ．
-<p>次へ: <a href="collections_19.html">ハッシュトライ</a> <hr> <table width="100%" cellpadding="0" cellspacing="2"><tr> <td bgcolor="#99ccff"><a href="collections_19.html"><img border="0" alt="ハッシュトライ" src="next.png"></a></td><td bgcolor="#99ccff"><a href="collections_12.html"><img border="0" alt="具象不変コレクションクラス" src="up.png"></a></td><td bgcolor="#99ccff"><a href="collections_17.html"><img border="0" alt="不変キュー" src="previous.png"></a></td><td align="center" bgcolor="#99ccff" width="100%"><b>範囲</b></td><td bgcolor="#99ccff" align="center"><a href="collections_49.html">目次</a></td></tr></table>
+</head>
+<body dir="ltr">
+<table width="100%" cellpadding="0" cellspacing="2">
+<tr>
+<td bgcolor="#99CCFF"><a href="collections_19.html"><img border="0"
+alt="ハッシュトライ" src="next.png" /></a></td>
+<td bgcolor="#99CCFF"><a href="collections_12.html"><img border="0"
+alt="具象不変コレクションクラス" src="up.png" /></a></td>
+<td bgcolor="#99CCFF"><a href="collections_17.html"><img border="0"
+alt="不変キュー" src="previous.png" /></a></td>
+<td align="center" bgcolor="#99CCFF" width="100%"><b>範囲</b></td>
+<td bgcolor="#99CCFF" align="center"><a href=
+"collections_49.html">目次</a></td>
+</tr>
+</table>
+<h2>範囲</h2>
+<p>範囲 (<a href=
+"http://www.scala-lang.org/api/current/scala/collection/immutable/Range.html">Range</a>)
+は順序付けされた等間隔の整数の列だ．例えば，「1, 2, 3」は範囲であり，「5, 8, 11, 14」も範囲だ．Scala
+で範囲を作成するには，予め定義された <tt>to</tt> メソッドと <tt>by</tt> メソッドを使う．</p>
+<div class="quote">
+<table cellspacing="1" cellpadding="0">
+<tr>
+<td colspan="99" align="left"><tt>scala&gt;&nbsp;<font color=
+"#000000">1</font>&nbsp;to&nbsp;<font color=
+"#000000">3</font></tt></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt><font color=
+"#590000">res2:&nbsp;scala.collection.immutable.</font></tt><tt><font color="#590000">Range.</font></tt><tt><font color="#590000">Inclusive</font></tt></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt><font color=
+"#590000">&nbsp;&nbsp;with&nbsp;scala.collection.immutable.</font></tt><tt><font color="#590000">Range.</font></tt><tt><font color="#590000">ByOne&nbsp;=&nbsp;Range(1,&nbsp;2,&nbsp;3)</font></tt></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt>scala&gt;&nbsp;<font color=
+"#000000">5</font>&nbsp;to&nbsp;<font color=
+"#000000">14</font>&nbsp;by&nbsp;<font color=
+"#000000">3</font></tt></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt><font color=
+"#590000">res3:&nbsp;scala.collection.immutable.</font></tt><tt><font color="#590000">Range&nbsp;=&nbsp;Range(5,&nbsp;8,&nbsp;11,&nbsp;14)</font></tt></td>
+</tr>
+</table>
+</div>
+<p>上限を含まない範囲を作成したい場合は，<tt>to</tt> の代わりに，便宜上用意された <tt>until</tt>
+メソッドを使う:</p>
+<div class="quote">
+<table cellspacing="1" cellpadding="0">
+<tr>
+<td colspan="99" align="left"><tt>scala&gt;&nbsp;<font color=
+"#000000">1</font>&nbsp;until&nbsp;<font color=
+"#000000">3</font></tt></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt><font color=
+"#590000">res2:&nbsp;scala.collection.immutable.</font></tt><tt><font color="#590000">Range.</font></tt><tt><font color="#590000">Inclusive</font></tt></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt><font color=
+"#590000">&nbsp;&nbsp;with&nbsp;scala.collection.immutable.</font></tt><tt><font color="#590000">Range.</font></tt><tt><font color="#590000">ByOne&nbsp;=&nbsp;Range(1,&nbsp;2)</font></tt></td>
+</tr>
+</table>
+</div>
+<p>
+範囲は，開始値，終了値，ステップ値という，たった三つの数で定義できため定数空間で表すことができる．そのため，範囲の多くの演算は非常に高速だ．</p>
+<p>次へ: <a href="collections_19.html">ハッシュトライ</a></p>
+<hr />
+<table width="100%" cellpadding="0" cellspacing="2">
+<tr>
+<td bgcolor="#99CCFF"><a href="collections_19.html"><img border="0"
+alt="ハッシュトライ" src="next.png" /></a></td>
+<td bgcolor="#99CCFF"><a href="collections_12.html"><img border="0"
+alt="具象不変コレクションクラス" src="up.png" /></a></td>
+<td bgcolor="#99CCFF"><a href="collections_17.html"><img border="0"
+alt="不変キュー" src="previous.png" /></a></td>
+<td align="center" bgcolor="#99CCFF" width="100%"><b>範囲</b></td>
+<td bgcolor="#99CCFF" align="center"><a href=
+"collections_49.html">目次</a></td>
+</tr>
+</table>
 </body>
 </html>

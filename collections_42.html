@@ -1,97 +1,410 @@
-<html dir="ltr"> <head>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html dir="ltr" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta name="generator" content=
+"HTML Tidy for Mac OS X (vers 25 March 2009), see www.w3.org" />
 <title>Scala 2.8 コレクション API -- ビュー</title>
-
-<style type="text/css">.maketitle {
-  /* align: center; */
-}
-div.abstract {
-  margin-left: 20%;
-  margin-right: 10%;
-}
-h3.abstract {
-  /* align: center; */
-}
-div.verse, div.quote, div.quotation {
-  margin-left: 10%;
-  margin-right: 10%;
-}
-</style>
 <link rel="stylesheet" type="text/css" href="collections.css" />
-
-</head> 
-<body dir="ltr"> 
+</head>
+<body dir="ltr">
 <table width="100%" cellpadding="0" cellspacing="2">
-<tr> <td bgcolor="#99ccff"><a href="collections_43.html"><img border="0" alt="Iterators" src="next.png"></a></td><td bgcolor="#99ccff"><a href="collections_0.html"><img border="0" alt="トップ" src="up.png"></a></td><td bgcolor="#99ccff"><a href="collections_41.html"><img border="0" alt="等価性" src="previous.png"></a></td><td align="center" bgcolor="#99ccff" width="100%"><b>ビュー</b></td><td bgcolor="#99ccff" align="center"><a href="collections_49.html">目次</a></td></tr></table> 
-<h1>ビュー</h1> 
-<p>コレクションには新たなコレクションを構築するメソッドがたくさんある．例えば <tt>map</tt>，<tt>filter</tt>，<tt>++</tt> などがある． 
-これらのメソッドは一つ以上のコレクションをレシーバとして取り，戻り値として別のコレクションを生成するため<em>変換演算子 (transformer) </em>と呼ばれる．<p>変換演算子を実装するには主に二つの方法がある．<em>正格 (strict)</em>法は変換演算子の戻り値として全ての要素を含む新たなコレクションを返す．非正格法，もしくは<em>遅延 (lazy)</em>法と呼ばれる方法は，結果のコレクションの代理のみを構築して返し，実際の要素は必用に応じて構築される．<p>非正格な変換演算子の具体例として，以下の遅延 map 演算の実装を見てほしい:
-<div class="quote"><p><tt></tt><table cellspacing="1" cellpadding="0"><tt></tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt><font color="#0000e5">def</font> lazyMap[T, U](coll: <font color="#660099">Iterable[T]</font>, f: T =&gt; U) = <font color="#0000e5">new</font> <font color="#660099">Iterable[T]</font> {</tt></td></tr><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt>  <font color="#0000e5">def</font> iterator = coll.iterator map f</tt></td></tr><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt>} </tt></td></tr></table><tt> </tt></p></div>
-<tt>lazyMap</tt> は，渡されたコレクション <tt>coll</tt> の全要素を総なめすることなく新しい <tt>Iterable</tt> を構築していることに注意してほしい．代わりに，渡された関数の <tt>f</tt> が新しいコレクションの <tt>iterator</tt> に必要に応じて適用される．<p>全ての変換演算子を遅延実装している <tt>Stream</tt> を除いて，Scala のコレクションは全ての変換演算子をデフォルトで正格法で実装している．しかし，コレクションのビューにより，体系的に全てのコレクションを遅延したものに変え，また逆に戻すことができる．<em>ビュー (view)</em> は特殊なコレクションの一種で，何らかのコレクションに基づいているが全ての変換演算子を遅延実装してる．<p>あるコレクションからそのビューへと移行するには，そのコレクションに対して <tt>view</tt> メソッドを呼び出す．<tt>xs</tt> というコレクションがあるとすると，<tt>xs.view</tt> は変換演算子が遅延実装されている以外は同一のコレクションだ．ビューから正格なコレクションに戻るには <tt>force</tt> メソッドを使う．<p>具体例を見てみよう．二つの関数を続けて写像したい <tt>Int</tt>型のベクトルがあるとする．
-<div class="quote"><p><tt></tt><table cellspacing="1" cellpadding="0"><tt></tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt>scala&gt; <font color="#0000e5">val</font> v = <font color="#660099">Vector</font>(<font color="#000000">1</font> to <font color="#000000">10</font>: _*)</tt></td></tr><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt><font color="#590000">v: scala.collection.immutable.</font></tt><tt><font color="#590000">Vector[Int] =</font></tt></td></tr><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt>   <font color="#660099">Vector</font>(<font color="#000000">1</font>, <font color="#000000">2</font>, <font color="#000000">3</font>, <font color="#000000">4</font>, <font color="#000000">5</font>, <font color="#000000">6</font>, <font color="#000000">7</font>, <font color="#000000">8</font>, <font color="#000000">9</font>, <font color="#000000">10</font>)</tt></td></tr><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt>scala&gt; v map (_ + <font color="#000000">1</font>) map (_ * <font color="#000000">2</font>)</tt></td></tr><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt><font color="#590000">res5: scala.collection.immutable.</font></tt><tt><font color="#590000">Vector[Int] = </font></tt></td></tr><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt>   <font color="#660099">Vector</font>(<font color="#000000">4</font>, <font color="#000000">6</font>, <font color="#000000">8</font>, <font color="#000000">10</font>, <font color="#000000">12</font>, <font color="#000000">14</font>, <font color="#000000">16</font>, <font color="#000000">18</font>, <font color="#000000">20</font>, <font color="#000000">22</font>) </tt></td></tr></table><tt> </tt></p></div>
-最後の文において，式 <tt>v</tt> <tt>map</tt> <tt>(_</tt> <tt>+</tt> <tt>1)</tt> は新たなベクトルを構築し，それは第二の <tt>map</tt> <tt>(_</tt> <tt>*</tt> <tt>2)</tt> の呼び出しによって三つ目のベクトルに変換される．多くの状況において，最初の <tt>map</tt> への呼び出しで中間結果のためだけのベクトルが構築されるのは無駄にしかならない．上記の例では，<tt>(_</tt> <tt>+</tt> <tt>1)</tt> と <tt>(_</tt> <tt>*</tt> <tt>2)</tt> の二つの関数を合成して <tt>map</tt> を一回だけ実行したほうが速くなるだろう．両方の関数が一ヶ所にあるならば手で合成することも可能だろう．しかし，しばしばデータ構造への連続した変換はプログラム内の別々のモジュールによって実行される．もしそうならば，これらの変換を融合することはモジュール性を犠牲してしまう．中間結果を回避する，より汎用性のある方法は，ベクトルをまずビューに変え全ての変換をビューに適用した後，ビューからベクトルに逆変換することだ:
-<div class="quote"><p><tt></tt><table cellspacing="1" cellpadding="0"><tt></tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt>scala&gt; (v.view map (_ + <font color="#000000">1</font>) map (_ * <font color="#000000">2</font>)).force</tt></td></tr><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt><font color="#590000">res12: Seq[Int] = Vector(4, 6, 8, 10, 12, 14, 16, 18, 20, 22)   </font></tt></td></tr></table><tt> </tt></p></div>同じ演算の手順をもう一度ひとつひとつ見てみよう:<div class="quote"><p><tt></tt><table cellspacing="1" cellpadding="0"><tt></tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt>scala&gt; <font color="#0000e5">val</font> vv = v.view</tt></td></tr><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt><font color="#590000">vv: scala.collection.</font></tt><tt><font color="#590000">SeqView[Int,Vector[Int]] = </font></tt></td></tr><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt>   <font color="#660099">SeqView</font>(<font color="#000000">1</font>, <font color="#000000">2</font>, <font color="#000000">3</font>, <font color="#000000">4</font>, <font color="#000000">5</font>, <font color="#000000">6</font>, <font color="#000000">7</font>, <font color="#000000">8</font>, <font color="#000000">9</font>, <font color="#000000">10</font>) </tt></td></tr></table><tt> </tt></p></div>
-<tt>v.view</tt> を適用することで遅延評価される <tt>Seq</tt> である <tt>SeqView</tt> が得られる．<tt>SeqView</tt> には二つの型パラメータがある．第一の <tt>Int</tt> はビューの要素の型を示す．第二の <tt>Vector[Int]</tt> は <tt>view</tt> を逆変換する時の型コンストラクタを示す．<p>最初の <tt>map</tt> を適用することでビューは以下を返す:<div class="quote"><p><tt></tt><table cellspacing="1" cellpadding="0"><tt></tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt>scala&gt; vv map (_ + <font color="#000000">1</font>)</tt></td></tr><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt><font color="#590000">res13: scala.collection.</font></tt><tt><font color="#590000">SeqView[Int,Seq[_]] = SeqViewM(...) </font></tt></td></tr></table><tt> </tt></p></div><tt>map</tt> の戻り値は，<tt>SeqViewM(...)</tt> と表示された値だ．この値は本質的に，ベクトル <tt>v</tt> に対して関数 <tt>(_</tt> <tt>+</tt> <tt>1)</tt> を使って <tt>map</tt> を適用する必要があるということを記録するラッパーだ．しかし，ビューが強制実行 (<tt>force</tt>) されるまでは map 演算は適用されない．<tt>SeqView</tt> の後ろに付けられた「M」は，ビューが <tt>map</tt> 演算を表すことを示す．他の文字は別の遅延された演算を示す．例えば，「S」は遅延した <tt>slice</tt> 演算を示し，「R」は遅延した <tt>reverse</tt> 演算を示す．先ほどの結果に，次の <tt>map</tt> を適用しよう．
-<div class="quote"><p><tt></tt><table cellspacing="1" cellpadding="0"><tt></tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt>scala&gt; res13 map (_ * <font color="#000000">2</font>)</tt></td></tr><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt><font color="#590000">res14: scala.collection.</font></tt><tt><font color="#590000">SeqView[Int,Seq[_]] = SeqViewMM(...) </font></tt></td></tr></table><tt> </tt></p></div>今度は二回の map 演算を含む <tt>SeqView</tt> が得られるため，「M」も二回表示される: <tt>SeqViewMM(...)</tt>．
-最後に，先ほどの結果を逆変換すると: 
-<div class="quote"><p><tt></tt>
-<table cellspacing="1" cellpadding="0"><tt></tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt>scala&gt; res14.force</tt></td></tr><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt><font color="#590000">res15: Seq[Int] = Vector(4, 6, 8, 10, 12, 14, 16, 18, 20, 22) </font></tt></td></tr></table><tt> </tt></p></div>
-格納されていた両方の関数は強制実行 (<tt>force</tt>) の一部として適用され，新しいベクトルが構築される．これにより，中間結果のデータ構造は必要なくなった．<p>一つ注意してほしいのは，最終結果の静的型が <tt>Vector</tt> ではなく <tt>Seq</tt> であるということだ． 型をさかのぼってみると，最初の遅延 map が適用された時点で既に戻り値の静的型が <tt>SeqViewM[Int,</tt> <tt>Seq[_]]</tt> 型であったことが分かる．つまり，ビューが特定の列型である <tt>Vector</tt> に適応されたという「知識」が失われたということだ．ビューの実装には多量のコード要するものがあるため，Scala コレクションライブラリは汎用コレクション型にのみビューを提供するが，特定の実装にはビューは提供されないのだ<sup><a href="collections_50.html#id5">5</a></sup>． 
-<p>ビューを使うことを考慮する二つの理由がある．第一は，パフォーマンスだ．コレクションをビューに切り替えることで中間結果を構築することを避けれることを既に説明した．このような節約は時として大切な結果をもたらす．もう一つの具体例として，単語のリストから回文を探す問題を考える．回文とは前後のどちらから読んでも同じ語句だ．必要な定義を以下に示す:
-<div class="quote"><p><tt></tt><table cellspacing="1" cellpadding="0"><tt></tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt><font color="#0000e5">def</font> isPalindrome(x: <font color="#660099">String</font>) = x == x.reverse</tt></td></tr><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt><font color="#0000e5">def</font> findPalidrome(s: <font color="#660099">Seq[String]</font>) = s find isPalindrome </tt></td></tr></table><tt> </tt></p></div>
-ここで非常に長い <tt>words</tt> という列があり，列の最初の百万語の中から単一の回文を探したいと仮定する．<tt>findPalidrome</tt> の定義を再利用できるだろうか．当然，以下のように書くことはできる:<div class="quote"><p><tt></tt><table cellspacing="1" cellpadding="0"><tt></tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt>findPalindrome(words take <font color="#000000">1000000</font>) </tt></td></tr></table><tt> </tt></p></div>
-これは，列の中から最初の百万語を選択するのと，単一の回文を探すという二つの側面をきれいに分担する．しかし，たとえ列の最初の語が回文であったとしても，百万語から成る中間結果の列を常に構築してしまうという欠点がある．つまり，999999語が中間結果にコピーされ，その後検査もされないということが起こりえる．ここで多くのプログラマは諦めて，先頭 n個の部分列に対して検索を行う特殊なバージョンの回文検索を書いてしまう．ビューがあれば，あなたはそんな事をしなくても済む．こう書けばいいからだ: 
-<div class="quote"><p><tt></tt><table cellspacing="1" cellpadding="0"><tt></tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt>findPalindrome(words.view take <font color="#000000">1000000</font>) </tt></td></tr></table><tt> </tt></p></div>関心事の分業を保ちつつも，これは百万要素の列の代わりに軽量なビューオブジェクトのみを構築する．これにより，パフォーマンスとモジュール性の択一をしなくても済む．
-<p>次の事例として，可変列に対するビューを見てみたい．可変列のビューにいくつかの変換関数を適用することで，元の列内の要素を選択的に更新する制限枠として機能することができる．ここに配列 <tt>arr</tt> があると仮定する:
-<div class="quote"><p><tt></tt><table cellspacing="1" cellpadding="0"><tt></tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt>scala&gt; <font color="#0000e5">val</font> arr = (<font color="#000000">0</font> to <font color="#000000">9</font>).toArray</tt></td></tr><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt><font color="#590000">arr: Array[Int] = Array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9) </font></tt></td></tr></table><tt> </tt></p></div>その配列への制限枠を作るのに，<tt>arr</tt> のビューのスライスを作ることができる:<div class="quote"><p><tt></tt><table cellspacing="1" cellpadding="0"><tt></tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt>scala&gt; <font color="#0000e5">val</font> subarr = arr.view.slice(<font color="#000000">3</font>, <font color="#000000">6</font>)</tt></td></tr><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt><font color="#590000">subarr: scala.collection.mutable.</font></tt><tt><font color="#590000">IndexedSeqView[</font></tt></td></tr><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt><font color="#590000">Int,Array[Int]] = IndexedSeqViewS(...) </font></tt></td></tr></table><tt> </tt></p></div>
-これにより，配列 <tt>arr</tt> の 3〜5 の位置を参照するビュー <tt>subarr</tt> が得られる．ビューは要素をコピーせず，参照のみを提供する．ここで，列の要素を変更するメソッドがあると仮定する．例えば，以下の <tt>negate</tt> メソッドは，与えれれた整数列の全ての要素の符号を反転する．
-<div class="quote"><p><tt></tt><table cellspacing="1" cellpadding="0"><tt></tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt>scala&gt; <font color="#0000e5">def</font> negate(xs: <font color="#660099">collection.mutable.</font></tt><tt><font color="#660099">Seq[Int]</font>) =</tt></td></tr><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt>         <font color="#0000e5">for</font> (i &lt;- <font color="#000000">0</font> until xs.length) xs(i) = -xs(i)</tt></td></tr><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt><font color="#590000">negate: (xs: scala.collection.mutable.</font></tt><tt><font color="#590000">Seq[Int])Unit </font></tt></td></tr></table><tt> </tt></p></div>配列 <tt>arr</tt> の  3〜5 の位置の要素の符号を反転したいとする．これに <tt>negate</tt> が使えるだろうか． 
-ビューを使えば，簡単にできる:
-<div class="quote"><p><tt></tt><table cellspacing="1" cellpadding="0"><tt></tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt>scala&gt; negate(subarr)</tt></td></tr><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt>scala&gt; arr</tt></td></tr><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt><font color="#590000">res4: Array[Int] = Array(0, 1, 2, -3, -4, -5, 6, 7, 8, 9) </font></tt></td></tr></table><tt> </tt></p></div>
-何が起こったかと言うと，<tt>negate</tt>  は <tt>subarr</tt>内の全ての要素を変更したが，実際にはそれは <tt>arr</tt> の要素のスライスだったというわけだ．ここでも，ビューがモジュール性を保つのに役立っているのが分かるだろう．上記のコードは，メソッドをどの添字の範囲に適用するのかという問題と，どのメソッドを適用するのかという問題を見事に切り離している．<p>これだけ粋なビューの使用例を見た後だと，なぜ正格コレクションがあるのか疑問に思うかもしれない．理由の一つとして，性能を比較すると遅延コレクションが常に正格コレクションに勝るとは限らないというものがある．コレクションのサイズが小さい場合，ビュー内でクロージャを作成し適用するためのオーバーヘッドが中間結果のためのデータ構造を回避するコストを上回ってしまうことが多いのだ．恐らくより重要な理由として，遅延した演算が副作用を伴う場合，ビューの評価が非常に混乱したものとなってしまうというものがある．<p>Scala 2.8 以前で多くのユーザが陥った失敗例を以下に示す．これらのバージョンでは <tt>Range</tt> 型が遅延評価されたため，実質的にビューのように振舞った．多くの人が以下のようにして複数の actor を作成しようとした:
-<div class="quote"><p><tt></tt><table cellspacing="1" cellpadding="0"><tt></tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt><font color="#0000e5">val</font> actors = <font color="#0000e5">for</font> (i &lt;- <font color="#000000">1</font> to <font color="#000000">10</font>) <font color="#0000e5">yield</font> actor { ... </tt><tt>} </tt></td></tr></table><tt> </tt></p></div><tt>actor</tt> メソッドと後続の中括弧に囲まれたコードは actor を作成し始動するべきだが，驚いた事にどの actor も実行されていなかった．なぜ何も起こらなかったのかは，for 式が <tt>map</tt> の適用と等価であることを思い出せば説明がつく:<div class="quote"><p><tt></tt><table cellspacing="1" cellpadding="0"><tt></tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt><font color="#0000e5">val</font> actors = (<font color="#000000">1</font> to <font color="#000000">10</font>) map (i =&gt; actor { ... </tt><tt>}) </tt></td></tr></table><tt> </tt></p></div>
-<tt>(1</tt> <tt>to</tt> <tt>10)</tt> により生成された範囲はビューのように振舞ったため，<tt>map</tt> の戻り値もビューとなった．つまり，どの要素も計算されず，結果的にどの actor も作成されなかったのだ! 範囲の式全体を強制実行すれば actor は作成されただろうが，actor を作動させるためにそれが必要なことは全く明白では無い．
-<p>このような不意打ちを避けるため，Scala 2.8 ではより規則的なルールを採用する．ストリームを除く，全てのコレクションは正格評価される．正格コレクションから遅延コレクションに移行する唯一の方法は <tt>view</tt> メソッドによる．戻る唯一の方法は <tt>force</tt> による．よって，Scala 2.8 では先程の <tt>actors</tt> の定義は期待した通りに 10個の actor を作成し始動する．以前のような，予期しない振る舞いをさせるには，明示的に <tt>view</tt> メソッドを呼び出す必要がある．
-<div class="quote"><p><tt></tt><table cellspacing="1" cellpadding="0"><tt></tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt><font color="#0000e5">val</font> actors = <font color="#0000e5">for</font> (i &lt;- (<font color="#000000">1</font> to <font color="#000000">10</font>).view) <font color="#0000e5">yield</font> actor { ... </tt><tt>} </tt></td></tr></table><tt> </tt></p></div>
-<p>まとめると，ビューは効率性の問題とモジュール性の問題を仲裁する強力な道具だ．しかし，遅延評価の面倒に巻き込まれないためには，ビューの使用は二つのシナリオに限るべきだ．一つは，ビューの適用を副作用を伴わない純粋関数型のコードに限ること．もしくは，明示的に全ての変更が行われる可変コレクションに適用することだ．避けたほうがいいのは，ビューと新たなコレクションを作成しつつ副作用を伴う演算を混合することだ．
-<p>次へ: <a href="collections_43.html">イテレータ</a> <hr> <table width="100%" cellpadding="0" cellspacing="2">
-<tr> <td bgcolor="#99ccff"><a href="collections_43.html"><img border="0" alt="イテレータ" src="next.png"></a></td><td bgcolor="#99ccff"><a href="collections_0.html"><img border="0" alt="トップ" src="up.png"></a></td><td bgcolor="#99ccff"><a href="collections_41.html"><img border="0" alt="等価性" src="previous.png"></a></td><td align="center" bgcolor="#99ccff" width="100%"><b>ビュー</b></td><td bgcolor="#99ccff" align="center"><a href="collections_49.html">目次</a></td></tr></table>
+<tr>
+<td bgcolor="#99CCFF"><a href="collections_43.html"><img border="0"
+alt="Iterators" src="next.png" /></a></td>
+<td bgcolor="#99CCFF"><a href="collections_0.html"><img border="0"
+alt="トップ" src="up.png" /></a></td>
+<td bgcolor="#99CCFF"><a href="collections_41.html"><img border="0"
+alt="等価性" src="previous.png" /></a></td>
+<td align="center" bgcolor="#99CCFF" width="100%"><b>ビュー</b></td>
+<td bgcolor="#99CCFF" align="center"><a href=
+"collections_49.html">目次</a></td>
+</tr>
+</table>
+<h1>ビュー</h1>
+<p>コレクションには新たなコレクションを構築するメソッドがたくさんある．例えば
+<tt>map</tt>，<tt>filter</tt>，<tt>++</tt> などがある．
+これらのメソッドは一つ以上のコレクションをレシーバとして取り，戻り値として別のコレクションを生成するため<em>変換演算子
+(transformer)</em> と呼ばれる．</p>
+<p>変換演算子を実装するには主に二つの方法がある．<em>正格
+(strict)</em>法は変換演算子の戻り値として全ての要素を含む新たなコレクションを返す．非正格法，もしくは<em>遅延
+(lazy)</em>法と呼ばれる方法は，結果のコレクションの代理のみを構築して返し，実際の要素は必用に応じて構築される．</p>
+<p>非正格な変換演算子の具体例として，以下の遅延 map 演算の実装を見てほしい:</p>
+<div class="quote">
+<table cellspacing="1" cellpadding="0">
+<tr>
+<td colspan="99" align="left"><tt><font color=
+"#0000E5">def</font>&nbsp;lazyMap[T,&nbsp;U](coll:&nbsp;<font color="#660099">Iterable[T]</font>,&nbsp;f:&nbsp;T&nbsp;=&gt;&nbsp;U)&nbsp;=&nbsp;<font color="#0000E5">new</font>&nbsp;<font color="#660099">Iterable[T]</font>&nbsp;{</tt></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt>&nbsp;&nbsp;<font color=
+"#0000E5">def</font>&nbsp;iterator&nbsp;=&nbsp;coll.iterator&nbsp;map&nbsp;f</tt></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt>}</tt></td>
+</tr>
+</table>
+</div>
+<p><tt>lazyMap</tt> は，渡されたコレクション <tt>coll</tt> の全要素を総なめすることなく新しい
+<tt>Iterable</tt> を構築していることに注意してほしい．代わりに，渡された関数の <tt>f</tt>
+が新しいコレクションの <tt>iterator</tt> に必要に応じて適用される．</p>
+<p>全ての変換演算子を遅延実装している <tt>Stream</tt> を除いて，Scala
+のコレクションは全ての変換演算子をデフォルトで正格法で実装している．しかし，コレクションのビューにより，体系的に全てのコレクションを遅延したものに変え，また逆に戻すことができる．<em>ビュー
+(view)</em> は特殊なコレクションの一種で，何らかのコレクションに基づいているが全ての変換演算子を遅延実装してる．</p>
+<p>あるコレクションからそのビューへと移行するには，そのコレクションに対して <tt>view</tt>
+メソッドを呼び出す．<tt>xs</tt> というコレクションがあるとすると，<tt>xs.view</tt>
+は変換演算子が遅延実装されている以外は同一のコレクションだ．ビューから正格なコレクションに戻るには <tt>force</tt>
+メソッドを使う．</p>
+<p>具体例を見てみよう．二つの関数を続けて写像したい <tt>Int</tt>型のベクトルがあるとする．</p>
+<div class="quote">
+<table cellspacing="1" cellpadding="0">
+<tr>
+<td colspan="99" align="left"><tt>scala&gt;&nbsp;<font color=
+"#0000E5">val</font>&nbsp;v&nbsp;=&nbsp;<font color=
+"#660099">Vector</font>(<font color=
+"#000000">1</font>&nbsp;to&nbsp;<font color=
+"#000000">10</font>:&nbsp;_*)</tt></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt><font color=
+"#590000">v:&nbsp;scala.collection.immutable.</font></tt><tt><font color="#590000">Vector[Int]&nbsp;=</font></tt></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt>&nbsp;&nbsp;&nbsp;<font color=
+"#660099">Vector</font>(<font color=
+"#000000">1</font>,&nbsp;<font color=
+"#000000">2</font>,&nbsp;<font color=
+"#000000">3</font>,&nbsp;<font color=
+"#000000">4</font>,&nbsp;<font color=
+"#000000">5</font>,&nbsp;<font color=
+"#000000">6</font>,&nbsp;<font color=
+"#000000">7</font>,&nbsp;<font color=
+"#000000">8</font>,&nbsp;<font color=
+"#000000">9</font>,&nbsp;<font color="#000000">10</font>)</tt></td>
+</tr>
+<tr>
+<td colspan="99" align="left">
+<tt>scala&gt;&nbsp;v&nbsp;map&nbsp;(_&nbsp;+&nbsp;<font color=
+"#000000">1</font>)&nbsp;map&nbsp;(_&nbsp;*&nbsp;<font color=
+"#000000">2</font>)</tt></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt><font color=
+"#590000">res5:&nbsp;scala.collection.immutable.</font></tt><tt><font color="#590000">Vector[Int]&nbsp;=&nbsp;</font></tt></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt>&nbsp;&nbsp;&nbsp;<font color=
+"#660099">Vector</font>(<font color=
+"#000000">4</font>,&nbsp;<font color=
+"#000000">6</font>,&nbsp;<font color=
+"#000000">8</font>,&nbsp;<font color=
+"#000000">10</font>,&nbsp;<font color=
+"#000000">12</font>,&nbsp;<font color=
+"#000000">14</font>,&nbsp;<font color=
+"#000000">16</font>,&nbsp;<font color=
+"#000000">18</font>,&nbsp;<font color=
+"#000000">20</font>,&nbsp;<font color=
+"#000000">22</font>)</tt></td>
+</tr>
+</table>
+</div>
+<p>最後の文において，式
+<tt>v</tt>&nbsp;<tt>map</tt>&nbsp;<tt>(_</tt>&nbsp;<tt>+</tt>&nbsp;<tt>1)</tt>
+は新たなベクトルを構築し，それは第二の
+<tt>map</tt>&nbsp;<tt>(_</tt>&nbsp;<tt>*</tt>&nbsp;<tt>2)</tt>
+の呼び出しによって三つ目のベクトルに変換される．多くの状況において，最初の <tt>map</tt>
+への呼び出しで中間結果のためだけのベクトルが構築されるのは無駄にしかならない．上記の例では，<tt>(_</tt>&nbsp;<tt>+</tt>&nbsp;<tt>1)</tt>
+と <tt>(_</tt>&nbsp;<tt>*</tt>&nbsp;<tt>2)</tt> の二つの関数を合成して
+<tt>map</tt>
+を一回だけ実行したほうが速くなるだろう．両方の関数が一ヶ所にあるならば手で合成することも可能だろう．しかし，しばしばデータ構造への連続した変換はプログラム内の別々のモジュールによって実行される．もしそうならば，これらの変換を融合することはモジュール性を犠牲してしまう．中間結果を回避する，より汎用性のある方法は，ベクトルをまずビューに変え全ての変換をビューに適用した後，ビューからベクトルに逆変換することだ:</p>
+<div class="quote">
+<table cellspacing="1" cellpadding="0">
+<tr>
+<td colspan="99" align="left">
+<tt>scala&gt;&nbsp;(v.view&nbsp;map&nbsp;(_&nbsp;+&nbsp;<font color="#000000">1</font>)&nbsp;map&nbsp;(_&nbsp;*&nbsp;<font color="#000000">2</font>)).force</tt></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt><font color=
+"#590000">res12:&nbsp;Seq[Int]&nbsp;=&nbsp;Vector(4,&nbsp;6,&nbsp;8,&nbsp;10,&nbsp;12,&nbsp;14,&nbsp;16,&nbsp;18,&nbsp;20,&nbsp;22)&nbsp;&nbsp;</font></tt></td>
+</tr>
+</table>
+</div>
+<p>同じ演算の手順をもう一度ひとつひとつ見てみよう:</p>
+<div class="quote">
+<table cellspacing="1" cellpadding="0">
+<tr>
+<td colspan="99" align="left"><tt>scala&gt;&nbsp;<font color=
+"#0000E5">val</font>&nbsp;vv&nbsp;=&nbsp;v.view</tt></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt><font color=
+"#590000">vv:&nbsp;scala.collection.</font></tt><tt><font color=
+"#590000">SeqView[Int,Vector[Int]]&nbsp;=&nbsp;</font></tt></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt>&nbsp;&nbsp;&nbsp;<font color=
+"#660099">SeqView</font>(<font color=
+"#000000">1</font>,&nbsp;<font color=
+"#000000">2</font>,&nbsp;<font color=
+"#000000">3</font>,&nbsp;<font color=
+"#000000">4</font>,&nbsp;<font color=
+"#000000">5</font>,&nbsp;<font color=
+"#000000">6</font>,&nbsp;<font color=
+"#000000">7</font>,&nbsp;<font color=
+"#000000">8</font>,&nbsp;<font color=
+"#000000">9</font>,&nbsp;<font color="#000000">10</font>)</tt></td>
+</tr>
+</table>
+</div>
+<p><tt>v.view</tt> を適用することで遅延評価される <tt>Seq</tt> である
+<tt>SeqView</tt> が得られる．<tt>SeqView</tt> には二つの型パラメータがある．第一の
+<tt>Int</tt> はビューの要素の型を示す．第二の <tt>Vector[Int]</tt> は <tt>view</tt>
+を逆変換する時の型コンストラクタを示す．</p>
+<p>最初の <tt>map</tt> を適用することでビューは以下を返す:</p>
+<div class="quote">
+<table cellspacing="1" cellpadding="0">
+<tr>
+<td colspan="99" align="left">
+<tt>scala&gt;&nbsp;vv&nbsp;map&nbsp;(_&nbsp;+&nbsp;<font color=
+"#000000">1</font>)</tt></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt><font color=
+"#590000">res13:&nbsp;scala.collection.</font></tt><tt><font color=
+"#590000">SeqView[Int,Seq[_]]&nbsp;=&nbsp;SeqViewM(...)</font></tt></td>
+</tr>
+</table>
+</div>
+<p><tt>map</tt> の戻り値は，<tt>SeqViewM(...)</tt> と表示された値だ．この値は本質的に，ベクトル
+<tt>v</tt> に対して関数 <tt>(_</tt>&nbsp;<tt>+</tt>&nbsp;<tt>1)</tt> を使って
+<tt>map</tt> を適用する必要があるということを記録するラッパーだ．しかし，ビューが強制実行
+(<tt>force</tt>) されるまでは map 演算は適用されない．<tt>SeqView</tt>
+の後ろに付けられた「M」は，ビューが <tt>map</tt>
+演算を表すことを示す．他の文字は別の遅延された演算を示す．例えば，「S」は遅延した <tt>slice</tt>
+演算を示し，「R」は遅延した <tt>reverse</tt> 演算を示す．先ほどの結果に，次の <tt>map</tt>
+を適用しよう．</p>
+<div class="quote">
+<table cellspacing="1" cellpadding="0">
+<tr>
+<td colspan="99" align="left">
+<tt>scala&gt;&nbsp;res13&nbsp;map&nbsp;(_&nbsp;*&nbsp;<font color=
+"#000000">2</font>)</tt></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt><font color=
+"#590000">res14:&nbsp;scala.collection.</font></tt><tt><font color=
+"#590000">SeqView[Int,Seq[_]]&nbsp;=&nbsp;SeqViewMM(...)</font></tt></td>
+</tr>
+</table>
+</div>
+<p>今度は二回の map 演算を含む <tt>SeqView</tt> が得られるため，「M」も二回表示される:
+<tt>SeqViewMM(...)</tt>． 最後に，先ほどの結果を逆変換すると:</p>
+<div class="quote">
+<table cellspacing="1" cellpadding="0">
+<tr>
+<td colspan="99" align="left">
+<tt>scala&gt;&nbsp;res14.force</tt></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt><font color=
+"#590000">res15:&nbsp;Seq[Int]&nbsp;=&nbsp;Vector(4,&nbsp;6,&nbsp;8,&nbsp;10,&nbsp;12,&nbsp;14,&nbsp;16,&nbsp;18,&nbsp;20,&nbsp;22)</font></tt></td>
+</tr>
+</table>
+</div>
+<p>格納されていた両方の関数は強制実行 (<tt>force</tt>)
+の一部として適用され，新しいベクトルが構築される．これにより，中間結果のデータ構造は必要なくなった．</p>
+<p>一つ注意してほしいのは，最終結果の静的型が <tt>Vector</tt> ではなく <tt>Seq</tt>
+であるということだ． 型をさかのぼってみると，最初の遅延 map が適用された時点で既に戻り値の静的型が
+<tt>SeqViewM[Int,</tt>&nbsp;<tt>Seq[_]]</tt>
+型であったことが分かる．つまり，ビューが特定の列型である <tt>Vector</tt>
+に適応されたという「知識」が失われたということだ．ビューの実装には多量のコード要するものがあるため，Scala
+コレクションライブラリは汎用コレクション型にのみビューを提供するが，特定の実装にはビューは提供されないのだ<sup><a href=
+"collections_50.html#id5">5</a></sup>．</p>
+<p>
+ビューを使うことを考慮する二つの理由がある．第一は，パフォーマンスだ．コレクションをビューに切り替えることで中間結果を構築することを避けれることを既に説明した．このような節約は時として大切な結果をもたらす．もう一つの具体例として，単語のリストから回文を探す問題を考える．回文とは前後のどちらから読んでも同じ語句だ．必要な定義を以下に示す:</p>
+<div class="quote">
+<table cellspacing="1" cellpadding="0">
+<tr>
+<td colspan="99" align="left"><tt><font color=
+"#0000E5">def</font>&nbsp;isPalindrome(x:&nbsp;<font color=
+"#660099">String</font>)&nbsp;=&nbsp;x&nbsp;==&nbsp;x.reverse</tt></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt><font color=
+"#0000E5">def</font>&nbsp;findPalidrome(s:&nbsp;<font color=
+"#660099">Seq[String]</font>)&nbsp;=&nbsp;s&nbsp;find&nbsp;isPalindrome</tt></td>
+</tr>
+</table>
+</div>
+<p>ここで非常に長い <tt>words</tt>
+という列があり，列の最初の百万語の中から単一の回文を探したいと仮定する．<tt>findPalidrome</tt>
+の定義を再利用できるだろうか．当然，以下のように書くことはできる:</p>
+<div class="quote">
+<table cellspacing="1" cellpadding="0">
+<tr>
+<td colspan="99" align="left">
+<tt>findPalindrome(words&nbsp;take&nbsp;<font color=
+"#000000">1000000</font>)</tt></td>
+</tr>
+</table>
+</div>
+<p>
+これは，列の中から最初の百万語を選択するのと，単一の回文を探すという二つの側面をきれいに分担する．しかし，たとえ列の最初の語が回文であったとしても，百万語から成る中間結果の列を常に構築してしまうという欠点がある．つまり，999999語が中間結果にコピーされ，その後検査もされないということが起こりえる．ここで多くのプログラマは諦めて，先頭
+n個の部分列に対して検索を行う特殊なバージョンの回文検索を書いてしまう．ビューがあれば，あなたはそんな事をしなくても済む．こう書けばいいからだ:</p>
+<div class="quote">
+<table cellspacing="1" cellpadding="0">
+<tr>
+<td colspan="99" align="left">
+<tt>findPalindrome(words.view&nbsp;take&nbsp;<font color=
+"#000000">1000000</font>)</tt></td>
+</tr>
+</table>
+</div>
+<p>
+関心事の分業を保ちつつも，これは百万要素の列の代わりに軽量なビューオブジェクトのみを構築する．これにより，パフォーマンスとモジュール性の択一をしなくても済む．</p>
+<p>
+次の事例として，可変列に対するビューを見てみたい．可変列のビューにいくつかの変換関数を適用することで，元の列内の要素を選択的に更新する制限枠として機能することができる．ここに配列
+<tt>arr</tt> があると仮定する:</p>
+<div class="quote">
+<table cellspacing="1" cellpadding="0">
+<tr>
+<td colspan="99" align="left"><tt>scala&gt;&nbsp;<font color=
+"#0000E5">val</font>&nbsp;arr&nbsp;=&nbsp;(<font color=
+"#000000">0</font>&nbsp;to&nbsp;<font color=
+"#000000">9</font>).toArray</tt></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt><font color=
+"#590000">arr:&nbsp;Array[Int]&nbsp;=&nbsp;Array(0,&nbsp;1,&nbsp;2,&nbsp;3,&nbsp;4,&nbsp;5,&nbsp;6,&nbsp;7,&nbsp;8,&nbsp;9)</font></tt></td>
+</tr>
+</table>
+</div>
+<p>その配列への制限枠を作るのに，<tt>arr</tt> のビューのスライスを作ることができる:</p>
+<div class="quote">
+<table cellspacing="1" cellpadding="0">
+<tr>
+<td colspan="99" align="left"><tt>scala&gt;&nbsp;<font color=
+"#0000E5">val</font>&nbsp;subarr&nbsp;=&nbsp;arr.view.slice(<font color="#000000">3</font>,&nbsp;<font color="#000000">6</font>)</tt></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt><font color=
+"#590000">subarr:&nbsp;scala.collection.mutable.</font></tt><tt><font color="#590000">IndexedSeqView[</font></tt></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt><font color=
+"#590000">Int,Array[Int]]&nbsp;=&nbsp;IndexedSeqViewS(...)</font></tt></td>
+</tr>
+</table>
+</div>
+<p>これにより，配列 <tt>arr</tt> の 3〜5 の位置を参照するビュー <tt>subarr</tt>
+が得られる．ビューは要素をコピーせず，参照のみを提供する．ここで，列の要素を変更するメソッドがあると仮定する．例えば，以下の
+<tt>negate</tt> メソッドは，与えれれた整数列の全ての要素の符号を反転する．</p>
+<div class="quote">
+<table cellspacing="1" cellpadding="0">
+<tr>
+<td colspan="99" align="left"><tt>scala&gt;&nbsp;<font color=
+"#0000E5">def</font>&nbsp;negate(xs:&nbsp;<font color=
+"#660099">collection.mutable.</font></tt><tt><font color=
+"#660099">Seq[Int]</font>)&nbsp;=</tt></td>
+</tr>
+<tr>
+<td colspan="99" align="left">
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#0000E5">for</font>&nbsp;(i&nbsp;&lt;-&nbsp;<font color="#000000">0</font>&nbsp;until&nbsp;xs.length)&nbsp;xs(i)&nbsp;=&nbsp;-xs(i)</tt></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt><font color=
+"#590000">negate:&nbsp;(xs:&nbsp;scala.collection.mutable.</font></tt><tt><font color="#590000">Seq[Int])Unit</font></tt></td>
+</tr>
+</table>
+</div>
+<p>配列 <tt>arr</tt> の 3〜5 の位置の要素の符号を反転したいとする．これに <tt>negate</tt>
+が使えるだろうか． ビューを使えば，簡単にできる:</p>
+<div class="quote">
+<table cellspacing="1" cellpadding="0">
+<tr>
+<td colspan="99" align="left">
+<tt>scala&gt;&nbsp;negate(subarr)</tt></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt>scala&gt;&nbsp;arr</tt></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt><font color=
+"#590000">res4:&nbsp;Array[Int]&nbsp;=&nbsp;Array(0,&nbsp;1,&nbsp;2,&nbsp;-3,&nbsp;-4,&nbsp;-5,&nbsp;6,&nbsp;7,&nbsp;8,&nbsp;9)</font></tt></td>
+</tr>
+</table>
+</div>
+<p>何が起こったかと言うと，<tt>negate</tt> は
+<tt>subarr</tt>内の全ての要素を変更したが，実際にはそれは <tt>arr</tt>
+の要素のスライスだったというわけだ．ここでも，ビューがモジュール性を保つのに役立っているのが分かるだろう．上記のコードは，メソッドをどの添字の範囲に適用するのかという問題と，どのメソッドを適用するのかという問題を見事に切り離している．</p>
+<p>
+これだけ粋なビューの使用例を見た後だと，なぜ正格コレクションがあるのか疑問に思うかもしれない．理由の一つとして，性能を比較すると遅延コレクションが常に正格コレクションに勝るとは限らないというものがある．コレクションのサイズが小さい場合，ビュー内でクロージャを作成し適用するためのオーバーヘッドが中間結果のためのデータ構造を回避するコストを上回ってしまうことが多いのだ．恐らくより重要な理由として，遅延した演算が副作用を伴う場合，ビューの評価が非常に混乱したものとなってしまうというものがある．</p>
+<p>Scala 2.8 以前で多くのユーザが陥った失敗例を以下に示す．これらのバージョンでは <tt>Range</tt>
+型が遅延評価されたため，実質的にビューのように振舞った．多くの人が以下のようにして複数の actor を作成しようとした:</p>
+<div class="quote">
+<table cellspacing="1" cellpadding="0">
+<tr>
+<td colspan="99" align="left"><tt><font color=
+"#0000E5">val</font>&nbsp;actors&nbsp;=&nbsp;<font color=
+"#0000E5">for</font>&nbsp;(i&nbsp;&lt;-&nbsp;<font color=
+"#000000">1</font>&nbsp;to&nbsp;<font color=
+"#000000">10</font>)&nbsp;<font color=
+"#0000E5">yield</font>&nbsp;actor&nbsp;{&nbsp;...&nbsp;</tt><tt>}</tt></td>
+</tr>
+</table>
+</div>
+<p><tt>actor</tt> メソッドと後続の中括弧に囲まれたコードは actor を作成し始動するべきだが，驚いた事にどの
+actor も実行されていなかった．なぜ何も起こらなかったのかは，for 式が <tt>map</tt>
+の適用と等価であることを思い出せば説明がつく:</p>
+<div class="quote">
+<table cellspacing="1" cellpadding="0">
+<tr>
+<td colspan="99" align="left"><tt><font color=
+"#0000E5">val</font>&nbsp;actors&nbsp;=&nbsp;(<font color=
+"#000000">1</font>&nbsp;to&nbsp;<font color=
+"#000000">10</font>)&nbsp;map&nbsp;(i&nbsp;=&gt;&nbsp;actor&nbsp;{&nbsp;...&nbsp;</tt><tt>})</tt></td>
+</tr>
+</table>
+</div>
+<p><tt>(1</tt>&nbsp;<tt>to</tt>&nbsp;<tt>10)</tt>
+により生成された範囲はビューのように振舞ったため，<tt>map</tt>
+の戻り値もビューとなった．つまり，どの要素も計算されず，結果的にどの actor も作成されなかったのだ!
+範囲の式全体を強制実行すれば actor は作成されただろうが，actor
+を作動させるためにそれが必要なことは全く明白では無い．</p>
+<p>このような不意打ちを避けるため，Scala 2.8
+ではより規則的なルールを採用する．ストリームを除く，全てのコレクションは正格評価される．正格コレクションから遅延コレクションに移行する唯一の方法は
+<tt>view</tt> メソッドによる．戻る唯一の方法は <tt>force</tt> による．よって，Scala 2.8
+では先程の <tt>actors</tt> の定義は期待した通りに 10個の actor
+を作成し始動する．以前のような，予期しない振る舞いをさせるには，明示的に <tt>view</tt>
+メソッドを呼び出す必要がある．</p>
+<div class="quote">
+<table cellspacing="1" cellpadding="0">
+<tr>
+<td colspan="99" align="left"><tt><font color=
+"#0000E5">val</font>&nbsp;actors&nbsp;=&nbsp;<font color=
+"#0000E5">for</font>&nbsp;(i&nbsp;&lt;-&nbsp;(<font color=
+"#000000">1</font>&nbsp;to&nbsp;<font color=
+"#000000">10</font>).view)&nbsp;<font color=
+"#0000E5">yield</font>&nbsp;actor&nbsp;{&nbsp;...&nbsp;</tt><tt>}</tt></td>
+</tr>
+</table>
+</div>
+<p>
+まとめると，ビューは効率性の問題とモジュール性の問題を仲裁する強力な道具だ．しかし，遅延評価の面倒に巻き込まれないためには，ビューの使用は二つのシナリオに限るべきだ．一つは，ビューの適用を副作用を伴わない純粋関数型のコードに限ること．もしくは，明示的に全ての変更が行われる可変コレクションに適用することだ．避けたほうがいいのは，ビューと新たなコレクションを作成しつつ副作用を伴う演算を混合することだ．</p>
+<p>次へ: <a href="collections_43.html">イテレータ</a></p>
+<hr />
+<table width="100%" cellpadding="0" cellspacing="2">
+<tr>
+<td bgcolor="#99CCFF"><a href="collections_43.html"><img border="0"
+alt="イテレータ" src="next.png" /></a></td>
+<td bgcolor="#99CCFF"><a href="collections_0.html"><img border="0"
+alt="トップ" src="up.png" /></a></td>
+<td bgcolor="#99CCFF"><a href="collections_41.html"><img border="0"
+alt="等価性" src="previous.png" /></a></td>
+<td align="center" bgcolor="#99CCFF" width="100%"><b>ビュー</b></td>
+<td bgcolor="#99CCFF" align="center"><a href=
+"collections_49.html">目次</a></td>
+</tr>
+</table>
 </body>
 </html>

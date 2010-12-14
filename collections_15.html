@@ -1,31 +1,160 @@
-﻿<html dir="ltr"> <head>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html dir="ltr" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta name="generator" content=
+"HTML Tidy for Mac OS X (vers 25 March 2009), see www.w3.org" />
 <title>Scala 2.8 コレクション API -- ベクトル</title>
-
-<style type="text/css">.maketitle {
-  /* align: center; */
-}
-div.abstract {
-  margin-left: 20%;
-  margin-right: 10%;
-}
-h3.abstract {
-  /* align: center; */
-}
-div.verse, div.quote, div.quotation {
-  margin-left: 10%;
-  margin-right: 10%;
-}
-</style>
 <link rel="stylesheet" type="text/css" href="collections.css" />
-
-</head> 
-<body dir="ltr"> 
-<table width="100%" cellpadding="0" cellspacing="2"><tr> <td bgcolor="#99ccff"><a href="collections_16.html"><img border="0" alt="不変スタック" src="next.png"></a></td><td bgcolor="#99ccff"><a href="collections_12.html"><img border="0" alt="具象不変コレクションクラス" src="up.png"></a></td><td bgcolor="#99ccff"><a href="collections_14.html"><img border="0" alt="ストリーム" src="previous.png"></a></td><td align="center" bgcolor="#99ccff" width="100%"><b>ベクトル</b></td><td bgcolor="#99ccff" align="center"><a href="collections_49.html">目次</a></td></tr></table> 
-<h2>ベクトル</h2> 
-<p>リストはアルゴリズムが慎重に head  のみを処理する場合，非常に効率的だ．リストの head の読み込み，追加，および削除は一定数時間で行われるのに対して，リストの後続の要素に対する読み込みや変更は，その要素の深さに依存した線形時間で実行される．<p>ベクトル (<a href="http://www.scala-lang.org/api/current/scala/collection/immutable/Vector.html">Vector</a>) は，ランダムアクセス時の非効率性を解決するために Scala 2.8 から導入された新しいコレクション型だ．ベクトルはどの要素の読み込みも「事実上」定数時間で行う．リストの head の読み込みや配列の要素読み込みに比べると大きい定数だが，定数であることには変りない．この結果，ベクトルを使ったアルゴリズムは列の head のみを読み込むことに神経質にならなくていい．任意の場所の要素を読み込んだり，変更したりできるため，コードを書くのに便利だ．<p>ベクトルは，他の列と同じように作成され，変更される．<div class="quote"><p><tt></tt><table cellspacing="1" cellpadding="0"><tt></tt><tr><tt> </tt><td colspan="99" align="left"><tt>scala&gt; <font color="#0000e5">val</font> vec = scala.collection.immutable.</tt><tt>Vector.empty</tt></td></tr><tt> </tt><tr><tt> </tt><td colspan="99" align="left"><tt><font color="#590000">vec: scala.collection.immutable.</font></tt><tt><font color="#590000">Vector[Nothing] = Vector()</font></tt></td></tr><tt> </tt><tr><tt> </tt><td colspan="99" align="left"><tt>scala&gt; <font color="#0000e5">val</font> vec2 = vec :+ <font color="#000000">1</font> :+ <font color="#000000">2</font></tt></td></tr><tt> </tt><tr><tt> </tt><td colspan="99" align="left"><tt><font color="#590000">vec2: scala.collection.immutable.</font></tt><tt><font color="#590000">Vector[Int] = Vector(1, 2)</font></tt></td></tr><tt> </tt><tr><tt> </tt><td colspan="99" align="left"><tt>scala&gt; <font color="#0000e5">val</font> vec3 = <font color="#000000">100</font> +: vec2</tt></td></tr><tt> </tt><tr><tt> </tt><td colspan="99" align="left"><tt><font color="#590000">vec3: scala.collection.immutable.</font></tt><tt><font color="#590000">Vector[Int] = Vector(100, 1, 2)</font></tt></td></tr><tt> </tt><tr><tt> </tt><td colspan="99" align="left"><tt>scala&gt; vec3(<font color="#000000">0</font>)</tt></td></tr><tt> </tt><tr><tt> </tt><td colspan="99" align="left"><tt><font color="#590000">res1: Int = 100 </font></tt></td></tr></table><tt> </tt></p></div><p>ベクトルは分岐度の高い木構造で表される<sup><a href="collections_50.html#id2">2</a></sup>．全てのノードは 32以下の要素か，32以下の他のノードを格納する．32個以下の要素を持つベクトルは単一のノードで表すことができる．ベクトルは，たった一つの間接呼び出しで，<tt>32</tt> <tt>*</tt> <tt>32</tt> <tt>=</tt> <tt>1024</tt>個までの要素を扱うことができます．木構造の根ノードから末端ノードまで 2ホップで <i>2<sup>15</sup></i>個，3ホップで <i>2<sup>20</sup></i>個，4ホップで <i>2<sup>30</sup></i>個以下までの要素をベクトルは扱うことができる．よって，普通のサイズのベクトルの要素選択は 5回以内の配列選択で行うことができる．要素選択が「事実上定数時間」と言ったのは，こういうことだ．<p>ベクトルは不変であるため，ベクトルの変更無しにベクトル内の要素を変更することはできない．しかし，<tt>updated</tt> メソッドを使うことで一つの要素違いの新たなベクトルを作成することができる:
-<div class="quote"><p><tt></tt><table cellspacing="1" cellpadding="0"><tt></tt><tr><tt> </tt><td colspan="99" align="left"><tt>scala&gt; <font color="#0000e5">val</font> vec = <font color="#660099">Vector</font>(<font color="#000000">1</font>, <font color="#000000">2</font>, <font color="#000000">3</font>)</tt></td></tr><tt> </tt><tr><tt> </tt><td colspan="99" align="left"><tt>vec: <font color="#660099">scala.collection.immutable.</font></tt><tt><font color="#660099">Vector[Int]</font> = <font color="#660099">Vector</font>(<font color="#000000">1</font>, <font color="#000000">2</font>, <font color="#000000">3</font>)</tt></td></tr><tt> </tt><tr><tt> </tt><td colspan="99" align="left"><tt>scala&gt; vec updated (<font color="#000000">2</font>, <font color="#000000">4</font>)</tt></td></tr><tt> </tt><tr><tt> </tt><td colspan="99" align="left"><tt>res0: <font color="#660099">scala.collection.immutable.</font></tt><tt><font color="#660099">Vector[Int]</font> = <font color="#660099">Vector</font>(<font color="#000000">1</font>, <font color="#000000">2</font>, <font color="#000000">4</font>)</tt></td></tr><tt> </tt><tr><tt> </tt><td colspan="99" align="left"><tt>scala&gt; vec</tt></td></tr><tt> </tt><tr><tt> </tt><td colspan="99" align="left"><tt>res1: <font color="#660099">scala.collection.immutable.</font></tt><tt><font color="#660099">Vector[Int]</font> = <font color="#660099">Vector</font>(<font color="#000000">1</font>, <font color="#000000">2</font>, <font color="#000000">3</font>) </tt></td></tr></table><tt> </tt></p></div>
-最後の行が示すように，<tt>updated</tt> の呼び出しは元のベクトル <tt>vec</tt> には一切影響しない．読み込みと同様に，ベクトルの関数型更新も「事実上定数時間」で実行される．ベクトルの真ん中にある要素を更新するには，その要素を格納するノードと，木構造の根ノードからを初めとする全ての親ノードをコピーすることによって行われる．これは関数型更新は，32以内の要素か部分木を格納する 1 〜 5個の ノードを作成することを意味する．これは，可変配列の in-place での上書きに比べると，ずっと時間のかかる計算であるが，ベクトル全体をコピーするよりはずっと安いものだ．<p>ベクトルは高速なランダム読み込みと高速な関数型更新の丁度いいバランスを取れているため，現在，不変添字付き列 (immutable indexed sequence) のデフォルトの実装となっている:
-<div class="quote"><p><tt></tt><table cellspacing="1" cellpadding="0"><tt></tt><tr><tt> </tt><td colspan="99" align="left"><tt>scala&gt; <font color="#660099">collection.immutable.</font></tt><tt><font color="#660099">IndexedSeq</font>(<font color="#000000">1</font>, <font color="#000000">2</font>, <font color="#000000">3</font>)</tt></td></tr><tt> </tt><tr><tt> </tt><td colspan="99" align="left"><tt><font color="#590000">res2: scala.collection.immutable.</font></tt><tt><font color="#590000">IndexedSeq[Int] = Vector(1, 2, 3) </font></tt></td></tr></table>
-<tt> </tt></p></div><p>次へ: <a href="collections_16.html">不変スタック</a> 
-<hr> 
-<table width="100%" cellpadding="0" cellspacing="2"><tr> <td bgcolor="#99ccff"><a href="collections_16.html"><img border="0" alt="不変スタック" src="next.png"></a></td><td bgcolor="#99ccff"><a href="collections_12.html"><img border="0" alt="具象不変コレクションクラス" src="up.png"></a></td><td bgcolor="#99ccff"><a href="collections_14.html"><img border="0" alt="ストリーム" src="previous.png"></a></td><td align="center" bgcolor="#99ccff" width="100%"><b>ベクトル</b></td><td bgcolor="#99ccff" align="center"><a href="collections_49.html">目次</a></td></tr></table></body></html>
+</head>
+<body dir="ltr">
+<table width="100%" cellpadding="0" cellspacing="2">
+<tr>
+<td bgcolor="#99CCFF"><a href="collections_16.html"><img border="0"
+alt="不変スタック" src="next.png" /></a></td>
+<td bgcolor="#99CCFF"><a href="collections_12.html"><img border="0"
+alt="具象不変コレクションクラス" src="up.png" /></a></td>
+<td bgcolor="#99CCFF"><a href="collections_14.html"><img border="0"
+alt="ストリーム" src="previous.png" /></a></td>
+<td align="center" bgcolor="#99CCFF" width="100%"><b>ベクトル</b></td>
+<td bgcolor="#99CCFF" align="center"><a href=
+"collections_49.html">目次</a></td>
+</tr>
+</table>
+<h2>ベクトル</h2>
+<p>リストはアルゴリズムが慎重に head のみを処理する場合，非常に効率的だ．リストの head
+の読み込み，追加，および削除は一定数時間で行われるのに対して，リストの後続の要素に対する読み込みや変更は，その要素の深さに依存した線形時間で実行される．</p>
+<p>ベクトル (<a href=
+"http://www.scala-lang.org/api/current/scala/collection/immutable/Vector.html">Vector</a>)
+は，ランダムアクセス時の非効率性を解決するために Scala 2.8
+から導入された新しいコレクション型だ．ベクトルはどの要素の読み込みも「事実上」定数時間で行う．リストの head
+の読み込みや配列の要素読み込みに比べると大きい定数だが，定数であることには変りない．この結果，ベクトルを使ったアルゴリズムは列の
+head
+のみを読み込むことに神経質にならなくていい．任意の場所の要素を読み込んだり，変更したりできるため，コードを書くのに便利だ．</p>
+<p>ベクトルは，他の列と同じように作成され，変更される．</p>
+<div class="quote">
+<table cellspacing="1" cellpadding="0">
+<tr>
+<td colspan="99" align="left"><tt>scala&gt;&nbsp;<font color=
+"#0000E5">val</font>&nbsp;vec&nbsp;=&nbsp;scala.collection.immutable.</tt><tt>Vector.empty</tt></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt><font color=
+"#590000">vec:&nbsp;scala.collection.immutable.</font></tt><tt><font color="#590000">Vector[Nothing]&nbsp;=&nbsp;Vector()</font></tt></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt>scala&gt;&nbsp;<font color=
+"#0000E5">val</font>&nbsp;vec2&nbsp;=&nbsp;vec&nbsp;:+&nbsp;<font color="#000000">1</font>&nbsp;:+&nbsp;<font color="#000000">2</font></tt></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt><font color=
+"#590000">vec2:&nbsp;scala.collection.immutable.</font></tt><tt><font color="#590000">Vector[Int]&nbsp;=&nbsp;Vector(1,&nbsp;2)</font></tt></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt>scala&gt;&nbsp;<font color=
+"#0000E5">val</font>&nbsp;vec3&nbsp;=&nbsp;<font color=
+"#000000">100</font>&nbsp;+:&nbsp;vec2</tt></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt><font color=
+"#590000">vec3:&nbsp;scala.collection.immutable.</font></tt><tt><font color="#590000">Vector[Int]&nbsp;=&nbsp;Vector(100,&nbsp;1,&nbsp;2)</font></tt></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt>scala&gt;&nbsp;vec3(<font color=
+"#000000">0</font>)</tt></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt><font color=
+"#590000">res1:&nbsp;Int&nbsp;=&nbsp;100</font></tt></td>
+</tr>
+</table>
+</div>
+<p>ベクトルは分岐度の高い木構造で表される<sup><a href=
+"collections_50.html#id2">2</a></sup>．全てのノードは
+32以下の要素か，32以下の他のノードを格納する．32個以下の要素を持つベクトルは単一のノードで表すことができる．ベクトルは，たった一つの間接呼び出しで，<tt>32</tt>&nbsp;<tt>*</tt>&nbsp;<tt>32</tt>&nbsp;<tt>=</tt>&nbsp;<tt>1024</tt>個までの要素を扱うことができます．木構造の根ノードから末端ノードまで
+2ホップで <i>2<sup>15</sup></i>個，3ホップで <i>2<sup>20</sup></i>個，4ホップで
+<i>2<sup>30</sup></i>個以下までの要素をベクトルは扱うことができる．よって，普通のサイズのベクトルの要素選択は
+5回以内の配列選択で行うことができる．要素選択が「事実上定数時間」と言ったのは，こういうことだ．</p>
+<p>ベクトルは不変であるため，ベクトルの変更無しにベクトル内の要素を変更することはできない．しかし，<tt>updated</tt>
+メソッドを使うことで一つの要素違いの新たなベクトルを作成することができる:</p>
+<div class="quote">
+<table cellspacing="1" cellpadding="0">
+<tr>
+<td colspan="99" align="left"><tt>scala&gt;&nbsp;<font color=
+"#0000E5">val</font>&nbsp;vec&nbsp;=&nbsp;<font color=
+"#660099">Vector</font>(<font color=
+"#000000">1</font>,&nbsp;<font color=
+"#000000">2</font>,&nbsp;<font color="#000000">3</font>)</tt></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt>vec:&nbsp;<font color=
+"#660099">scala.collection.immutable.</font></tt><tt><font color=
+"#660099">Vector[Int]</font>&nbsp;=&nbsp;<font color=
+"#660099">Vector</font>(<font color=
+"#000000">1</font>,&nbsp;<font color=
+"#000000">2</font>,&nbsp;<font color="#000000">3</font>)</tt></td>
+</tr>
+<tr>
+<td colspan="99" align="left">
+<tt>scala&gt;&nbsp;vec&nbsp;updated&nbsp;(<font color=
+"#000000">2</font>,&nbsp;<font color="#000000">4</font>)</tt></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt>res0:&nbsp;<font color=
+"#660099">scala.collection.immutable.</font></tt><tt><font color=
+"#660099">Vector[Int]</font>&nbsp;=&nbsp;<font color=
+"#660099">Vector</font>(<font color=
+"#000000">1</font>,&nbsp;<font color=
+"#000000">2</font>,&nbsp;<font color="#000000">4</font>)</tt></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt>scala&gt;&nbsp;vec</tt></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt>res1:&nbsp;<font color=
+"#660099">scala.collection.immutable.</font></tt><tt><font color=
+"#660099">Vector[Int]</font>&nbsp;=&nbsp;<font color=
+"#660099">Vector</font>(<font color=
+"#000000">1</font>,&nbsp;<font color=
+"#000000">2</font>,&nbsp;<font color="#000000">3</font>)</tt></td>
+</tr>
+</table>
+</div>
+<p>最後の行が示すように，<tt>updated</tt> の呼び出しは元のベクトル <tt>vec</tt>
+には一切影響しない．読み込みと同様に，ベクトルの関数型更新も「事実上定数時間」で実行される．ベクトルの真ん中にある要素を更新するには，その要素を格納するノードと，木構造の根ノードからを初めとする全ての親ノードをコピーすることによって行われる．これは関数型更新は，32以内の要素か部分木を格納する
+1 〜 5個の ノードを作成することを意味する．これは，可変配列の in-place
+での上書きに比べると，ずっと時間のかかる計算であるが，ベクトル全体をコピーするよりはずっと安いものだ．</p>
+<p>ベクトルは高速なランダム読み込みと高速な関数型更新の丁度いいバランスを取れているため，現在，不変添字付き列 (immutable
+indexed sequence) のデフォルトの実装となっている:</p>
+<div class="quote">
+<table cellspacing="1" cellpadding="0">
+<tr>
+<td colspan="99" align="left"><tt>scala&gt;&nbsp;<font color=
+"#660099">collection.immutable.</font></tt><tt><font color=
+"#660099">IndexedSeq</font>(<font color=
+"#000000">1</font>,&nbsp;<font color=
+"#000000">2</font>,&nbsp;<font color="#000000">3</font>)</tt></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt><font color=
+"#590000">res2:&nbsp;scala.collection.immutable.</font></tt><tt><font color="#590000">IndexedSeq[Int]&nbsp;=&nbsp;Vector(1,&nbsp;2,&nbsp;3)</font></tt></td>
+</tr>
+</table>
+</div>
+<p>次へ: <a href="collections_16.html">不変スタック</a></p>
+<hr />
+<table width="100%" cellpadding="0" cellspacing="2">
+<tr>
+<td bgcolor="#99CCFF"><a href="collections_16.html"><img border="0"
+alt="不変スタック" src="next.png" /></a></td>
+<td bgcolor="#99CCFF"><a href="collections_12.html"><img border="0"
+alt="具象不変コレクションクラス" src="up.png" /></a></td>
+<td bgcolor="#99CCFF"><a href="collections_14.html"><img border="0"
+alt="ストリーム" src="previous.png" /></a></td>
+<td align="center" bgcolor="#99CCFF" width="100%"><b>ベクトル</b></td>
+<td bgcolor="#99CCFF" align="center"><a href=
+"collections_49.html">目次</a></td>
+</tr>
+</table>
+</body>
+</html>

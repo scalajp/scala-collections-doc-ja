@@ -1,59 +1,338 @@
-﻿<html dir="ltr"> <head>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html dir="ltr" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta name="generator" content=
+"HTML Tidy for Mac OS X (vers 25 March 2009), see www.w3.org" />
 <title>Scala 2.8 コレクション API -- 同期集合と同期マップ</title>
-
-<style type="text/css">.maketitle {
-  /* align: center; */
-}
-div.abstract {
-  margin-left: 20%;
-  margin-right: 10%;
-}
-h3.abstract {
-  /* align: center; */
-}
-div.verse, div.quote, div.quotation {
-  margin-left: 10%;
-  margin-right: 10%;
-}
-</style>
 <link rel="stylesheet" type="text/css" href="collections.css" />
-
 </head>
 <body dir="ltr">
 <table width="100%" cellpadding="0" cellspacing="2">
-<tr> <td bgcolor="#99ccff"><img alt="" src="blank.png"></td><td bgcolor="#99ccff"><a href="collections_10.html"><img border="0" alt="マップ" src="up.png"></a></td><td bgcolor="#99ccff"><img alt="" src="blank.png"></td><td align="center" bgcolor="#99ccff" width="100%"><b>同期集合と同期マップ</b></td><td bgcolor="#99ccff" align="center"><a href="collections_49.html">目次</a></td></tr></table> 
-<h2>同期集合と同期マップ</h2> <p><tt>SynchronizedMap</tt> トレイトを好みのマップ実装にミックスインすることでスレッドセーフな可変マップを得ることができる．例えば，<a href="collections_11.html#id1">以下のコード</a>が示すように，<tt>HashMap</tt> に <tt>SynchronizedMap</tt> をミックスインすることができる．この例は <tt>Map</tt> と <tt>SynchronizedMap</tt> の二つのトレイト，そして <tt>HashMap</tt> という一つのクラスを <tt>scala.collection.mutable</tt> パッケージからインポートすることから始まる．例の残りは <tt>makeMap</tt> というメソッドを宣言するシングルトンオブジェクト <tt>MapMaker</tt> を定義する．<tt>makeMap</tt> メソッドは戻り値の型を文字列をキーとして文字列を値とする可変マップだと宣言する．
-<div class="quote"><p><tt></tt><table cellspacing="1" cellpadding="0"><td><tt></tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt>  <font color="#0000e5">import</font> scala.collection.mutable.{</tt><tt><font color="#660099">Map</font>,</tt></td></tr><td><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt>      <font color="#660099">SynchronizedMap</font>, <font color="#660099">HashMap</font>}</tt></td></tr><td><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt>  <font color="#0000e5">object</font> <font color="#660099">MapMaker</font> {</tt></td></tr><td><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt>    <font color="#0000e5">def</font> makeMap: <font color="#660099">Map[String, String]</font> = {</tt></td></tr><td><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt>        <font color="#0000e5">new</font> <font color="#660099">HashMap[String, String]</font> <font color="#0000e5">with</font></tt></td></tr><td><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt>            <font color="#660099">SynchronizedMap[String, String]</font> {</tt></td></tr><td><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt>          <font color="#0000e5">override</font> <font color="#0000e5">def</font> default(key: <font color="#660099">String</font>) =</tt></td></tr><td><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt>            <font color="#000000">&quot;Why do you want to know?&quot;</font></tt></td></tr><td><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt>        }</tt></td></tr><td><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt>    }</tt></td></tr><td><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt>  } </tt></td></tr></table><tt> </tt></p></div>
-<div align="center"><tt>SynchronizedMap</tt> トレイトをミックスインする．</div> <a name="id1"> </a> <p><p><tt>makeMap</tt> 本文の第一ステートメントは <tt>SynchronizedMap</tt> トレイトをミックスインする新しい可変 <tt>HashMap</tt> を作成する．<div class="quote"><p><tt></tt><table cellspacing="1" cellpadding="0"><td><tt></tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt><font color="#0000e5">new</font> <font color="#660099">HashMap[String, String]</font> <font color="#0000e5">with</font></tt></td></tr><td><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt>  <font color="#660099">SynchronizedMap[String, String]</font> </tt></td></tr></td></td></table><tt> </tt></p></div>このコードを与えられると，Scala コンパイラは <tt>SynchronizedMap</tt> をミックスインする <tt>HashMap</tt> の合成的な子クラスを生成し，そのインスタンスを作成する (そして，それを戻り値として返す)．この合成クラスは，以下のコードのため，<tt>default</tt> という名前のメソッドをオーバーライドする．<div class="quote"><p><tt></tt><table cellspacing="1" cellpadding="0"><td><tt></tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt><font color="#0000e5">override</font> <font color="#0000e5">def</font> default(key: <font color="#660099">String</font>) =</tt></td></tr><td><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt>  <font color="#000000">&quot;何故知りたい？&quot;</font> </tt></td></tr></td></td></table><tt> </tt></p></div>通常は，ある特定のキーに対する値をマップに問い合わせて，そのキーからの写像が無い場合は<tt>NoSuchElementException</tt> が発生する．新たなマップのクラスを定義して <tt>default</tt> メソッドをオーバーライドした場合は，しかしながら，存在しないキーに対する問い合わせに対して，この新しいマップは <tt>default</tt> が返す値を返す．そのため，<a href="collections_11.html#id1">同期マップのコード</a>でコンパイラに生成された <tt>HashMap</tt> の合成の子クラスは，存在しないキーに対する問い合わせに <tt>&quot;何故知りたい？&quot;</tt> と少々意地の悪い答えを返す．<p><tt>makeMap</tt> メソッドが返す可変マップは <tt>SynchronizedMap</tt> トレイトをミックスインするため，複数のスレッドから同時に使うことができる．マップへのそれぞれのアクセスは同期化される．以下は，インタープリタ中で一つのスレッドから使用した例だ:<div class="quote"><p><tt></tt><table cellspacing="1" cellpadding="0"><td><tt></tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt>scala&gt; <font color="#0000e5">val</font> capital = MapMaker.makeMap  </tt></td></tr><td><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt><font color="#590000">capital: scala.collection.mutable.</font></tt><tt><font color="#590000">Map[String,String] = Map()</font></tt></td></tr><td><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt>scala&gt; capital ++ <font color="#660099">List</font>(<font color="#000000">&quot;US&quot;</font> -&gt; <font color="#000000">&quot;Washington&quot;</font>,</tt></td></tr><td><tt> </tt><tr><tt> </tt><td colspan="99" align="left"><tt>            <font color="#000000">&quot;Paris&quot;</font> -&gt; <font color="#000000">&quot;France&quot;</font>, <font color="#000000">&quot;Japan&quot;</font> -&gt; <font color="#000000">&quot;Tokyo&quot;</font>)</tt></td></tr><td><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt><font color="#590000">res0: scala.collection.mutable.</font></tt><tt><font color="#590000">Map[String,String] =</font></tt></td></tr><td><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt><font color="#590000">  Map(Paris -&gt; France, US -&gt; Washington, Japan -&gt; Tokyo)</font></tt></td></tr><td><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt>scala&gt; capital(<font color="#000000">&quot;Japan&quot;</font>)</tt></td></tr><td><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt><font color="#590000">res1: String = Tokyo</font></tt></td></tr><td><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt>scala&gt; capital(<font color="#000000">&quot;New Zealand&quot;</font>)</tt></td></tr><td><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt><font color="#590000">res2: String = 何故知りたい？</font></tt></td></tr><td><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt>scala&gt; capital += (<font color="#000000">&quot;New Zealand&quot;</font> -&gt; <font color="#000000">&quot;Wellington&quot;</font>)</tt></td></tr><td><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt>scala&gt; capital(<font color="#000000">&quot;New Zealand&quot;</font>)                    </tt></td></tr><td><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt><font color="#590000">res3: String = Wellington </font></tt></td></tr></td></td></td></td></td></td></td></td></td></td></td></td></td></table><tt> </tt></p></div><p>同期集合も同期マップと同じ要領で作成することができる．例えば，このように <tt>SynchronizedSet</tt> トレイトをミックスインすることで同期 <tt>HashSet</tt> を作ることができる:<div class="quote"><p><tt></tt><table cellspacing="1" cellpadding="0"><td><tt></tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt>import scala.collection.mutable</tt></td></tr><td><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt><font color="#0000e5">val</font> synchroSet =</tt></td></tr><td><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt>  <font color="#0000e5">new</font> <font color="#660099">mutable.</font></tt><tt><font color="#660099">HashSet[Int]</font> <font color="#0000e5">with</font></tt></td></tr><td><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt>      <font color="#660099">mutable.</font></tt><tt><font color="#660099">SynchronizedSet[Int]</font> </tt></td></tr></td></td></td></td></table><tt> </tt></p></div><p>最後に，同期コレクションを使うことを考えているならば，<tt>java.util.concurrent</tt> の並行コレクションを使うことも考慮した方がいいだろう．<p>次へ: <a href="collections_12.html">具象不変コレクションクラス</a> <hr> <table width="100%" cellpadding="0" cellspacing="2">
-<tr> <td bgcolor="#99ccff"><img alt="" src="blank.png"></td><td bgcolor="#99ccff"><a href="collections_10.html"><img border="0" alt="マップ" src="up.png"></a></td><td bgcolor="#99ccff"><img alt="" src="blank.png"></td><td align="center" bgcolor="#99ccff" width="100%"><b>同期集合と同期マップ</b></td><td bgcolor="#99ccff" align="center"><a href="collections_49.html">目次</a></td></tr></table></p></p></p></p></p></p></p></body></html>
+<tr>
+<td bgcolor="#99CCFF"><img alt="" src="blank.png" /></td>
+<td bgcolor="#99CCFF"><a href="collections_10.html"><img border="0"
+alt="マップ" src="up.png" /></a></td>
+<td bgcolor="#99CCFF"><img alt="" src="blank.png" /></td>
+<td align="center" bgcolor="#99CCFF" width="100%">
+<b>同期集合と同期マップ</b></td>
+<td bgcolor="#99CCFF" align="center"><a href=
+"collections_49.html">目次</a></td>
+</tr>
+</table>
+<h2>同期集合と同期マップ</h2>
+<p><tt>SynchronizedMap</tt>
+トレイトを好みのマップ実装にミックスインすることでスレッドセーフな可変マップを得ることができる．例えば，<a href=
+"collections_11.html#id1">以下のコード</a>が示すように，<tt>HashMap</tt> に
+<tt>SynchronizedMap</tt> をミックスインすることができる．この例は <tt>Map</tt> と
+<tt>SynchronizedMap</tt> の二つのトレイト，そして <tt>HashMap</tt> という一つのクラスを
+<tt>scala.collection.mutable</tt> パッケージからインポートすることから始まる．例の残りは
+<tt>makeMap</tt> というメソッドを宣言するシングルトンオブジェクト <tt>MapMaker</tt>
+を定義する．<tt>makeMap</tt> メソッドは戻り値の型を文字列をキーとして文字列を値とする可変マップだと宣言する．</p>
+<div class="quote">
+<table cellspacing="1" cellpadding="0">
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt>&nbsp;&nbsp;<font color=
+"#0000E5">import</font>
+scala.collection.mutable.{</tt><tt><font color=
+"#660099">Map</font>,</tt></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left">
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color=
+"#660099">SynchronizedMap</font>,&nbsp;<font color=
+"#660099">HashMap</font>}</tt></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt>&nbsp;&nbsp;<font color=
+"#0000E5">object</font>&nbsp;<font color=
+"#660099">MapMaker</font>&nbsp;{</tt></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left">
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;<font color=
+"#0000E5">def</font>&nbsp;makeMap:&nbsp;<font color=
+"#660099">Map[String, String]</font>&nbsp;=&nbsp;{</tt></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left">
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color=
+"#0000E5">new</font>&nbsp;<font color="#660099">HashMap[String,
+String]</font>&nbsp;<font color="#0000E5">with</font></tt></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left">
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#660099">SynchronizedMap[String,
+String]</font>&nbsp;{</tt></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left">
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#0000E5">override</font>&nbsp;<font color="#0000E5">def</font>&nbsp;default(key:&nbsp;<font color="#660099">String</font>)&nbsp;=</tt></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left">
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#000000">"Why&nbsp;do&nbsp;you&nbsp;want&nbsp;to&nbsp;know?"</font></tt></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left">
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</tt></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left">
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;}</tt></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt>&nbsp;&nbsp;}</tt></td>
+</tr>
+</table>
+</div>
+<div align="center"><tt>SynchronizedMap</tt> トレイトをミックスインする．</div>
+<a name="id1" id="id1">&nbsp;</a>
+<p><tt>makeMap</tt> 本文の第一ステートメントは <tt>SynchronizedMap</tt>
+トレイトをミックスインする新しい可変 <tt>HashMap</tt> を作成する．</p>
+<div class="quote">
+<table cellspacing="1" cellpadding="0">
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt><font color=
+"#0000E5">new</font>&nbsp;<font color="#660099">HashMap[String,
+String]</font>&nbsp;<font color="#0000E5">with</font></tt></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt>&nbsp;&nbsp;<font color=
+"#660099">SynchronizedMap[String, String]</font></tt></td>
+</tr>
+</table>
+</div>
+<p>このコードを与えられると，Scala コンパイラは <tt>SynchronizedMap</tt> をミックスインする
+<tt>HashMap</tt> の合成的な子クラスを生成し，そのインスタンスを作成する
+(そして，それを戻り値として返す)．この合成クラスは，以下のコードのため，<tt>default</tt>
+という名前のメソッドをオーバーライドする．</p>
+<div class="quote">
+<table cellspacing="1" cellpadding="0">
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt><font color=
+"#0000E5">override</font>&nbsp;<font color=
+"#0000E5">def</font>&nbsp;default(key:&nbsp;<font color=
+"#660099">String</font>)&nbsp;=</tt></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt>&nbsp;&nbsp;<font color=
+"#000000">"何故知りたい？"</font></tt></td>
+</tr>
+</table>
+</div>
+<p>
+通常は，ある特定のキーに対する値をマップに問い合わせて，そのキーからの写像が無い場合は<tt>NoSuchElementException</tt>
+が発生する．新たなマップのクラスを定義して <tt>default</tt>
+メソッドをオーバーライドした場合は，しかしながら，存在しないキーに対する問い合わせに対して，この新しいマップは
+<tt>default</tt> が返す値を返す．そのため，<a href=
+"collections_11.html#id1">同期マップのコード</a>でコンパイラに生成された
+<tt>HashMap</tt> の合成の子クラスは，存在しないキーに対する問い合わせに <tt>"何故知りたい？"</tt>
+と少々意地の悪い答えを返す．</p>
+<p><tt>makeMap</tt> メソッドが返す可変マップは <tt>SynchronizedMap</tt>
+トレイトをミックスインするため，複数のスレッドから同時に使うことができる．マップへのそれぞれのアクセスは同期化される．以下は，インタープリタ中で一つのスレッドから使用した例だ:</p>
+<div class="quote">
+<table cellspacing="1" cellpadding="0">
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt>scala&gt;&nbsp;<font color=
+"#0000E5">val</font>&nbsp;capital&nbsp;=&nbsp;MapMaker.makeMap&nbsp;&nbsp;</tt></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt><font color=
+"#590000">capital:&nbsp;scala.collection.mutable.</font></tt><tt><font color="#590000">Map[String,String]&nbsp;=&nbsp;Map()</font></tt></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left">
+<tt>scala&gt;&nbsp;capital&nbsp;++&nbsp;<font color=
+"#660099">List</font>(<font color=
+"#000000">"US"</font>&nbsp;-&gt;&nbsp;<font color=
+"#000000">"Washington"</font>,</tt></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left">
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#000000">"Paris"</font>&nbsp;-&gt;&nbsp;<font color="#000000">"France"</font>,&nbsp;<font color="#000000">"Japan"</font>&nbsp;-&gt;&nbsp;<font color="#000000">"Tokyo"</font>)</tt></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt><font color=
+"#590000">res0:&nbsp;scala.collection.mutable.</font></tt><tt><font color="#590000">Map[String,String]&nbsp;=</font></tt></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt><font color=
+"#590000">&nbsp;&nbsp;Map(Paris&nbsp;-&gt;&nbsp;France,&nbsp;US&nbsp;-&gt;&nbsp;Washington,&nbsp;Japan&nbsp;-&gt;&nbsp;Tokyo)</font></tt></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left">
+<tt>scala&gt;&nbsp;capital(<font color=
+"#000000">"Japan"</font>)</tt></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt><font color=
+"#590000">res1:&nbsp;String&nbsp;=&nbsp;Tokyo</font></tt></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left">
+<tt>scala&gt;&nbsp;capital(<font color=
+"#000000">"New&nbsp;Zealand"</font>)</tt></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt><font color=
+"#590000">res2:&nbsp;String&nbsp;=&nbsp;何故知りたい？</font></tt></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left">
+<tt>scala&gt;&nbsp;capital&nbsp;+=&nbsp;(<font color=
+"#000000">"New&nbsp;Zealand"</font>&nbsp;-&gt;&nbsp;<font color=
+"#000000">"Wellington"</font>)</tt></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left">
+<tt>scala&gt;&nbsp;capital(<font color=
+"#000000">"New&nbsp;Zealand"</font>)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt><font color=
+"#590000">res3:&nbsp;String&nbsp;=&nbsp;Wellington</font></tt></td>
+</tr>
+</table>
+</div>
+<p>同期集合も同期マップと同じ要領で作成することができる．例えば，このように <tt>SynchronizedSet</tt>
+トレイトをミックスインすることで同期 <tt>HashSet</tt> を作ることができる:</p>
+<div class="quote">
+<table cellspacing="1" cellpadding="0">
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt>import
+scala.collection.mutable</tt></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt><font color=
+"#0000E5">val</font>&nbsp;synchroSet&nbsp;=</tt></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt>&nbsp;&nbsp;<font color=
+"#0000E5">new</font>&nbsp;<font color=
+"#660099">mutable.</font></tt><tt><font color=
+"#660099">HashSet[Int]</font>&nbsp;<font color=
+"#0000E5">with</font></tt></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td colspan="99" align="left">
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color=
+"#660099">mutable.</font></tt><tt><font color=
+"#660099">SynchronizedSet[Int]</font></tt></td>
+</tr>
+</table>
+</div>
+<p>最後に，同期コレクションを使うことを考えているならば，<tt>java.util.concurrent</tt>
+の並行コレクションを使うことも考慮した方がいいだろう．</p>
+<p>次へ: <a href="collections_12.html">具象不変コレクションクラス</a></p>
+<hr />
+<table width="100%" cellpadding="0" cellspacing="2">
+<tr>
+<td bgcolor="#99CCFF"><img alt="" src="blank.png" /></td>
+<td bgcolor="#99CCFF"><a href="collections_10.html"><img border="0"
+alt="マップ" src="up.png" /></a></td>
+<td bgcolor="#99CCFF"><img alt="" src="blank.png" /></td>
+<td align="center" bgcolor="#99CCFF" width="100%">
+<b>同期集合と同期マップ</b></td>
+<td bgcolor="#99CCFF" align="center"><a href=
+"collections_49.html">目次</a></td>
+</tr>
+</table>
+</body>
+</html>

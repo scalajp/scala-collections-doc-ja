@@ -1,42 +1,106 @@
-﻿<html dir="ltr"> <head>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html dir="ltr" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta name="generator" content=
+"HTML Tidy for Mac OS X (vers 25 March 2009), see www.w3.org" />
 <title>Scala 2.8 コレクション API -- キュー</title>
-
-<style type="text/css">.maketitle {
-  /* align: center; */
-}
-div.abstract {
-  margin-left: 20%;
-  margin-right: 10%;
-}
-h3.abstract {
-  /* align: center; */
-}
-div.verse, div.quote, div.quotation {
-  margin-left: 10%;
-  margin-right: 10%;
-}
-</style>
 <link rel="stylesheet" type="text/css" href="collections.css" />
-
-</head> 
-<body dir="ltr"> 
-<table width="100%" cellpadding="0" cellspacing="2"><tr> <td bgcolor="#99ccff"><a href="collections_31.html"><img border="0" alt="配列シーケンス" src="next.png"></a></td><td bgcolor="#99ccff"><a href="collections_23.html"><img border="0" alt="具象可変コレクションクラス" src="up.png"></a></td><td bgcolor="#99ccff"><a href="collections_29.html"><img border="0" alt="可変リスト" src="previous.png"></a></td><td align="center" bgcolor="#99ccff" width="100%"><b>キュー</b></td><td bgcolor="#99ccff" align="center"><a href="collections_49.html">目次</a></td></tr></table> 
-<h2>キュー</h2> 
-<p>Scala は不変キューの他に可変キューも提供する．<tt>mQueue</tt> は不変のものと同じように使うが，<tt>enqueue</tt> の代わりに <tt>+=</tt> と <tt>++=</tt> 演算子を使って加算する．また，可変キューでは <tt>dequeue</tt> は先頭の要素を削除して，それを返す．次に具体例で説明する．<div class="quote"><p><tt></tt><table cellspacing="1" cellpadding="0"><tt></tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt>scala&gt; <font color="#0000e5">val</font> queue = <font color="#0000e5">new</font> <font color="#660099">scala.collection.mutable.</font></tt><tt><font color="#660099">Queue[String]</font></tt></td></tr><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt><font color="#590000">queue: scala.collection.mutable.</font></tt><tt><font color="#590000">Queue[String] = Queue()</font></tt></td></tr><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt>scala&gt; queue += <font color="#000000">&quot;a&quot;</font></tt></td></tr><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt><font color="#590000">res10: queue.type = Queue(a)</font></tt></td></tr><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt>scala&gt; queue ++= <font color="#660099">List</font>(<font color="#000000">&quot;b&quot;</font>, <font color="#000000">&quot;c&quot;</font>)</tt></td></tr><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt><font color="#590000">res11: queue.type = Queue(a, b, c)</font></tt></td></tr><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt>scala&gt; queue</tt></td></tr><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt><font color="#590000">res12: scala.collection.mutable.</font></tt><tt><font color="#590000">Queue[String]</font></tt></td></tr><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt><font color="#590000">  = Queue(a, b, c)</font></tt></td></tr><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt>scala&gt; queue.dequeue</tt></td></tr><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt><font color="#590000">res13: String = a</font></tt></td></tr><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt>scala&gt; queue</tt></td></tr><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt><font color="#590000">res14: scala.collection.mutable.</font></tt><tt><font color="#590000">Queue[String] = Queue(b, c) </font></tt></td></tr></table><tt> </tt></p></div><p>次へ: <a href="collections_31.html">配列シーケンス</a> 
-<hr> <table width="100%" cellpadding="0" cellspacing="2">
-<tr> <td bgcolor="#99ccff"><a href="collections_31.html"><img border="0" alt="配列シーケンス" src="next.png"></a></td><td bgcolor="#99ccff"><a href="collections_23.html"><img border="0" alt="具象可変コレクションクラス" src="up.png"></a></td><td bgcolor="#99ccff"><a href="collections_29.html"><img border="0" alt="可変リスト" src="previous.png"></a></td><td align="center" bgcolor="#99ccff" width="100%"><b>キュー</b></td><td bgcolor="#99ccff" align="center"><a href="collections_49.html">目次</a></td></tr></table>
+</head>
+<body dir="ltr">
+<table width="100%" cellpadding="0" cellspacing="2">
+<tr>
+<td bgcolor="#99CCFF"><a href="collections_31.html"><img border="0"
+alt="配列シーケンス" src="next.png" /></a></td>
+<td bgcolor="#99CCFF"><a href="collections_23.html"><img border="0"
+alt="具象可変コレクションクラス" src="up.png" /></a></td>
+<td bgcolor="#99CCFF"><a href="collections_29.html"><img border="0"
+alt="可変リスト" src="previous.png" /></a></td>
+<td align="center" bgcolor="#99CCFF" width="100%"><b>キュー</b></td>
+<td bgcolor="#99CCFF" align="center"><a href=
+"collections_49.html">目次</a></td>
+</tr>
+</table>
+<h2>キュー</h2>
+<p>Scala は不変キューの他に可変キューも提供する．<tt>mQueue</tt>
+は不変のものと同じように使うが，<tt>enqueue</tt> の代わりに <tt>+=</tt> と <tt>++=</tt>
+演算子を使って加算する．また，可変キューでは <tt>dequeue</tt>
+は先頭の要素を削除して，それを返す．次に具体例で説明する．</p>
+<div class="quote">
+<table cellspacing="1" cellpadding="0">
+<tr>
+<td colspan="99" align="left"><tt>scala&gt;&nbsp;<font color=
+"#0000E5">val</font>&nbsp;queue&nbsp;=&nbsp;<font color=
+"#0000E5">new</font>&nbsp;<font color=
+"#660099">scala.collection.mutable.</font></tt><tt><font color=
+"#660099">Queue[String]</font></tt></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt><font color=
+"#590000">queue:&nbsp;scala.collection.mutable.</font></tt><tt><font color="#590000">Queue[String]&nbsp;=&nbsp;Queue()</font></tt></td>
+</tr>
+<tr>
+<td colspan="99" align="left">
+<tt>scala&gt;&nbsp;queue&nbsp;+=&nbsp;<font color=
+"#000000">"a"</font></tt></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt><font color=
+"#590000">res10:&nbsp;queue.type&nbsp;=&nbsp;Queue(a)</font></tt></td>
+</tr>
+<tr>
+<td colspan="99" align="left">
+<tt>scala&gt;&nbsp;queue&nbsp;++=&nbsp;<font color=
+"#660099">List</font>(<font color=
+"#000000">"b"</font>,&nbsp;<font color=
+"#000000">"c"</font>)</tt></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt><font color=
+"#590000">res11:&nbsp;queue.type&nbsp;=&nbsp;Queue(a,&nbsp;b,&nbsp;c)</font></tt></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt>scala&gt;&nbsp;queue</tt></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt><font color=
+"#590000">res12:&nbsp;scala.collection.mutable.</font></tt><tt><font color="#590000">Queue[String]</font></tt></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt><font color=
+"#590000">&nbsp;&nbsp;=&nbsp;Queue(a,&nbsp;b,&nbsp;c)</font></tt></td>
+</tr>
+<tr>
+<td colspan="99" align="left">
+<tt>scala&gt;&nbsp;queue.dequeue</tt></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt><font color=
+"#590000">res13:&nbsp;String&nbsp;=&nbsp;a</font></tt></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt>scala&gt;&nbsp;queue</tt></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt><font color=
+"#590000">res14:&nbsp;scala.collection.mutable.</font></tt><tt><font color="#590000">Queue[String]&nbsp;=&nbsp;Queue(b,&nbsp;c)</font></tt></td>
+</tr>
+</table>
+</div>
+<p>次へ: <a href="collections_31.html">配列シーケンス</a></p>
+<hr />
+<table width="100%" cellpadding="0" cellspacing="2">
+<tr>
+<td bgcolor="#99CCFF"><a href="collections_31.html"><img border="0"
+alt="配列シーケンス" src="next.png" /></a></td>
+<td bgcolor="#99CCFF"><a href="collections_23.html"><img border="0"
+alt="具象可変コレクションクラス" src="up.png" /></a></td>
+<td bgcolor="#99CCFF"><a href="collections_29.html"><img border="0"
+alt="可変リスト" src="previous.png" /></a></td>
+<td align="center" bgcolor="#99CCFF" width="100%"><b>キュー</b></td>
+<td bgcolor="#99CCFF" align="center"><a href=
+"collections_49.html">目次</a></td>
+</tr>
+</table>
 </body>
 </html>

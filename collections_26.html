@@ -1,36 +1,87 @@
-﻿<html dir="ltr"> <head>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html dir="ltr" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta name="generator" content=
+"HTML Tidy for Mac OS X (vers 25 March 2009), see www.w3.org" />
 <title>Scala 2.8 コレクション API -- 文字列ビルダ</title>
-
-<style type="text/css">.maketitle {
-  /* align: center; */
-}
-div.abstract {
-  margin-left: 20%;
-  margin-right: 10%;
-}
-h3.abstract {
-  /* align: center; */
-}
-div.verse, div.quote, div.quotation {
-  margin-left: 10%;
-  margin-right: 10%;
-}
-</style>
 <link rel="stylesheet" type="text/css" href="collections.css" />
-
-</head> 
-<body dir="ltr"> <table width="100%" cellpadding="0" cellspacing="2"><tr> <td bgcolor="#99ccff"><a href="collections_27.html"><img border="0" alt="連結リスト" src="next.png"></a></td><td bgcolor="#99ccff"><a href="collections_23.html"><img border="0" alt="具象可変コレクションクラス" src="up.png"></a></td><td bgcolor="#99ccff"><a href="collections_25.html"><img border="0" alt="リストバッファ" src="previous.png"></a></td><td align="center" bgcolor="#99ccff" width="100%"><b>文字列ビルダ</b></td><td bgcolor="#99ccff" align="center"><a href="collections_49.html">目次</a></td></tr></table> 
-<h2>文字列ビルダ</h2> 
-<p>配列バッファが配列を構築するのに便利で，リストバッファがリストを構築するのに便利なように，文字列ビルダ (<a href="http://www.scala-lang.org/api/current/scala/collection/mutable/StringBuilder.html">StringBuilder</a>) は文字列を構築するのに便利なものだ．文字列ビルダはあまりに頻繁に使われるため，デフォルトの名前空間に既にインポートされている．以下のように，単に <tt>new</tt> <tt>StringBuilder</tt> で文字列ビルダを作成することができる:
-<div class="quote"><p><tt></tt><table cellspacing="1" cellpadding="0"><tt></tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt>scala&gt; <font color="#0000e5">val</font> buf = <font color="#0000e5">new</font> <font color="#660099">StringBuilder</font></tt></td></tr><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt><font color="#590000">buf: StringBuilder = </font></tt></td></tr><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt>scala&gt; buf += <font color="#000000">&#39;a&#39;</font></tt></td></tr><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt><font color="#590000">res38: buf.type = a</font></tt></td></tr><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt>scala&gt; buf ++= <font color="#000000">&quot;bcdef&quot;</font></tt></td></tr><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt><font color="#590000">res39: buf.type = abcdef</font></tt></td></tr><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt>scala&gt; buf.toString</tt></td></tr><tt> </tt>
-<tr><tt> </tt><td colspan="99" align="left"><tt><font color="#590000">res41: String = abcdef </font></tt></td></tr></table><tt> </tt></p></div><p>次へ: <a href="collections_27.html">連結リスト</a> <hr> <table width="100%" cellpadding="0" cellspacing="2">
-<tr> <td bgcolor="#99ccff"><a href="collections_27.html"><img border="0" alt="連結リスト" src="next.png"></a></td><td bgcolor="#99ccff"><a href="collections_23.html"><img border="0" alt="具象可変コレクションクラス" src="up.png"></a></td><td bgcolor="#99ccff"><a href="collections_25.html"><img border="0" alt="リストバッファ" src="previous.png"></a></td><td align="center" bgcolor="#99ccff" width="100%"><b>文字列ビルダ</b></td><td bgcolor="#99ccff" align="center"><a href="collections_49.html">目次</a></td></tr></table>
+</head>
+<body dir="ltr">
+<table width="100%" cellpadding="0" cellspacing="2">
+<tr>
+<td bgcolor="#99CCFF"><a href="collections_27.html"><img border="0"
+alt="連結リスト" src="next.png" /></a></td>
+<td bgcolor="#99CCFF"><a href="collections_23.html"><img border="0"
+alt="具象可変コレクションクラス" src="up.png" /></a></td>
+<td bgcolor="#99CCFF"><a href="collections_25.html"><img border="0"
+alt="リストバッファ" src="previous.png" /></a></td>
+<td align="center" bgcolor="#99CCFF" width="100%">
+<b>文字列ビルダ</b></td>
+<td bgcolor="#99CCFF" align="center"><a href=
+"collections_49.html">目次</a></td>
+</tr>
+</table>
+<h2>文字列ビルダ</h2>
+<p>配列バッファが配列を構築するのに便利で，リストバッファがリストを構築するのに便利なように，文字列ビルダ (<a href=
+"http://www.scala-lang.org/api/current/scala/collection/mutable/StringBuilder.html">StringBuilder</a>)
+は文字列を構築するのに便利なものだ．文字列ビルダはあまりに頻繁に使われるため，デフォルトの名前空間に既にインポートされている．以下のように，単に
+<tt>new</tt>&nbsp;<tt>StringBuilder</tt> で文字列ビルダを作成することができる:</p>
+<div class="quote">
+<table cellspacing="1" cellpadding="0">
+<tr>
+<td colspan="99" align="left"><tt>scala&gt;&nbsp;<font color=
+"#0000E5">val</font>&nbsp;buf&nbsp;=&nbsp;<font color=
+"#0000E5">new</font>&nbsp;<font color=
+"#660099">StringBuilder</font></tt></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt><font color=
+"#590000">buf:&nbsp;StringBuilder&nbsp;=&nbsp;</font></tt></td>
+</tr>
+<tr>
+<td colspan="99" align="left">
+<tt>scala&gt;&nbsp;buf&nbsp;+=&nbsp;<font color=
+"#000000">'a'</font></tt></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt><font color=
+"#590000">res38:&nbsp;buf.type&nbsp;=&nbsp;a</font></tt></td>
+</tr>
+<tr>
+<td colspan="99" align="left">
+<tt>scala&gt;&nbsp;buf&nbsp;++=&nbsp;<font color=
+"#000000">"bcdef"</font></tt></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt><font color=
+"#590000">res39:&nbsp;buf.type&nbsp;=&nbsp;abcdef</font></tt></td>
+</tr>
+<tr>
+<td colspan="99" align="left">
+<tt>scala&gt;&nbsp;buf.toString</tt></td>
+</tr>
+<tr>
+<td colspan="99" align="left"><tt><font color=
+"#590000">res41:&nbsp;String&nbsp;=&nbsp;abcdef</font></tt></td>
+</tr>
+</table>
+</div>
+<p>次へ: <a href="collections_27.html">連結リスト</a></p>
+<hr />
+<table width="100%" cellpadding="0" cellspacing="2">
+<tr>
+<td bgcolor="#99CCFF"><a href="collections_27.html"><img border="0"
+alt="連結リスト" src="next.png" /></a></td>
+<td bgcolor="#99CCFF"><a href="collections_23.html"><img border="0"
+alt="具象可変コレクションクラス" src="up.png" /></a></td>
+<td bgcolor="#99CCFF"><a href="collections_25.html"><img border="0"
+alt="リストバッファ" src="previous.png" /></a></td>
+<td align="center" bgcolor="#99CCFF" width="100%">
+<b>文字列ビルダ</b></td>
+<td bgcolor="#99CCFF" align="center"><a href=
+"collections_49.html">目次</a></td>
+</tr>
+</table>
 </body>
 </html>
