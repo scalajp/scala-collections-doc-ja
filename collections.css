@@ -15,6 +15,10 @@ body {
   color: navy;
 }
 
+.opcat {
+  color: navy;
+}
+
 table.ops
 {
   width: 100%;
@@ -27,6 +31,13 @@ table.ops td
   border-top: 1px solid gray;
   border-left: 1px solid gray;
 }
+
+table.ops th
+{
+  border-top: 1px solid gray;
+  border-left: 1px solid gray;
+}
+
 
 .logo {
   margin: 20px;

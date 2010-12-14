@@ -72,20 +72,18 @@ alt="集合" src="previous.png" /></a></td>
 <table border="0" cellspacing="0" class="ops">
 <tbody>
 <tr>
-<td align="center" colspan="2"><b><tt>Map</tt> トレイトの演算<a name="id1"
-id="id1">&nbsp;</a></b><a name="tab:mapops" id=
-"tab:mapops">&nbsp;</a></td>
+<th align="center" colspan="2">
+<a href="http://www.scala-lang.org/api/current/scala/collection/Map.html">
+<tt>Map</tt></a> トレイトの演算
+<a name="id1" id="id1">&nbsp;</a>
+<a name="tab:mapops" id="tab:mapops">&nbsp;</a></th>
 </tr>
 <tr>
-<td align="left" width="250">
-<p><b>使用例</b></p>
-</td>
-<td align="left"><b>振る舞い</b></td>
+<th align="left" width="250">使用例</th>
+<th align="left">振る舞い</th>
 </tr>
 <tr>
-<td align="left" colspan="2">
-<p><b><font color="#00007F">検索演算:</font></b></p>
-</td>
+<th class="opcat" align="left" colspan="2">検索演算:</th>
 </tr>
 <tr>
 <td align="left"><tt>ms</tt>&nbsp;<tt>get</tt>&nbsp;<tt>k</tt></td>
@@ -115,9 +113,7 @@ id="id1">&nbsp;</a></b><a name="tab:mapops" id=
 <td align="left"><tt>contains</tt> に同じ．</td>
 </tr>
 <tr>
-<td align="left" colspan="2">
-<p><b><font color="#00007F">加算と更新演算:</font></b></p>
-</td>
+<th class="opcat" align="left" colspan="2">加算と更新演算:</th>
 </tr>
 <tr>
 <td align="left">
@@ -144,9 +140,7 @@ id="id1">&nbsp;</a></b><a name="tab:mapops" id=
 に同じ．</td>
 </tr>
 <tr>
-<td align="left" colspan="2">
-<p><b><font color="#00007F">減算:</font></b></p>
-</td>
+<th class="opcat" align="left" colspan="2">減算:</th>
 </tr>
 <tr>
 <td align="left"><tt>ms</tt>&nbsp;<tt>-</tt>&nbsp;<tt>k</tt></td>
@@ -162,9 +156,7 @@ id="id1">&nbsp;</a></b><a name="tab:mapops" id=
 <td align="left"><tt>ks</tt>内のキーからの写像を除く，<tt>ms</tt> 内の全ての写像．</td>
 </tr>
 <tr>
-<td align="left" colspan="2">
-<p><b><font color="#00007F">サブコレクション取得演算:</font></b></p>
-</td>
+<th class="opcat" align="left" colspan="2">サブコレクション取得演算:</th>
 </tr>
 <tr>
 <td align="left"><tt>ms.keys</tt></td>
@@ -187,9 +179,7 @@ id="id1">&nbsp;</a></b><a name="tab:mapops" id=
 <td align="left"><tt>ms</tt>内のキーに関連付けられた全ての値を返すイテレータ．</td>
 </tr>
 <tr>
-<td align="left" colspan="2">
-<p><b><font color="#00007F">変換演算:</font></b></p>
-</td>
+<th class="opcat" align="left" colspan="2">変換演算:</th>
 </tr>
 <tr>
 <td align="left">
@@ -205,24 +195,23 @@ id="id1">&nbsp;</a></b><a name="tab:mapops" id=
 </tr>
 </tbody>
 </table>
-<p>可変マップは他にも以下の表にまとめた演算をサポートする．</p>
+<p>可変マップ (<a href="http://www.scala-lang.org/api/current/scala/collection/mutable/Map.html"><tt>mutable.Map</tt></a>) 
+は他にも以下の表にまとめた演算をサポートする．</p>
 <table border="0" cellspacing="0" class="ops">
 <tbody>
 <tr>
-<td align="center" colspan="2"><b><tt>mutable.Map</tt>
-クラスの演算</b><a name="tab:mutmapops" id=
-"tab:mutmapops">&nbsp;</a></td>
+<th align="center" colspan="2">
+<a href="http://www.scala-lang.org/api/current/scala/collection/mutable/Map.html">
+<tt>mutable.Map</tt></a>
+トレイトの演算
+<a name="tab:mutmapops" id="tab:mutmapops">&nbsp;</a></th>
 </tr>
 <tr>
-<td align="left" width="250">
-<p><b>使用例</b></p>
-</td>
-<td align="left"><b>振る舞い</b></td>
+<th align="left" width="250">使用例</th>
+<th align="left">振る舞い</th>
 </tr>
 <tr>
-<td align="left" colspan="2">
-<p><b><font color="#00007F">加算と更新演算:</font></b></p>
-</td>
+<th class="opcat" align="left" colspan="2">加算と更新演算:</th>
 </tr>
 <tr>
 <td align="left">
@@ -265,9 +254,7 @@ id="id1">&nbsp;</a></b><a name="tab:mapops" id=
 を返す．</td>
 </tr>
 <tr>
-<td align="left" colspan="2">
-<p><b><font color="#00007F">減算:</font></b></p>
-</td>
+<th class="opcat" align="left" colspan="2">減算:</th>
 </tr>
 <tr>
 <td align="left"><tt>ms</tt>&nbsp;<tt>-=</tt>&nbsp;<tt>k</tt></td>
@@ -303,9 +290,7 @@ id="id1">&nbsp;</a></b><a name="tab:mapops" id=
 <td align="left"><tt>ms</tt> から全ての写像を削除する．</td>
 </tr>
 <tr>
-<td align="left" colspan="2">
-<p><b><font color="#00007F">変換演算:</font></b></p>
-</td>
+<th class="opcat" align="left" colspan="2">変換演算:</th>
 </tr>
 <tr>
 <td align="left">
@@ -314,9 +299,7 @@ id="id1">&nbsp;</a></b><a name="tab:mapops" id=
 を使って変換する．</td>
 </tr>
 <tr>
-<td align="left" colspan="2">
-<p><b><font color="#00007F">クローン演算:</font></b></p>
-</td>
+<th class="opcat" align="left" colspan="2">クローン演算:</th>
 </tr>
 <tr>
 <td align="left"><tt>ms.clone</tt></td>

@@ -98,26 +98,24 @@ comparable)のコレクションでのみ動作する．</li>
 <table class="ops" border="0" cellspacing="0">
 <tbody>
 <tr>
-<td align="center" colspan="2"><b><a href=
+<th align="center" colspan="2"><a href=
 "http://www.scala-lang.org/api/current/scala/collection/Traversable.html">
-<tt>Traversable</tt></a> トレイトの演算</b><a name="tab:traversableops"
-id="tab:traversableops">&nbsp;</a></td>
+<tt>Traversable</tt></a> トレイトの演算
+<a name="tab:traversableops" id="tab:traversableops">&nbsp;</a></th>
 </tr>
 <tr>
-<td align="left" width="270"><b>使用例</b></td>
-<td align="left"><b>振る舞い</b></td>
+<th align="left" width="270">使用例</th>
+<th align="left">振る舞い</th>
 </tr>
 <tr>
-<td align="left" colspan="2"><b><font color=
-"#00007F">抽象メソッド:</font></b></td>
+<th class="opcat" align="left" colspan="2">抽象メソッド:</th>
 </tr>
 <tr>
 <td align="left"><tt>xs foreach f</tt></td>
 <td align="left"><tt>xs</tt>内の全ての要素に対して関数 <tt>f</tt> を実行する．</td>
 </tr>
 <tr>
-<td align="left" colspan="2"><b><font color=
-"#00007F">加算:</font></b></td>
+<th class="opcat" align="left" colspan="2">加算:</th>
 </tr>
 <tr>
 <td align="left"><tt>xs ++ ys</tt></td>
@@ -131,8 +129,7 @@ id="tab:traversableops">&nbsp;</a></td>
 <tt>Iterator</tt></a> だ．</td>
 </tr>
 <tr>
-<td align="left" colspan="2"><b><font color="#00007F">map
-演算:</font></b></td>
+<th class="opcat" align="left" colspan="2">map 演算:</th>
 </tr>
 <tr>
 <td align="left"><tt>xs map f</tt></td>
@@ -150,8 +147,7 @@ id="tab:traversableops">&nbsp;</a></td>
 が定義されている場合のみ適応し，その結果を集めたコレクション．</td>
 </tr>
 <tr>
-<td align="left" colspan="2"><b><font color=
-"#00007F">変換演算:</font></b></td>
+<th class="opcat" align="left" colspan="2">変換演算:</th>
 </tr>
 <tr>
 <td align="left"><tt>xs.toArray</tt></td>
@@ -187,8 +183,7 @@ id="tab:traversableops">&nbsp;</a></td>
 キー/値のペアを持つコレクションをマップに変換する．コレクションが要素としてのペアを持たない場合，この演算を呼び出すと静的型エラーがおこる．</td>
 </tr>
 <tr>
-<td align="left" colspan="2"><b><font color=
-"#00007F">コピー演算:</font></b></td>
+<th class="opcat" align="left" colspan="2">コピー演算:</th>
 </tr>
 <tr>
 <td align="left"><tt>xs copyToBuffer buf</tt></td>
@@ -200,8 +195,7 @@ id="tab:traversableops">&nbsp;</a></td>
 <tt>s</tt> より始まる位置にコピーする．最後の2つの引数は省略可能だ．</td>
 </tr>
 <tr>
-<td align="left" colspan="2"><b><font color=
-"#00007F">サイズ演算:</font></b></td>
+<th class="opcat" align="left" colspan="2">サイズ演算:</th>
 </tr>
 <tr>
 <td align="left"><tt>xs.isEmpty</tt></td>
@@ -220,8 +214,7 @@ id="tab:traversableops">&nbsp;</a></td>
 <td align="left"><tt>xs</tt> が有限のサイズであることが明らかな場合 true を返す．</td>
 </tr>
 <tr>
-<td align="left" colspan="2"><b><font color=
-"#00007F">要素取得演算:</font></b></td>
+<th class="opcat" align="left" colspan="2">要素取得演算:</th>
 </tr>
 <tr>
 <td align="left"><tt>xs.head</tt></td>
@@ -247,8 +240,7 @@ id="tab:traversableops">&nbsp;</a></td>
 を満たす最初の要素のオプション値，または条件を満たす要素が無い場合 <tt>None</tt>．</td>
 </tr>
 <tr>
-<td align="left" colspan="2"><b><font color=
-"#00007F">サブコレクション取得演算:</font></b></td>
+<th class="opcat" align="left" colspan="2">サブコレクション取得演算:</th>
 </tr>
 <tr>
 <td align="left"><tt>xs.tail</tt></td>
@@ -300,8 +292,7 @@ true に評価されるもののみに適用される．</td>
 を満たさないものから成るコレクション．</td>
 </tr>
 <tr>
-<td align="left" colspan="2"><b><font color=
-"#00007F">分割演算:</font></b></td>
+<th class="opcat" align="left" colspan="2">分割演算:</th>
 </tr>
 <tr>
 <td align="left"><tt>xs splitAt n</tt></td>
@@ -325,8 +316,7 @@ takeWhile p, xs.dropWhile p)</tt> と同値のペアを返す．</td>
 に分割する．</td>
 </tr>
 <tr>
-<td align="left" colspan="2"><b><font color=
-"#00007F">要素条件演算:</font></b></td>
+<th class="opcat" align="left" colspan="2">要素条件演算:</th>
 </tr>
 <tr>
 <td align="left"><tt>xs forall p</tt></td>
@@ -343,8 +333,7 @@ boolean 値．</td>
 <td align="left"><tt>xs</tt>内の要素で条件関数 <tt>p</tt> 満たすものの数．</td>
 </tr>
 <tr>
-<td align="left" colspan="2"><b><font color="#00007F">fold
-演算:</font></b></td>
+<th class="opcat" align="left" colspan="2">fold 演算:</th>
 </tr>
 <tr>
 <td align="left"><tt>(z /: xs)(op)</tt></td>
@@ -375,8 +364,8 @@ boolean 値．</td>
 <tt>op</tt> を次々と適用したもの．</td>
 </tr>
 <tr>
-<td align="left" colspan="2"><b><font color="#00007F">特定 fold
-演算:</font></b></td>
+<th class="opcat" align="left" colspan="2">特定 fold
+演算:</th>
 </tr>
 <tr>
 <td align="left"><tt>xs.sum</tt></td>
@@ -395,8 +384,7 @@ boolean 値．</td>
 <td align="left">コレクション <tt>xs</tt>内の順序付けされたの値の最大値．</td>
 </tr>
 <tr>
-<td align="left" colspan="2"><b><font color=
-"#00007F">文字列演算:</font></b></td>
+<th class="opcat" align="left" colspan="2">文字列演算:</th>
 </tr>
 <tr>
 <td align="left"><tt>xs addString (b, start, sep, end)</tt></td>
@@ -416,8 +404,7 @@ b</tt> に追加する． <tt>start</tt>, <tt>sep</tt>, <tt>end</tt>
 <td align="left"><tt>xs.toString</tt> で返される文字列の先頭にあるコレクション名．</td>
 </tr>
 <tr>
-<td align="left" colspan="2"><b><font color=
-"#00007F">ビュー演算:</font></b></td>
+<th class="opcat" align="left" colspan="2">ビュー演算:</th>
 </tr>
 <tr>
 <td align="left"><tt>xs.view</tt></td>

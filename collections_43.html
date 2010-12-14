@@ -217,21 +217,17 @@ alt="ビュー" src="previous.png" /></a></td>
 <table border="0" cellspacing="0" class="ops">
 <tbody>
 <tr>
-<td align="center" colspan="2"><b><a href=
-"http://www.scala-lang.org/api/current/scala/collection/Iterator.html">
-<tt>Iterator</tt></a> トレイトの演算</b><a name="tab:iteratorops" id=
-"tab:iteratorops">&nbsp;</a></td>
+<th align="center" colspan="2">
+<a href="http://www.scala-lang.org/api/current/scala/collection/Iterator.html">
+<tt>Iterator</tt></a> トレイトの演算
+<a name="tab:iteratorops" id="tab:iteratorops">&nbsp;</a></th>
 </tr>
 <tr>
-<td align="left" width="250">
-<p><b>使用例</b></p>
-</td>
-<td align="left"><b>振る舞い</b></td>
+<th align="left" width="250">使用例</th>
+<th align="left">振る舞い</th>
 </tr>
 <tr>
-<td align="left" colspan="2">
-<p><b><font color="#00007F">抽象メソッド:</font></b></p>
-</td>
+<th class="opcat" align="left" colspan="2">抽象メソッド:</th>
 </tr>
 <tr>
 <td align="left"><tt>it.next()</tt></td>
@@ -242,9 +238,7 @@ alt="ビュー" src="previous.png" /></a></td>
 <td align="left"><tt>it</tt> が次の要素を返せる場合，<tt>true</tt> を返す．</td>
 </tr>
 <tr>
-<td align="left" colspan="2">
-<p><b><font color="#00007F">他のイテレータ:</font></b></p>
-</td>
+<th class="opcat" align="left" colspan="2">他のイテレータ:</th>
 </tr>
 <tr>
 <td align="left"><tt>it.buffered</tt></td>
@@ -262,18 +256,14 @@ alt="ビュー" src="previous.png" /></a></td>
 <td align="left"><tt>it</tt> が返す要素を固定サイズの「窓」をスライドさせて返すイテレータ．</td>
 </tr>
 <tr>
-<td align="left" colspan="2">
-<p><b><font color="#00007F">複製:</font></b></p>
-</td>
+<th class="opcat" align="left" colspan="2">複製:</th>
 </tr>
 <tr>
 <td align="left"><tt>it.duplicate</tt></td>
 <td align="left"><tt>it</tt> が返す全ての要素を独立して返すイテレータのペア．</td>
 </tr>
 <tr>
-<td align="left" colspan="2">
-<p><b><font color="#00007F">加算:</font></b></p>
-</td>
+<th class="opcat" align="left" colspan="2">加算:</th>
 </tr>
 <tr>
 <td align="left"><tt>it</tt>&nbsp;<tt>++</tt>&nbsp;<tt>jt</tt></td>
@@ -287,9 +277,7 @@ alt="ビュー" src="previous.png" /></a></td>
 の全ての要素に続いて <tt>x</tt> を返すイテレータ．</td>
 </tr>
 <tr>
-<td align="left" colspan="2">
-<p><b><font color="#00007F">map 演算:</font></b></p>
-</td>
+<th class="opcat" align="left" colspan="2">map 演算:</th>
 </tr>
 <tr>
 <td align="left"><tt>it</tt>&nbsp;<tt>map</tt>&nbsp;<tt>f</tt></td>
@@ -309,9 +297,7 @@ alt="ビュー" src="previous.png" /></a></td>
 が定義されている場合のみ適応し，その結果を集めたイテレータ．</td>
 </tr>
 <tr>
-<td align="left" colspan="2">
-<p><b><font color="#00007F">変換演算:</font></b></p>
-</td>
+<th class="opcat" align="left" colspan="2">変換演算:</th>
 <td align="left"></td>
 </tr>
 <tr>
@@ -347,9 +333,7 @@ alt="ビュー" src="previous.png" /></a></td>
 <td align="left"><tt>it</tt> が返すキー/値ペアをマップに集める．</td>
 </tr>
 <tr>
-<td align="left" colspan="2">
-<p><b><font color="#00007F">コピー演算:</font></b></p>
-</td>
+<th class="opcat" align="left" colspan="2">コピー演算:</th>
 </tr>
 <tr>
 <td align="left">
@@ -363,9 +347,7 @@ alt="ビュー" src="previous.png" /></a></td>
 の添字 <tt>s</tt> より始まる位置にコピーする．最後の2つの引数は省略可能だ．</td>
 </tr>
 <tr>
-<td align="left" colspan="2">
-<p><b><font color="#00007F">サイズ演算:</font></b></p>
-</td>
+<th class="opcat" align="left" colspan="2">サイズ演算:</th>
 </tr>
 <tr>
 <td align="left"><tt>it.isEmpty</tt></td>
@@ -390,9 +372,7 @@ alt="ビュー" src="previous.png" /></a></td>
 <tt>isEmpty</tt> に同じ)．</td>
 </tr>
 <tr>
-<td align="left" colspan="2">
-<p><b><font color="#00007F">要素取得演算・添字検索演算:</font></b></p>
-</td>
+<th class="opcat" align="left" colspan="2">要素取得演算・添字検索演算:</th>
 </tr>
 <tr>
 <td align="left">
@@ -414,9 +394,7 @@ alt="ビュー" src="previous.png" /></a></td>
 を満たす最初の要素の添字，注意: イテレータはこの要素の次の位置まで前進する．</td>
 </tr>
 <tr>
-<td align="left" colspan="2">
-<p><b><font color="#00007F">部分イテレータ演算:</font></b></p>
-</td>
+<th class="opcat" align="left" colspan="2">部分イテレータ演算:</th>
 </tr>
 <tr>
 <td align="left">
@@ -468,9 +446,7 @@ alt="ビュー" src="previous.png" /></a></td>
 を満たさないものを返すイテレータ．</td>
 </tr>
 <tr>
-<td align="left" colspan="2">
-<p><b><font color="#00007F">分割演算:</font></b></p>
-</td>
+<th class="opcat" align="left" colspan="2">分割演算:</th>
 </tr>
 <tr>
 <td align="left">
@@ -480,9 +456,7 @@ alt="ビュー" src="previous.png" /></a></td>
 が返す要素のうち <tt>p</tt> を満たさないものを返す．</td>
 </tr>
 <tr>
-<td align="left" colspan="2">
-<p><b><font color="#00007F">要素条件演算:</font></b></p>
-</td>
+<th class="opcat" align="left" colspan="2">要素条件演算:</th>
 </tr>
 <tr>
 <td align="left">
@@ -502,9 +476,7 @@ boolean 値．</td>
 <td align="left"><tt>it</tt> が返す要素の中にで条件関数 <tt>p</tt> 満たすものの数．</td>
 </tr>
 <tr>
-<td align="left" colspan="2">
-<p><b><font color="#00007F">fold 演算:</font></b></p>
-</td>
+<th class="opcat" align="left" colspan="2">fold 演算:</th>
 </tr>
 <tr>
 <td align="left">
@@ -541,9 +513,7 @@ boolean 値．</td>
 <tt>op</tt> を次々と適用したもの．</td>
 </tr>
 <tr>
-<td align="left" colspan="2">
-<p><b><font color="#00007F">特定 fold 演算:</font></b></p>
-</td>
+<th class="opcat" align="left" colspan="2">特定 fold 演算:</th>
 </tr>
 <tr>
 <td align="left"><tt>it.sum</tt></td>
@@ -562,9 +532,7 @@ boolean 値．</td>
 <td align="left">イテレータ <tt>it</tt> が返す順序付けされたの値の最大値．</td>
 </tr>
 <tr>
-<td align="left" colspan="2">
-<p><b><font color="#00007F">zip 演算:</font></b></p>
-</td>
+<th class="opcat" align="left" colspan="2">zip 演算:</th>
 </tr>
 <tr>
 <td align="left">
@@ -584,9 +552,7 @@ boolean 値．</td>
 <td align="left"><tt>it</tt> が返す要素とその添字をペアにしたイテレータ．</td>
 </tr>
 <tr>
-<td align="left" colspan="2">
-<p><b><font color="#00007F">更新演算:</font></b></p>
-</td>
+<th class="opcat" align="left" colspan="2">更新演算:</th>
 </tr>
 <tr>
 <td align="left">
@@ -595,9 +561,7 @@ boolean 値．</td>
 <tt>r</tt>個の要素をパッチイテレータ <tt>ji</tt> が返す要素に置換したイテレータ．</td>
 </tr>
 <tr>
-<td align="left" colspan="2">
-<p><b><font color="#00007F">比較演算:</font></b></p>
-</td>
+<th class="opcat" align="left" colspan="2">比較演算:</th>
 </tr>
 <tr>
 <td align="left">
@@ -607,9 +571,7 @@ boolean 値．</td>
 少なくともどちらか一方は終端まで前進している．</td>
 </tr>
 <tr>
-<td align="left" colspan="2">
-<p><b><font color="#00007F">文字列演算:</font></b></p>
-</td>
+<th class="opcat" align="left" colspan="2">文字列演算:</th>
 </tr>
 <tr>
 <td align="left">
