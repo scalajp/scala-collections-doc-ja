@@ -40,10 +40,10 @@ alt="イテレータ" src="up.png" /></a></td>
 しかし，このコードを慎重に見ると間違っていることが分かるはずだ．コードは確かに先頭の空白文字列の続きを読み飛ばすが，<tt>it</tt>
 は最初の非空白文字列も追い越してしまっているのだ．</p>
 <p>この問題はバッファ付きイテレータを使うことで解決できる．<a href=
-"http://www.scala-lang.org/api/current/scala/collection/BufferedIterator.html">BufferedIterator</a>
-クラスは，<tt>head</tt> というメソッドを追加で提供する <a href=
+"http://www.scala-lang.org/api/current/scala/collection/BufferedIterator.html"><tt>BufferedIterator</tt></a>
+トレイトは，<tt>head</tt> というメソッドを追加で提供する <a href=
 "http://www.scala-lang.org/api/current/scala/collection/Iterator.html">
-Iterator</a> の子クラスだ．バッファ付きイテレータに対して <tt>head</tt>
+<tt>Iterator</tt></a> の子トレイトだ．バッファ付きイテレータに対して <tt>head</tt>
 を呼び出すことで，イテレータを前進させずに最初の要素を返すことができる．バッファ付きイテレータを使うと，空白文字列を読み飛ばすのは以下のように書ける．</p>
 <div class="quote">
 <table cellspacing="1" cellpadding="0">

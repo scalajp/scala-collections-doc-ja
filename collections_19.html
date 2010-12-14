@@ -24,8 +24,9 @@ alt="範囲" src="previous.png" /></a></td>
 </table>
 <h2>ハッシュトライ</h2>
 <p>ハッシュトライは不変集合と不変マップを効率的に実装する標準的な方法だ．ハッシュトライは，<a href=
-"http://www.scala-lang.org/api/current/scala/collection/immutable/HashMap.html">immutable.HashMap</a>
-クラスによりサポートされている．データ構造は，全てのノードに 32個の要素か
+"http://www.scala-lang.org/api/current/scala/collection/immutable/HashMap.html"><tt>immutable.HashMap</tt></a>
+クラスによりサポートされている．
+データ構造は，全てのノードに 32個の要素か
 32個の部分木があるという意味でベクトルに似ている．しかし，キーの選択はハッシュコードにより行われる．たとえば，マップから任意のキーを検索する場合，まずキーのハッシュコードを計算する．その後，最初の部分木を選択するのにハッシュコードの下位
 5ビットが使われ，次の
 5ビットで次の部分木が選択される，という具合だ．ノード内の全ての要素が，その階層までで選ばれているビット範囲内でお互いと異なるハッシュコードを持った時点で選択は終了する．</p>
