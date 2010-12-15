@@ -80,3 +80,16 @@ div.verse, div.quote, div.quotation {
   margin-left : 10%; 
   margin-right : 10%;
 }
+
+td.tocref a {
+  font-family: sans-serif;
+  text-decoration: none;
+  color: black;
+  white-space: nowrap;
+  margin: 0 1em;
+}
+
+td.tocref a:hover {
+  text-decoration: underline;
+  color: black;
+}
