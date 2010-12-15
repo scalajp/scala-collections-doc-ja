@@ -24,36 +24,36 @@ alt="トップ" src="up.png" /></a></td>
 </table>
 <h1>可変コレクションおよび不変コレクション</h1>
 <p>Scala
-のコレクションは，体系的に可変および不変コレクションを区別している．<em>可変</em>コレクションは上書きしたり拡張することができる．これは副作用としてコレクションの要素を変更，追加，または削除することができることを意味する．対照的に，<em>不変</em>コレクションは変わることが無い．追加，削除，または更新を模倣した演算は提供されるが，全ての場合において演算は新しいコレクションを返し，古いコレクションは変わることがない．</p>
+のコレクションは、体系的に可変および不変コレクションを区別している。<em>可変</em>コレクションは上書きしたり拡張することができる。これは副作用としてコレクションの要素を変更、追加、または削除することができることを意味する。対照的に、<em>不変</em>コレクションは変わることが無い。追加、削除、または更新を模倣した演算は提供されるが、全ての場合において演算は新しいコレクションを返し、古いコレクションは変わることがない。</p>
 <p>コレクションクラスの全ては <tt>scala.collection</tt> パッケージもしくは
-<tt>mutable</tt>，<tt>immutable</tt>，<tt>generic</tt>
-のどれかのサブパッケージに定義されている． クライアントコードに必要なコレクションのクラスのほどんどには可変性に関して異なる特性を持つ
-3つの形態が定義されおり，ぞれぞれ　<tt>scala.collection</tt>，<tt>scala.collection.immutable</tt>，か
-<tt>scala.collection.mutable</tt> のパッケージに存在する．</p>
+<tt>mutable</tt>、<tt>immutable</tt>、<tt>generic</tt>
+のどれかのサブパッケージに定義されている。 クライアントコードに必要なコレクションのクラスのほどんどには可変性に関して異なる特性を持つ
+3つの形態が定義されおり、ぞれぞれ　<tt>scala.collection</tt>、<tt>scala.collection.immutable</tt>、か
+<tt>scala.collection.mutable</tt> のパッケージに存在する。</p>
 <p><tt>scala.collection.immutable</tt>
-パッケージのコレクションは，誰にとっても不変であることが保証されている．そのようなコレクションは作成後には一切変更されることがない．したがって，異なる時点で何回同じコレクションの値にアクセスしても常に同じ要素を持つコレクションが得られることに依存できる．</p>
+パッケージのコレクションは、誰にとっても不変であることが保証されている。そのようなコレクションは作成後には一切変更されることがない。したがって、異なる時点で何回同じコレクションの値にアクセスしても常に同じ要素を持つコレクションが得られることに依存できる。</p>
 <p><tt>scala.collection.mutable</tt>
-パッケージのコレクションは，コレクションを上書き変更する演算がある．
-だから可変コレクションを扱うということは，どのコードが，何時どのコレクションを変更したのかということを理解する必要があることを意味する．</p>
+パッケージのコレクションは、コレクションを上書き変更する演算がある。
+だから可変コレクションを扱うということは、どのコードが、何時どのコレクションを変更したのかということを理解する必要があることを意味する。</p>
 <p><tt>scala.collection</tt>
-パッケージのコレクションは，可変か不変かのどちらでもありうる．例えば，<a href=
+パッケージのコレクションは、可変か不変かのどちらでもありうる。例えば、<a href=
 "http://www.scala-lang.org/api/current/scala/collection/IndexedSeq.html"><tt>collection.IndexedSeq[T]</tt></a>
-は，<a href=
+は、<a href=
 "http://www.scala-lang.org/api/current/scala/collection/immutable/IndexedSeq.html"><tt>collection.immutable.IndexedSeq[T]</tt></a>
 と<a href=
 "http://www.scala-lang.org/api/current/scala/collection/mutable/IndexedSeq.html"><tt>collection.mutable.IndexedSeq[T]</tt></a>
-両方の親クラスだ．一般的に，<tt>scala.collection</tt>
-パッケージの基底コレクションは不変コレクションと同じインターフェイスを定義し，<tt>scala.collection.mutable</tt>
-パッケージ内の可変コレクションは通常，副作用付きの変更演算を不変インターフェイスに加える．</p>
+両方の親クラスだ。一般的に、<tt>scala.collection</tt>
+パッケージの基底コレクションは不変コレクションと同じインターフェイスを定義し、<tt>scala.collection.mutable</tt>
+パッケージ内の可変コレクションは通常、副作用付きの変更演算を不変インターフェイスに加える。</p>
 <p>
-基底コレクションと不変コレクションの違いは，不変なコレクションのクライアントは，他の誰もコレクションを変更しないという保証があるのに対し，基底コレクションのクライアントは自分ではコレクションを変更しなかったという約束しかできない．たとえ静的な型がコレクションを変更するような演算を提供していなくても，実行時の型は他のクライアントが手を加えることができる可変コレクションである可能性がある．</p>
-<p>デフォルトでは Scala は常に不変コレクションを選ぶ．たとえば，<tt>scala</tt>
-パッケージのデフォルトのバインディングのせいで，なんの接頭辞や import もなくただ <tt>Set</tt>
-と書くと不変な集合が返ってき，<tt>Iterable</tt> と書くと不変で反復可能 (iterable)
-なコレクションが返ってくる．可変なデフォルトのバージョンを取得するには，<tt>collection.mutable.Set</tt>
-または <tt>collection.mutable.Iterable</tt> と明示的に記述する必要がある．</p>
+基底コレクションと不変コレクションの違いは、不変なコレクションのクライアントは、他の誰もコレクションを変更しないという保証があるのに対し、基底コレクションのクライアントは自分ではコレクションを変更しなかったという約束しかできない。たとえ静的な型がコレクションを変更するような演算を提供していなくても、実行時の型は他のクライアントが手を加えることができる可変コレクションである可能性がある。</p>
+<p>デフォルトでは Scala は常に不変コレクションを選ぶ。たとえば、<tt>scala</tt>
+パッケージのデフォルトのバインディングのせいで、なんの接頭辞や import もなくただ <tt>Set</tt>
+と書くと不変な集合が返ってき、<tt>Iterable</tt> と書くと不変で反復可能 (iterable)
+なコレクションが返ってくる。可変なデフォルトのバージョンを取得するには、<tt>collection.mutable.Set</tt>
+または <tt>collection.mutable.Iterable</tt> と明示的に記述する必要がある。</p>
 <p>可変と不変の両方のバージョンのコレクションを使用する場合に便利な慣例は <tt>collection.mutable</tt>
-パッケージだけをインポートすることだ．</p>
+パッケージだけをインポートすることだ。</p>
 <div class="quote">
 <table cellspacing="1" cellpadding="0">
 <tr>
@@ -65,15 +65,15 @@ alt="トップ" src="up.png" /></a></td>
 </tr>
 </table>
 </div>
-<p>これにより，接頭辞なしの <tt>Set</tt>
-は不変なコレクションを参照するのに対し，<tt>mutable.Set</tt> は可変のものを参照する．</p>
+<p>これにより、接頭辞なしの <tt>Set</tt>
+は不変なコレクションを参照するのに対し、<tt>mutable.Set</tt> は可変のものを参照する。</p>
 <p>コレクション階層内の最後のパッケージが <tt>collection.generic</tt>
-だ．このパッケージには，コレクションを実装するための基本的なパーツが含まれている． コレクションクラスがいくつかの演算を
-<tt>generic</tt>内のクラスに委譲することはよくあるが， フレームワークのユーザーが
-<tt>generic</tt>内のクラスが必要になることは普通はありえない．</p>
-<p>利便性と後方互換性のために，いつくかの重要な型は <tt>scala</tt>
-パッケージ内に別名を定義してあるため，インポート無しで単純な名前でコレクションを使うことができる．<a href=
-"http://www.scala-lang.org/api/current/scala/collection/immutable/List.html"><tt>List</tt></a>型が良い例で，以下の名前でもアクセスすることができる</p>
+だ。このパッケージには、コレクションを実装するための基本的なパーツが含まれている。 コレクションクラスがいくつかの演算を
+<tt>generic</tt>内のクラスに委譲することはよくあるが、 フレームワークのユーザーが
+<tt>generic</tt>内のクラスが必要になることは普通はありえない。</p>
+<p>利便性と後方互換性のために、いつくかの重要な型は <tt>scala</tt>
+パッケージ内に別名を定義してあるため、インポート無しで単純な名前でコレクションを使うことができる。<a href=
+"http://www.scala-lang.org/api/current/scala/collection/immutable/List.html"><tt>List</tt></a>型が良い例で、以下の名前でもアクセスすることができる</p>
 <div class="quote">
 <table cellspacing="1" cellpadding="0">
 <tr>
@@ -121,17 +121,17 @@ Seq</tt></a>, <a href=
 "http://www.scala-lang.org/api/current/scala/collection/mutable/StringBuilder.html">
 <tt>StringBuilder</tt></a>, <a href=
 "http://www.scala-lang.org/api/current/scala/collection/immutable/Range.html">
-<tt>Range</tt></a>．</p>
+<tt>Range</tt></a>。</p>
 <p>次の図は <tt>scala.collection</tt>
-パッケージ内の全てのコレクションを示す．これらはすべて、高レベルの抽象クラスやトレイトで一般に可変と不変の両方の実装を持っている．</p>
+パッケージ内の全てのコレクションを示す。これらはすべて、高レベルの抽象クラスやトレイトで一般に可変と不変の両方の実装を持っている。</p>
 <p><img alt="" src="collections.png" /></p>
 <p>次の図は <tt>scala.collection.immutable</tt>
-パッケージ内の全てのコレクションを示す．</p>
+パッケージ内の全てのコレクションを示す。</p>
 <p><img alt="" src="collections.immutable.png" /></p>
-<p>そして，次の図は <tt>scala.collection.mutable</tt>
-パッケージ内の全てのコレクションを示す．</p>
+<p>そして、次の図は <tt>scala.collection.mutable</tt>
+パッケージ内の全てのコレクションを示す。</p>
 <p><img alt="" src="collections.mutable.png" /></p>
-<p>(以上三つ全ての図は decodified.com の Matthias によって生成された．)</p>
+<p>(以上三つ全ての図は decodified.com の Matthias によって生成された。)</p>
 <p>次へ： <a href="collections_2.html">コレクションAPIの概要</a></p>
 <hr />
 <table width="100%" cellpadding="0" cellspacing="2">

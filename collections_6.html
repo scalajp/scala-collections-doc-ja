@@ -22,15 +22,15 @@ alt="列トレイト Seq, IndexedSeq, および LinearSeq" src="up.png" /></a></
 </table>
 <h2>バッファ</h2>
 <p>可変列に分類されるものの中で重要なものに <tt>Buffer</tt>
-がある．バッファは既存の要素を上書きできるだけでなく，要素を挿入したり，削除したり，効率的にバッファの最後に新しい要素を追加したりできる．バッファがサポートする新しいメソッドの中で主要なものは，要素を最後に追加する
-<tt>+=</tt> と <tt>++=</tt>，先頭に追加する <tt>+=:</tt> と
-<tt>++=:</tt>，要素を挿入する <tt>insert</tt> と
-<tt>insertAll</tt>，そして要素を削除する <tt>remove</tt> と <tt>-=</tt>
-だ．以下の表にこれらの演算をまとめた．</p>
+がある。バッファは既存の要素を上書きできるだけでなく、要素を挿入したり、削除したり、効率的にバッファの最後に新しい要素を追加したりできる。バッファがサポートする新しいメソッドの中で主要なものは、要素を最後に追加する
+<tt>+=</tt> と <tt>++=</tt>、先頭に追加する <tt>+=:</tt> と
+<tt>++=:</tt>、要素を挿入する <tt>insert</tt> と
+<tt>insertAll</tt>、そして要素を削除する <tt>remove</tt> と <tt>-=</tt>
+だ。以下の表にこれらの演算をまとめた。</p>
 <p>よく使われるバッファの実装に <tt>ListBuffer</tt> と <tt>ArrayBuffer</tt>
-がある．名前が示すとおり，<tt>ListBuffer</tt> は <tt>List</tt> に支えられており，要素を効率的に
-<tt>List</tt> に変換できる．一方，<tt>ArrayBuffer</tt>
-は配列に支えられており，これも素早く配列に変換できる．</p>
+がある。名前が示すとおり、<tt>ListBuffer</tt> は <tt>List</tt> に支えられており、要素を効率的に
+<tt>List</tt> に変換できる。一方、<tt>ArrayBuffer</tt>
+は配列に支えられており、これも素早く配列に変換できる。</p>
 <table border="0" cellspacing="0" class="ops">
 <tbody>
 <tr>
@@ -49,78 +49,78 @@ alt="列トレイト Seq, IndexedSeq, および LinearSeq" src="up.png" /></a></
 </tr>
 <tr>
 <td align="left"><tt>buf</tt>&nbsp;<tt>+=</tt>&nbsp;<tt>x</tt></td>
-<td align="left">バッファの最後に要素 <tt>x</tt> を追加し，<tt>buf</tt>
-自身を戻り値として返す．</td>
+<td align="left">バッファの最後に要素 <tt>x</tt> を追加し、<tt>buf</tt>
+自身を戻り値として返す。</td>
 </tr>
 <tr>
 <td align="left">
 <tt>buf</tt>&nbsp;<tt>+=</tt>&nbsp;<tt>(x,</tt>&nbsp;<tt>y,</tt>&nbsp;<tt>z)</tt></td>
-<td align="left">渡された要素をバッファの最後に追加する．</td>
+<td align="left">渡された要素をバッファの最後に追加する。</td>
 </tr>
 <tr>
 <td align="left">
 <tt>buf</tt>&nbsp;<tt>++=</tt>&nbsp;<tt>xs</tt></td>
-<td align="left"><tt>xs</tt>内の全ての要素をバッファの最後に追加する．</td>
+<td align="left"><tt>xs</tt>内の全ての要素をバッファの最後に追加する。</td>
 </tr>
 <tr>
 <td align="left">
 <tt>x</tt>&nbsp;<tt>+=:</tt>&nbsp;<tt>buf</tt></td>
-<td align="left">バッファの先頭に要素 <tt>x</tt> を追加する．</td>
+<td align="left">バッファの先頭に要素 <tt>x</tt> を追加する。</td>
 </tr>
 <tr>
 <td align="left">
 <tt>xs</tt>&nbsp;<tt>++=:</tt>&nbsp;<tt>buf</tt></td>
-<td align="left"><tt>xs</tt>内の全ての要素をバッファの先頭に追加する．</td>
+<td align="left"><tt>xs</tt>内の全ての要素をバッファの先頭に追加する。</td>
 </tr>
 <tr>
 <td align="left">
 <tt>buf</tt>&nbsp;<tt>insert</tt>&nbsp;<tt>(i,</tt>&nbsp;<tt>x)</tt></td>
-<td align="left">バッファの添字 <tt>i</tt> の位置に要素 <tt>x</tt> を挿入する．</td>
+<td align="left">バッファの添字 <tt>i</tt> の位置に要素 <tt>x</tt> を挿入する。</td>
 </tr>
 <tr>
 <td align="left">
 <tt>buf</tt>&nbsp;<tt>insertAll</tt>&nbsp;<tt>(i,</tt>&nbsp;<tt>xs)</tt></td>
 <td align="left"><tt>xs</tt>内の全ての要素をバッファの添字 <tt>i</tt>
-の位置に挿入する．</td>
+の位置に挿入する。</td>
 </tr>
 <tr>
 <th class="opcat" align="left" colspan="2">減算:</th>
 </tr>
 <tr>
 <td align="left"><tt>buf</tt>&nbsp;<tt>-=</tt>&nbsp;<tt>x</tt></td>
-<td align="left">バッファから要素 <tt>x</tt> を削除する．</td>
+<td align="left">バッファから要素 <tt>x</tt> を削除する。</td>
 </tr>
 <tr>
 <td align="left">
 <tt>buf</tt>&nbsp;<tt>remove</tt>&nbsp;<tt>i</tt></td>
-<td align="left">バッファの添字 <tt>i</tt> の位置の要素を削除する．</td>
+<td align="left">バッファの添字 <tt>i</tt> の位置の要素を削除する。</td>
 </tr>
 <tr>
 <td align="left">
 <tt>buf</tt>&nbsp;<tt>remove</tt>&nbsp;<tt>(i,</tt>&nbsp;<tt>n)</tt></td>
 <td align="left">バッファの添字 <tt>i</tt> の位置から始まる
-<tt>n</tt>個の要素を削除する．</td>
+<tt>n</tt>個の要素を削除する。</td>
 </tr>
 <tr>
 <td align="left">
 <tt>buf</tt>&nbsp;<tt>trimStart</tt>&nbsp;<tt>n</tt></td>
-<td align="left">バッファの先頭の要素 <tt>n</tt>個を削除する．</td>
+<td align="left">バッファの先頭の要素 <tt>n</tt>個を削除する。</td>
 </tr>
 <tr>
 <td align="left">
 <tt>buf</tt>&nbsp;<tt>trimEnd</tt>&nbsp;<tt>n</tt></td>
-<td align="left">バッファの最後の要素 <tt>n</tt>個を削除する．</td>
+<td align="left">バッファの最後の要素 <tt>n</tt>個を削除する。</td>
 </tr>
 <tr>
 <td align="left"><tt>buf.clear()</tt></td>
-<td align="left">バッファの全ての要素を削除する．</td>
+<td align="left">バッファの全ての要素を削除する。</td>
 </tr>
 <tr>
 <th class="opcat" align="left" colspan="2">クローン演算:</th>
 </tr>
 <tr>
 <td align="left"><tt>buf.clone</tt></td>
-<td align="left"><tt>buf</tt> と同じ要素を持った新しいバッファ．</td>
+<td align="left"><tt>buf</tt> と同じ要素を持った新しいバッファ。</td>
 </tr>
 </tbody>
 </table>

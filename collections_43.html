@@ -25,13 +25,13 @@ alt="ビュー" src="previous.png" /></a></td>
 <h1>イテレータ</h1>
 <p>イテレータ (<a href=
 "http://www.scala-lang.org/api/current/scala/collection/Iterator.html"><tt>Iterator</tt></a>)
-はコレクションではなく，コレクションから要素を一つづつアクセスするための方法だ．イテレータ <tt>it</tt>
-に対する基本的な演算として <tt>next</tt> と <tt>hasNext</tt> の二つがある．
-<tt>it.next()</tt> を呼び出すことで，次の要素が返り，イテレータの内部状態が前進する．よって，同じイテレータに対して
-<tt>next</tt> を再び呼び出すと，前回返したものの次の要素が得られる．返す要素が無くなると，<tt>next</tt>
-の呼び出しは <tt>NoSuchElementException</tt> を発生させる．返す要素が残っているかは <a href=
+はコレクションではなく、コレクションから要素を一つづつアクセスするための方法だ。イテレータ <tt>it</tt>
+に対する基本的な演算として <tt>next</tt> と <tt>hasNext</tt> の二つがある。
+<tt>it.next()</tt> を呼び出すことで、次の要素が返り、イテレータの内部状態が前進する。よって、同じイテレータに対して
+<tt>next</tt> を再び呼び出すと、前回返したものの次の要素が得られる。返す要素が無くなると、<tt>next</tt>
+の呼び出しは <tt>NoSuchElementException</tt> を発生させる。返す要素が残っているかは <a href=
 "http://www.scala-lang.org/api/current/scala/collection/Iterator.html">
-<tt>Iterator</tt></a> の <tt>hasNext</tt> メソッドを使って調べることができる．</p>
+<tt>Iterator</tt></a> の <tt>hasNext</tt> メソッドを使って調べることができる。</p>
 <p>イテレータ <tt>it</tt> が返す全ての要素を渡り歩くのに最も率直な方法は while ループを使うことだ:</p>
 <div class="quote">
 <table cellspacing="1" cellpadding="0">
@@ -45,10 +45,10 @@ alt="ビュー" src="previous.png" /></a></td>
 </tr>
 </table>
 </div>
-<p><tt>Traversable</tt>，<tt>Iterable</tt>，および <tt>Seq</tt>
+<p><tt>Traversable</tt>、<tt>Iterable</tt>、および <tt>Seq</tt>
 クラスのほとんどのメソッドに対して類似するものを Scala
-のイテレータは提供している．たとえば，与えられた手順をイテレータが返す全ての要素に対して実行する <tt>foreach</tt>
-メソッドを提供する．<tt>foreach</tt> を使うことで，先ほどのループは以下のように短縮できる:</p>
+のイテレータは提供している。たとえば、与えられた手順をイテレータが返す全ての要素に対して実行する <tt>foreach</tt>
+メソッドを提供する。<tt>foreach</tt> を使うことで、先ほどのループは以下のように短縮できる:</p>
 <div class="quote">
 <table cellspacing="1" cellpadding="0">
 <tr>
@@ -57,9 +57,9 @@ alt="ビュー" src="previous.png" /></a></td>
 </tr>
 </table>
 </div>
-<p>例にならって，<tt>foreach</tt>，<tt>map</tt>，<tt>withFilter</tt>，および
+<p>例にならって、<tt>foreach</tt>、<tt>map</tt>、<tt>withFilter</tt>、および
 <tt>flatMap</tt> の代替構文として for
-式を使うことができるので，イテレータが返す全ての要素を表示するもう一つの方法として以下のように書ける:</p>
+式を使うことができるので、イテレータが返す全ての要素を表示するもう一つの方法として以下のように書ける:</p>
 <div class="quote">
 <table cellspacing="1" cellpadding="0">
 <tr>
@@ -69,16 +69,16 @@ alt="ビュー" src="previous.png" /></a></td>
 </table>
 </div>
 <p>イテレータの <tt>foreach</tt> メソッドと traversable
-の同メソッドには重大な違いがある．イテレータのそれを呼び出した場合，<tt>foreach</tt>
-はイテレータを終端に置いたままで終了するということだ．そのため，<tt>next</tt> を再び呼び出すと
+の同メソッドには重大な違いがある。イテレータのそれを呼び出した場合、<tt>foreach</tt>
+はイテレータを終端に置いたままで終了するということだ。そのため、<tt>next</tt> を再び呼び出すと
 <tt>NoSuchElementException</tt>
-を発生して失敗する．それに比べ，コレクションに対して呼び出した場合，<tt>foreach</tt>
+を発生して失敗する。それに比べ、コレクションに対して呼び出した場合、<tt>foreach</tt>
 はコレクション内の要素の数を変更しない
-(渡された関数が要素を追加もしくは削除した場合は別の話だが，これは予想外の結果になることがあるので非推奨だ)．</p>
+(渡された関数が要素を追加もしくは削除した場合は別の話だが、これは予想外の結果になることがあるので非推奨だ)。</p>
 <p><a href=
 "http://www.scala-lang.org/api/current/scala/collection/Iterator.html">
 <tt>Iterator</tt></a> と <tt>Traversable</tt>
-に共通の他の演算も同じ特性を持つ．例えば，イテレータは新たなイテレータを返す <tt>map</tt> メソッドを提供する:</p>
+に共通の他の演算も同じ特性を持つ。例えば、イテレータは新たなイテレータを返す <tt>map</tt> メソッドを提供する:</p>
 <div class="quote">
 <table cellspacing="1" cellpadding="0">
 <tr>
@@ -134,10 +134,10 @@ alt="ビュー" src="previous.png" /></a></td>
 </tr>
 </table>
 </div>
-<p>上記の通り，<tt>it.map</tt> の呼び出しの後，イテレータ <tt>it</tt>
-は終端まで前進してしまっている．</p>
-<p>次の具体例は，ある特性をもつイテレータ内の最初の要素を検索するのに使うことができる <tt>dropWhile</tt>
-だ．例えば，イテレータ内で二文字以上の最初の語句を検索するのに，このように書くことができる:</p>
+<p>上記の通り、<tt>it.map</tt> の呼び出しの後、イテレータ <tt>it</tt>
+は終端まで前進してしまっている。</p>
+<p>次の具体例は、ある特性をもつイテレータ内の最初の要素を検索するのに使うことができる <tt>dropWhile</tt>
+だ。例えば、イテレータ内で二文字以上の最初の語句を検索するのに、このように書くことができる:</p>
 <div class="quote">
 <table cellspacing="1" cellpadding="0">
 <tr>
@@ -174,9 +174,9 @@ alt="ビュー" src="previous.png" /></a></td>
 </table>
 </div>
 <p><tt>dropWhile</tt> を呼び出すことで <tt>it</tt>
-が変更された事に注意してほしい．イテレータは二番目の語句「number」を指している．実際に，<tt>it</tt> と
-<tt>dropWhile</tt> の返した戻り値である <tt>res4</tt> 同じ要素の列を返す．</p>
-<p>同じイテレータを再利用するための標準演算が一つだけある．以下の</p>
+が変更された事に注意してほしい。イテレータは二番目の語句「number」を指している。実際に、<tt>it</tt> と
+<tt>dropWhile</tt> の返した戻り値である <tt>res4</tt> 同じ要素の列を返す。</p>
+<p>同じイテレータを再利用するための標準演算が一つだけある。以下の</p>
 <div class="quote">
 <table cellspacing="1" cellpadding="0">
 <tr>
@@ -186,35 +186,35 @@ alt="ビュー" src="previous.png" /></a></td>
 </table>
 </div>
 <p>への呼び出しはイテレータ <tt>it</tt>
-と全く同じ要素を返すイテレータを二つ返す．この二つのイテレータは独立して作動するため，片方を前進しても他方は影響を受けない．一方，元のイテレータ
-<tt>it</tt> は <tt>duplicate</tt> により終端まで前進したため，使いものにならない．</p>
+と全く同じ要素を返すイテレータを二つ返す。この二つのイテレータは独立して作動するため、片方を前進しても他方は影響を受けない。一方、元のイテレータ
+<tt>it</tt> は <tt>duplicate</tt> により終端まで前進したため、使いものにならない。</p>
 <p>
-要約すると，イテレータは<em>メソッドを呼び出した後，絶対にアクセスしなければ</em>コレクションのように振る舞う．Scala
-コレクションライブラリは， <a href=
+要約すると、イテレータは<em>メソッドを呼び出した後、絶対にアクセスしなければ</em>コレクションのように振る舞う。Scala
+コレクションライブラリは、 <a href=
 "http://www.scala-lang.org/api/current/scala/collection/Traversable.html">
 <tt>Traversable</tt></a> と <a href=
 "http://www.scala-lang.org/api/current/scala/collection/Iterator.html">
 <tt>Iterator</tt></a> に共通の親クラスである <a href=
 "http://www.scala-lang.org/api/current/scala/collection/TraversableOnce.html">
-<tt>TraversableOnce</tt></a> を提供することで，明示的にこれを示す．名前が示す通り， <a href=
+<tt>TraversableOnce</tt></a> を提供することで、明示的にこれを示す。名前が示す通り、 <a href=
 "http://www.scala-lang.org/api/current/scala/collection/TraversableOnce.html">
 <tt>TraversableOnce</tt></a> は <tt>foreach</tt>
-を用いて一度だけ探索することができるが，探索後のそのオブジェクトの状態は指定されていない． <a href=
+を用いて一度だけ探索することができるが、探索後のそのオブジェクトの状態は指定されていない。 <a href=
 "http://www.scala-lang.org/api/current/scala/collection/TraversableOnce.html">
 <tt>TraversableOnce</tt></a> オブジェクトが <a href=
 "http://www.scala-lang.org/api/current/scala/collection/Iterator.html">
-<tt>Iterator</tt></a> ならば，探索後はその終端にあるし，もし <a href=
+<tt>Iterator</tt></a> ならば、探索後はその終端にあるし、もし <a href=
 "http://www.scala-lang.org/api/current/scala/collection/Traversable.html">
-<tt>Traversable</tt></a> ならば，そのオブジェクトは今まで通り存在する． <a href=
+<tt>Traversable</tt></a> ならば、そのオブジェクトは今まで通り存在する。 <a href=
 "http://www.scala-lang.org/api/current/scala/collection/TraversableOnce.html">
-<tt>TraversableOnce</tt></a> のよく使われる事例としては，イテレータか
-<tt>Traversable</tt> を受け取ることができるメソッドの引数の型だ．その例として， <a href=
+<tt>TraversableOnce</tt></a> のよく使われる事例としては、イテレータか
+<tt>Traversable</tt> を受け取ることができるメソッドの引数の型だ。その例として、 <a href=
 "http://www.scala-lang.org/api/current/scala/collection/Traversable.html">
 <tt>Traversable</tt></a> クラスの追加メソッド <tt>++</tt>
-がある．<tt>TraversableOnce</tt> パラメータを受け取るため，イテレータか
-<tt>Traversable</tt> なコレクションの要素を追加することができる．</p>
+がある。<tt>TraversableOnce</tt> パラメータを受け取るため、イテレータか
+<tt>Traversable</tt> なコレクションの要素を追加することができる。</p>
 <p>イテレータの全演算は<a href=
-"collections_43.html#tab:iteratorops">次の表</a>にまとめられている．</p>
+"collections_43.html#tab:iteratorops">次の表</a>にまとめられている。</p>
 <table border="0" cellspacing="0" class="ops">
 <tbody>
 <tr>
@@ -232,36 +232,36 @@ alt="ビュー" src="previous.png" /></a></td>
 </tr>
 <tr>
 <td align="left"><tt>it.next()</tt></td>
-<td align="left">イテレータの次の要素を返し，前進させる．</td>
+<td align="left">イテレータの次の要素を返し、前進させる。</td>
 </tr>
 <tr>
 <td align="left"><tt>it.hasNext</tt></td>
-<td align="left"><tt>it</tt> が次の要素を返せる場合，<tt>true</tt> を返す．</td>
+<td align="left"><tt>it</tt> が次の要素を返せる場合、<tt>true</tt> を返す。</td>
 </tr>
 <tr>
 <th class="opcat" align="left" colspan="2">他のイテレータ:</th>
 </tr>
 <tr>
 <td align="left"><tt>it.buffered</tt></td>
-<td align="left"><tt>it</tt> が返す全ての要素を返すバッファ付きイテレータ．</td>
+<td align="left"><tt>it</tt> が返す全ての要素を返すバッファ付きイテレータ。</td>
 </tr>
 <tr>
 <td align="left">
 <p><tt>it</tt>&nbsp;<tt>grouped</tt>&nbsp;<tt>size</tt></p>
 </td>
-<td align="left"><tt>it</tt> が返す要素を固定サイズの「かたまり」にして返すイテレータ．</td>
+<td align="left"><tt>it</tt> が返す要素を固定サイズの「かたまり」にして返すイテレータ。</td>
 </tr>
 <tr>
 <td align="left">
 <tt>xs</tt>&nbsp;<tt>sliding</tt>&nbsp;<tt>size</tt></td>
-<td align="left"><tt>it</tt> が返す要素を固定サイズの「窓」をスライドさせて返すイテレータ．</td>
+<td align="left"><tt>it</tt> が返す要素を固定サイズの「窓」をスライドさせて返すイテレータ。</td>
 </tr>
 <tr>
 <th class="opcat" align="left" colspan="2">複製:</th>
 </tr>
 <tr>
 <td align="left"><tt>it.duplicate</tt></td>
-<td align="left"><tt>it</tt> が返す全ての要素を独立して返すイテレータのペア．</td>
+<td align="left"><tt>it</tt> が返す全ての要素を独立して返すイテレータのペア。</td>
 </tr>
 <tr>
 <th class="opcat" align="left" colspan="2">加算:</th>
@@ -269,13 +269,13 @@ alt="ビュー" src="previous.png" /></a></td>
 <tr>
 <td align="left"><tt>it</tt>&nbsp;<tt>++</tt>&nbsp;<tt>jt</tt></td>
 <td align="left">イテレータ <tt>it</tt> が返す全ての要素に続いてイテレータ <tt>jt</tt>
-の全ての要素を返すイテレータ．</td>
+の全ての要素を返すイテレータ。</td>
 </tr>
 <tr>
 <td align="left">
 <tt>it</tt>&nbsp;<tt>padTo</tt>&nbsp;<tt>(len,</tt>&nbsp;<tt>x)</tt></td>
-<td align="left">全体で <tt>len</tt>個の要素が返るように，イテレータ <tt>it</tt>
-の全ての要素に続いて <tt>x</tt> を返すイテレータ．</td>
+<td align="left">全体で <tt>len</tt>個の要素が返るように、イテレータ <tt>it</tt>
+の全ての要素に続いて <tt>x</tt> を返すイテレータ。</td>
 </tr>
 <tr>
 <th class="opcat" align="left" colspan="2">map 演算:</th>
@@ -283,19 +283,19 @@ alt="ビュー" src="previous.png" /></a></td>
 <tr>
 <td align="left"><tt>it</tt>&nbsp;<tt>map</tt>&nbsp;<tt>f</tt></td>
 <td align="left"><tt>it</tt> が返す全ての要素に関数 <tt>f</tt>
-を適用することによって得られるイテレータ．</td>
+を適用することによって得られるイテレータ。</td>
 </tr>
 <tr>
 <td align="left">
 <tt>it</tt>&nbsp;<tt>flatMap</tt>&nbsp;<tt>f</tt></td>
 <td align="left"><tt>it</tt> が返す全ての要素に対してイテレータ値を返す関数 <tt>f</tt>
-を適用し，その結果を連結したイテレータ．</td>
+を適用し、その結果を連結したイテレータ。</td>
 </tr>
 <tr>
 <td align="left">
 <tt>it</tt>&nbsp;<tt>collect</tt>&nbsp;<tt>f</tt></td>
 <td align="left"><tt>it</tt> が返す全ての要素に対して部分関数 <tt>f</tt>
-が定義されている場合のみ適応し，その結果を集めたイテレータ．</td>
+が定義されている場合のみ適応し、その結果を集めたイテレータ。</td>
 </tr>
 <tr>
 <th class="opcat" align="left" colspan="2">変換演算:</th>
@@ -303,35 +303,35 @@ alt="ビュー" src="previous.png" /></a></td>
 </tr>
 <tr>
 <td align="left"><tt>it.toArray</tt></td>
-<td align="left"><tt>it</tt> が返す要素を配列に集める．</td>
+<td align="left"><tt>it</tt> が返す要素を配列に集める。</td>
 </tr>
 <tr>
 <td align="left"><tt>it.toList</tt></td>
-<td align="left"><tt>it</tt> が返す要素をリストに集める．</td>
+<td align="left"><tt>it</tt> が返す要素をリストに集める。</td>
 </tr>
 <tr>
 <td align="left"><tt>it.toIterable</tt></td>
-<td align="left"><tt>it</tt> が返す要素を iterable に集める．</td>
+<td align="left"><tt>it</tt> が返す要素を iterable に集める。</td>
 </tr>
 <tr>
 <td align="left"><tt>it.toSeq</tt></td>
-<td align="left"><tt>it</tt> が返す要素を列に集める．</td>
+<td align="left"><tt>it</tt> が返す要素を列に集める。</td>
 </tr>
 <tr>
 <td align="left"><tt>it.toIndexedSeq</tt></td>
-<td align="left"><tt>it</tt> が返す要素を添字付き列に集める．</td>
+<td align="left"><tt>it</tt> が返す要素を添字付き列に集める。</td>
 </tr>
 <tr>
 <td align="left"><tt>it.toStream</tt></td>
-<td align="left"><tt>it</tt> が返す要素をストリームに集める．</td>
+<td align="left"><tt>it</tt> が返す要素をストリームに集める。</td>
 </tr>
 <tr>
 <td align="left"><tt>it.toSet</tt></td>
-<td align="left"><tt>it</tt> が返す要素を集合に集める．</td>
+<td align="left"><tt>it</tt> が返す要素を集合に集める。</td>
 </tr>
 <tr>
 <td align="left"><tt>it.toMap</tt></td>
-<td align="left"><tt>it</tt> が返すキー/値ペアをマップに集める．</td>
+<td align="left"><tt>it</tt> が返すキー/値ペアをマップに集める。</td>
 </tr>
 <tr>
 <th class="opcat" align="left" colspan="2">コピー演算:</th>
@@ -339,38 +339,38 @@ alt="ビュー" src="previous.png" /></a></td>
 <tr>
 <td align="left">
 <tt>it</tt>&nbsp;<tt>copyToBuffer</tt>&nbsp;<tt>buf</tt></td>
-<td align="left"><tt>it</tt> が返す要素をバッファ <tt>buf</tt> にコピーする．</td>
+<td align="left"><tt>it</tt> が返す要素をバッファ <tt>buf</tt> にコピーする。</td>
 </tr>
 <tr>
 <td align="left">
 <tt>it</tt>&nbsp;<tt>copyToArray(arr,</tt>&nbsp;<tt>s,</tt>&nbsp;<tt>n)</tt></td>
 <td align="left"><tt>it</tt> が返す最大 <tt>n</tt> 個の要素を配列 <tt>arr</tt>
-の添字 <tt>s</tt> より始まる位置にコピーする．最後の2つの引数は省略可能だ．</td>
+の添字 <tt>s</tt> より始まる位置にコピーする。最後の2つの引数は省略可能だ。</td>
 </tr>
 <tr>
 <th class="opcat" align="left" colspan="2">サイズ演算:</th>
 </tr>
 <tr>
 <td align="left"><tt>it.isEmpty</tt></td>
-<td align="left">イテレータが空であるかどうかを調べる (<tt>hasNext</tt> の逆)．</td>
+<td align="left">イテレータが空であるかどうかを調べる (<tt>hasNext</tt> の逆)。</td>
 </tr>
 <tr>
 <td align="left"><tt>it.nonEmpty</tt></td>
-<td align="left">イテレータに要素が含まれているかを調べる (<tt>hasNext</tt> の別名)．</td>
+<td align="left">イテレータに要素が含まれているかを調べる (<tt>hasNext</tt> の別名)。</td>
 </tr>
 <tr>
 <td align="left"><tt>it.size</tt></td>
-<td align="left"><tt>it</tt> が返す要素の数．注意: この演算の後，<tt>it</tt>
+<td align="left"><tt>it</tt> が返す要素の数。注意: この演算の後、<tt>it</tt>
 は終端まで前進する!</td>
 </tr>
 <tr>
 <td align="left"><tt>it.length</tt></td>
-<td align="left"><tt>it.size</tt> に同じ．</td>
+<td align="left"><tt>it.size</tt> に同じ。</td>
 </tr>
 <tr>
 <td align="left"><tt>it.hasDefiniteSize</tt></td>
 <td align="left"><tt>it</tt> が有限数の要素を返すことが明らかな場合 true を返す (デフォルトでは
-<tt>isEmpty</tt> に同じ)．</td>
+<tt>isEmpty</tt> に同じ)。</td>
 </tr>
 <tr>
 <th class="opcat" align="left" colspan="2">要素取得演算・添字検索演算:</th>
@@ -379,20 +379,20 @@ alt="ビュー" src="previous.png" /></a></td>
 <td align="left">
 <tt>it</tt>&nbsp;<tt>find</tt>&nbsp;<tt>p</tt></td>
 <td align="left"><tt>it</tt> が返す要素の中で条件関数 <tt>p</tt>
-を満たす最初の要素のオプション値，または条件を満たす要素が無い場合 <tt>None</tt>．注意:
-イテレータは探しだされた要素の次の要素，それが無い場合は終端まで前進する．</td>
+を満たす最初の要素のオプション値、または条件を満たす要素が無い場合 <tt>None</tt>。注意:
+イテレータは探しだされた要素の次の要素、それが無い場合は終端まで前進する。</td>
 </tr>
 <tr>
 <td align="left">
 <tt>it</tt>&nbsp;<tt>indexOf</tt>&nbsp;<tt>x</tt></td>
-<td align="left"><tt>it</tt> が返す要素の中で <tt>x</tt> と等しい最初の要素の添字．注意:
-イテレータはこの要素の次の位置まで前進する．</td>
+<td align="left"><tt>it</tt> が返す要素の中で <tt>x</tt> と等しい最初の要素の添字。注意:
+イテレータはこの要素の次の位置まで前進する。</td>
 </tr>
 <tr>
 <td align="left">
 <tt>it</tt>&nbsp;<tt>indexWhere</tt>&nbsp;<tt>p</tt></td>
 <td align="left"><tt>it</tt> が返す要素の中で条件関数 <tt>p</tt>
-を満たす最初の要素の添字，注意: イテレータはこの要素の次の位置まで前進する．</td>
+を満たす最初の要素の添字、注意: イテレータはこの要素の次の位置まで前進する。</td>
 </tr>
 <tr>
 <th class="opcat" align="left" colspan="2">部分イテレータ演算:</th>
@@ -400,51 +400,51 @@ alt="ビュー" src="previous.png" /></a></td>
 <tr>
 <td align="left">
 <tt>it</tt>&nbsp;<tt>take</tt>&nbsp;<tt>n</tt></td>
-<td align="left"><tt>it</tt> が返す最初の <tt>n</tt>個の要素を返すイテレータ．注意:
+<td align="left"><tt>it</tt> が返す最初の <tt>n</tt>個の要素を返すイテレータ。注意:
 <tt>it</tt>
-は，<tt>n</tt>個目の要素の次の位置，または<tt>n</tt>個以下の要素を含む場合は終端まで前進する．</td>
+は、<tt>n</tt>個目の要素の次の位置、または<tt>n</tt>個以下の要素を含む場合は終端まで前進する。</td>
 </tr>
 <tr>
 <td align="left">
 <tt>it</tt>&nbsp;<tt>drop</tt>&nbsp;<tt>n</tt></td>
-<td align="left"><tt>it</tt> の <tt>(n+1)</tt>番目の要素から始まるイテレータ．注意:
-<tt>it</tt> も同じ位置まで前進する．</td>
+<td align="left"><tt>it</tt> の <tt>(n+1)</tt>番目の要素から始まるイテレータ。注意:
+<tt>it</tt> も同じ位置まで前進する。</td>
 </tr>
 <tr>
 <td align="left">
 <tt>it</tt>&nbsp;<tt>slice</tt>&nbsp;<tt>(m,n)</tt></td>
-<td align="left"><tt>it</tt> が返す要素の内，<tt>m</tt>番目から始まり
-<tt>n</tt>番目の一つ前で終わる切片を返すイテレータ．</td>
+<td align="left"><tt>it</tt> が返す要素の内、<tt>m</tt>番目から始まり
+<tt>n</tt>番目の一つ前で終わる切片を返すイテレータ。</td>
 </tr>
 <tr>
 <td align="left">
 <tt>it</tt>&nbsp;<tt>takeWhile</tt>&nbsp;<tt>p</tt></td>
-<td align="left"><tt>it</tt> が返す要素を最初から次々とみて，条件関数 <tt>p</tt>
-を満たす限り返していったイテレータ．</td>
+<td align="left"><tt>it</tt> が返す要素を最初から次々とみて、条件関数 <tt>p</tt>
+を満たす限り返していったイテレータ。</td>
 </tr>
 <tr>
 <td align="left">
 <tt>it</tt>&nbsp;<tt>dropWhile</tt>&nbsp;<tt>p</tt></td>
-<td align="left"><tt>it</tt> が返す要素を最初から次々とみて，条件関数 <tt>p</tt>
-を満たす限り飛ばしていき，残りを返すイテレータ．</td>
+<td align="left"><tt>it</tt> が返す要素を最初から次々とみて、条件関数 <tt>p</tt>
+を満たす限り飛ばしていき、残りを返すイテレータ。</td>
 </tr>
 <tr>
 <td align="left">
 <tt>it</tt>&nbsp;<tt>filter</tt>&nbsp;<tt>p</tt></td>
 <td align="left"><tt>it</tt> が返すの要素で条件関数 <tt>p</tt>
-を満たすものを返すイテレータ．</td>
+を満たすものを返すイテレータ。</td>
 </tr>
 <tr>
 <td align="left">
 <tt>it</tt>&nbsp;<tt>withFilter</tt>&nbsp;<tt>p</tt></td>
 <td align="left"><tt>it</tt>&nbsp;<tt>filter</tt>&nbsp;<tt>p</tt>
-に同じ．イテレータが for 式で使えるように用意されている．</td>
+に同じ。イテレータが for 式で使えるように用意されている。</td>
 </tr>
 <tr>
 <td align="left">
 <tt>it</tt>&nbsp;<tt>filterNot</tt>&nbsp;<tt>p</tt></td>
 <td align="left"><tt>it</tt> が返すの要素で条件関数 <tt>p</tt>
-を満たさないものを返すイテレータ．</td>
+を満たさないものを返すイテレータ。</td>
 </tr>
 <tr>
 <th class="opcat" align="left" colspan="2">分割演算:</th>
@@ -452,9 +452,9 @@ alt="ビュー" src="previous.png" /></a></td>
 <tr>
 <td align="left">
 <tt>it</tt>&nbsp;<tt>partition</tt>&nbsp;<tt>p</tt></td>
-<td align="left"><tt>it</tt> を二つのイテレータから成るペアに分割する．片方のイテレータは
-<tt>it</tt> が返す要素のうち条件関数 <tt>p</tt> を満たすものを返し，もう一方は <tt>it</tt>
-が返す要素のうち <tt>p</tt> を満たさないものを返す．</td>
+<td align="left"><tt>it</tt> を二つのイテレータから成るペアに分割する。片方のイテレータは
+<tt>it</tt> が返す要素のうち条件関数 <tt>p</tt> を満たすものを返し、もう一方は <tt>it</tt>
+が返す要素のうち <tt>p</tt> を満たさないものを返す。</td>
 </tr>
 <tr>
 <th class="opcat" align="left" colspan="2">要素条件演算:</th>
@@ -463,18 +463,18 @@ alt="ビュー" src="previous.png" /></a></td>
 <td align="left">
 <tt>it</tt>&nbsp;<tt>forall</tt>&nbsp;<tt>p</tt></td>
 <td align="left"><tt>it</tt> が返す全ての要素に条件関数 <tt>p</tt> が当てはまるかを示す
-boolean 値．</td>
+boolean 値。</td>
 </tr>
 <tr>
 <td align="left">
 <tt>it</tt>&nbsp;<tt>exists</tt>&nbsp;<tt>p</tt></td>
 <td align="left"><tt>it</tt> が返す要素の中に条件関数 <tt>p</tt>
-を満たすものがあるかどうかを示す boolean 値．</td>
+を満たすものがあるかどうかを示す boolean 値。</td>
 </tr>
 <tr>
 <td align="left">
 <tt>it</tt>&nbsp;<tt>count</tt>&nbsp;<tt>p</tt></td>
-<td align="left"><tt>it</tt> が返す要素の中にで条件関数 <tt>p</tt> 満たすものの数．</td>
+<td align="left"><tt>it</tt> が返す要素の中にで条件関数 <tt>p</tt> 満たすものの数。</td>
 </tr>
 <tr>
 <th class="opcat" align="left" colspan="2">fold 演算:</th>
@@ -482,55 +482,55 @@ boolean 値．</td>
 <tr>
 <td align="left">
 <tt>(z</tt>&nbsp;<tt>/:</tt>&nbsp;<tt>it)(op)</tt></td>
-<td align="left"><tt>z</tt> から始めて，左から右へと <tt>it</tt> が返す隣接する要素に二項演算
-<tt>op</tt> を次々と適用したもの．</td>
+<td align="left"><tt>z</tt> から始めて、左から右へと <tt>it</tt> が返す隣接する要素に二項演算
+<tt>op</tt> を次々と適用したもの。</td>
 </tr>
 <tr>
 <td align="left">
 <tt>(it</tt>&nbsp;<tt>:<i>\</i></tt>&nbsp;<tt>z)(op)</tt></td>
-<td align="left"><tt>z</tt> から始めて，右から左へと <tt>it</tt> が返す隣接する要素に二項演算
-<tt>op</tt> を次々と適用したもの．</td>
+<td align="left"><tt>z</tt> から始めて、右から左へと <tt>it</tt> が返す隣接する要素に二項演算
+<tt>op</tt> を次々と適用したもの。</td>
 </tr>
 <tr>
 <td align="left"><tt>it.foldLeft(z)(op)</tt></td>
 <td align="left"><tt>(z</tt>&nbsp;<tt>/:</tt>&nbsp;<tt>it)(op)</tt>
-に同じ．</td>
+に同じ。</td>
 </tr>
 <tr>
 <td align="left"><tt>it.foldRight(z)(op)</tt></td>
 <td align="left">
-<tt>(it</tt>&nbsp;<tt>:<i>\</i></tt>&nbsp;<tt>z)(op)</tt> に同じ．</td>
+<tt>(it</tt>&nbsp;<tt>:<i>\</i></tt>&nbsp;<tt>z)(op)</tt> に同じ。</td>
 </tr>
 <tr>
 <td align="left">
 <tt>it</tt>&nbsp;<tt>reduceLeft</tt>&nbsp;<tt>op</tt></td>
-<td align="left">左から右へと，空ではないイテレータ <tt>it</tt> が返す隣接する要素に二項演算
-<tt>op</tt> を次々と適用したもの．</td>
+<td align="left">左から右へと、空ではないイテレータ <tt>it</tt> が返す隣接する要素に二項演算
+<tt>op</tt> を次々と適用したもの。</td>
 </tr>
 <tr>
 <td align="left">
 <tt>it</tt>&nbsp;<tt>reduceRight</tt>&nbsp;<tt>op</tt></td>
-<td align="left">右から左へと，空ではないイテレータ <tt>it</tt> が返す隣接する要素に二項演算
-<tt>op</tt> を次々と適用したもの．</td>
+<td align="left">右から左へと、空ではないイテレータ <tt>it</tt> が返す隣接する要素に二項演算
+<tt>op</tt> を次々と適用したもの。</td>
 </tr>
 <tr>
 <th class="opcat" align="left" colspan="2">特定 fold 演算:</th>
 </tr>
 <tr>
 <td align="left"><tt>it.sum</tt></td>
-<td align="left">イテレータ <tt>it</tt> が返すの数値要素の値の和．</td>
+<td align="left">イテレータ <tt>it</tt> が返すの数値要素の値の和。</td>
 </tr>
 <tr>
 <td align="left"><tt>it.product</tt></td>
-<td align="left">イテレータ <tt>it</tt> が返すの数値要素の値の積．</td>
+<td align="left">イテレータ <tt>it</tt> が返すの数値要素の値の積。</td>
 </tr>
 <tr>
 <td align="left"><tt>it.min</tt></td>
-<td align="left">イテレータ <tt>it</tt> が返す順序付けされたの値の最小値．</td>
+<td align="left">イテレータ <tt>it</tt> が返す順序付けされたの値の最小値。</td>
 </tr>
 <tr>
 <td align="left"><tt>it.max</tt></td>
-<td align="left">イテレータ <tt>it</tt> が返す順序付けされたの値の最大値．</td>
+<td align="left">イテレータ <tt>it</tt> が返す順序付けされたの値の最大値。</td>
 </tr>
 <tr>
 <th class="opcat" align="left" colspan="2">zip 演算:</th>
@@ -539,18 +539,18 @@ boolean 値．</td>
 <td align="left">
 <tt>it</tt>&nbsp;<tt>zip</tt>&nbsp;<tt>jt</tt></td>
 <td align="left">イテレータ <tt>it</tt> と <tt>jt</tt>
-が返す要素から対応したものペアにして返すイテレータ．</td>
+が返す要素から対応したものペアにして返すイテレータ。</td>
 </tr>
 <tr>
 <td align="left">
 <tt>it</tt>&nbsp;<tt>zipAll</tt>&nbsp;<tt>(jt,</tt>&nbsp;<tt>x,</tt>&nbsp;<tt>y)</tt></td>
 <td align="left">イテレータ <tt>it</tt> と <tt>jt</tt>
-が返す要素から対応したものペアにして返すイテレータで，もし片方が短い場合は <tt>x</tt> か <tt>y</tt>
-を使って長いほうに合わせる．</td>
+が返す要素から対応したものペアにして返すイテレータで、もし片方が短い場合は <tt>x</tt> か <tt>y</tt>
+を使って長いほうに合わせる。</td>
 </tr>
 <tr>
 <td align="left"><tt>it.zipWithIndex</tt></td>
-<td align="left"><tt>it</tt> が返す要素とその添字をペアにしたイテレータ．</td>
+<td align="left"><tt>it</tt> が返す要素とその添字をペアにしたイテレータ。</td>
 </tr>
 <tr>
 <th class="opcat" align="left" colspan="2">更新演算:</th>
@@ -558,8 +558,8 @@ boolean 値．</td>
 <tr>
 <td align="left">
 <tt>it</tt>&nbsp;<tt>patch</tt>&nbsp;<tt>(i,</tt>&nbsp;<tt>jt,</tt>&nbsp;<tt>r)</tt></td>
-<td align="left"><tt>it</tt> の，<tt>i</tt> から始まる
-<tt>r</tt>個の要素をパッチイテレータ <tt>ji</tt> が返す要素に置換したイテレータ．</td>
+<td align="left"><tt>it</tt> の、<tt>i</tt> から始まる
+<tt>r</tt>個の要素をパッチイテレータ <tt>ji</tt> が返す要素に置換したイテレータ。</td>
 </tr>
 <tr>
 <th class="opcat" align="left" colspan="2">比較演算:</th>
@@ -568,8 +568,8 @@ boolean 値．</td>
 <td align="left">
 <tt>it</tt>&nbsp;<tt>sameElements</tt>&nbsp;<tt>jt</tt></td>
 <td align="left">イテレータ <tt>it</tt> と <tt>jt</tt>
-が同じ要素を同じ順序で返すかを調べる．注意: この演算の後，<tt>it</tt> の <tt>jt</tt>
-少なくともどちらか一方は終端まで前進している．</td>
+が同じ要素を同じ順序で返すかを調べる。注意: この演算の後、<tt>it</tt> の <tt>jt</tt>
+少なくともどちらか一方は終端まで前進している。</td>
 </tr>
 <tr>
 <th class="opcat" align="left" colspan="2">文字列演算:</th>
@@ -578,16 +578,16 @@ boolean 値．</td>
 <td align="left">
 <tt>it</tt>&nbsp;<tt>addString</tt>&nbsp;<tt>(b,</tt>&nbsp;<tt>start,</tt>&nbsp;<tt>sep,</tt>&nbsp;<tt>end)</tt></td>
 <td align="left"><tt>it</tt> が返す要素を <tt>sep</tt>
-で区切った後，<tt>start</tt> と <tt>end</tt>
-で挟んだ文字列を　<tt>StringBuilder</tt> <tt>b</tt> に追加する． <tt>start</tt>,
-<tt>sep</tt>, <tt>end</tt> は全て省略可能．</td>
+で区切った後、<tt>start</tt> と <tt>end</tt>
+で挟んだ文字列を　<tt>StringBuilder</tt> <tt>b</tt> に追加する。 <tt>start</tt>,
+<tt>sep</tt>, <tt>end</tt> は全て省略可能。</td>
 </tr>
 <tr>
 <td align="left">
 <tt>it</tt>&nbsp;<tt>mkString</tt>&nbsp;<tt>(start,</tt>&nbsp;<tt>sep,</tt>&nbsp;<tt>end)</tt></td>
 <td align="left"><tt>it</tt> が返す要素を <tt>sep</tt>
-で区切った後，<tt>start</tt> と <tt>end</tt> で挟んだ文字列に変換する． <tt>start</tt>,
-<tt>sep</tt>, <tt>end</tt> は全て省略可能．</td>
+で区切った後、<tt>start</tt> と <tt>end</tt> で挟んだ文字列に変換する。 <tt>start</tt>,
+<tt>sep</tt>, <tt>end</tt> は全て省略可能。</td>
 </tr>
 </tbody>
 </table>

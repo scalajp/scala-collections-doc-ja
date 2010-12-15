@@ -24,16 +24,16 @@ alt="コレクションの作成" src="previous.png" /></a></td>
 </tr>
 </table>
 <h1>Java と Scala 間のコレクションの変換</h1>
-<p>Scala と同様に，Java
-にも豊富なコレクションライブラリがある．両者には多くの共通点がある．例えば，両方のライブラリともイテレータ，<tt>Iterable</tt>，
-集合，マップ，そして列を提供する．しかし，両者には重要な違いもある．特に，Scala
-では不変コレクションに要点を置き，コレクションを別のものに変換する演算も多く提供している．</p>
-<p>時として，コレクションを一方のフレームワークから他方へと渡す必要がある．例えば，既存の Java のコレクションを Scala
-のコレクションであるかのようにアクセスしたいこともあるだろう．もしくは，Scala のコレクションを Java
-のコレクションを期待している Java メソッドに渡したいと思うかもしれない．Scala は <a href=
+<p>Scala と同様に、Java
+にも豊富なコレクションライブラリがある。両者には多くの共通点がある。例えば、両方のライブラリともイテレータ、<tt>Iterable</tt>、
+集合、マップ、そして列を提供する。しかし、両者には重要な違いもある。特に、Scala
+では不変コレクションに要点を置き、コレクションを別のものに変換する演算も多く提供している。</p>
+<p>時として、コレクションを一方のフレームワークから他方へと渡す必要がある。例えば、既存の Java のコレクションを Scala
+のコレクションであるかのようにアクセスしたいこともあるだろう。もしくは、Scala のコレクションを Java
+のコレクションを期待している Java メソッドに渡したいと思うかもしれない。Scala は <a href=
 "http://www.scala-lang.org/api/current/scala/collection/JavaConversions$.html">
 <tt>JavaConversions</tt></a> オブジェクトにより主要なコレクション間の暗黙の変換 (implicit conversion)
-を提供するため，簡単に相互運用できる．特に以下の型に関しては，双方向変換を提供する．</p>
+を提供するため、簡単に相互運用できる。特に以下の型に関しては、双方向変換を提供する。</p>
 <div class="quote">
 <table cellspacing="1" cellpadding="0">
 <tr>
@@ -122,9 +122,9 @@ alt="コレクションの作成" src="previous.png" /></a></td>
 </tr>
 </table>
 </div>
-<p>このような変換を作動させるには，<a href=
+<p>このような変換を作動させるには、<a href=
 "http://www.scala-lang.org/api/current/scala/collection/JavaConversions$.html"><tt>JavaConversions</tt></a>
-オブジェクトからインポートするだけでいい．</p>
+オブジェクトからインポートするだけでいい。</p>
 <div class="quote">
 <table cellspacing="1" cellpadding="0">
 <tr>
@@ -143,7 +143,7 @@ alt="コレクションの作成" src="previous.png" /></a></td>
 </tr>
 </table>
 </div>
-<p>これで Scala コレクションとそれに対応する Java コレクションの自動変換が行われる．</p>
+<p>これで Scala コレクションとそれに対応する Java コレクションの自動変換が行われる。</p>
 <div class="quote">
 <table cellspacing="1" cellpadding="0">
 <tr>
@@ -219,11 +219,11 @@ alt="コレクションの作成" src="previous.png" /></a></td>
 </tr>
 </table>
 </div>
-<p>内部では，このような変換は全ての演算を委譲する「ラッパー」オブジェクトを作ることで実現されている．そのため，Java と
-Scala の間でコレクションを変換してもコレクションはコピーされることはない．興味深い特性として，例えば Java 型から対応する
+<p>内部では、このような変換は全ての演算を委譲する「ラッパー」オブジェクトを作ることで実現されている。そのため、Java と
+Scala の間でコレクションを変換してもコレクションはコピーされることはない。興味深い特性として、例えば Java 型から対応する
 Scala 型に変換して再び Java
-型に逆変換するといった，ラウンドトリップを実行した場合，始めた時と同一のオブジェクトが返ってくるというものがある．</p>
-<p>Scala コレクションの中には，Java 型に変換できるが，逆変換はできないというものもある．それらは以下の通り:</p>
+型に逆変換するといった、ラウンドトリップを実行した場合、始めた時と同一のオブジェクトが返ってくるというものがある。</p>
+<p>Scala コレクションの中には、Java 型に変換できるが、逆変換はできないというものもある。それらは以下の通り:</p>
 <div class="quote">
 <table cellspacing="1" cellpadding="0">
 <tr>
@@ -269,10 +269,10 @@ Scala 型に変換して再び Java
 </tr>
 </table>
 </div>
-<p>Java は可変コレクションと不変コレクションを型で区別しないため，例えば
-<tt>scala.immutable.List</tt> からの変換は，上書き演算を呼び出すと
-UnsupportedOperationException を発生する <tt>java.util.List</tt> を返す．
-次に具体例で説明する．</p>
+<p>Java は可変コレクションと不変コレクションを型で区別しないため、例えば
+<tt>scala.immutable.List</tt> からの変換は、上書き演算を呼び出すと
+UnsupportedOperationException を発生する <tt>java.util.List</tt> を返す。
+次に具体例で説明する。</p>
 <div class="quote">
 <table cellspacing="1" cellpadding="0">
 <tr>

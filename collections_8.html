@@ -26,16 +26,16 @@ alt="集合" src="up.png" /></a></td>
 <p>整列済み集合は (<a href=
 "http://www.scala-lang.org/api/current/scala/collection/SortedSet.html"><tt>SortedSet</tt></a>)
 は (集合の作成時に指定された) 任意の順序で要素を (<tt>iterator</tt> や <tt>foreach</tt>
-を使って) 返す事ができる集合だ．<a href=
+を使って) 返す事ができる集合だ。<a href=
 "http://www.scala-lang.org/api/current/scala/collection/SortedSet.html"><tt>SortedSet</tt></a>
-クラスのデフォルトの表現は，左の子ツリー内の全ての要素が右の子ツリーの全ての要素よりも小さいという恒常条件を満たす順序付けされた二分木だ．これにより，通りがけ順
-(in-order) で探索するだけで，木の全ての要素を昇順に返すことができる．Scala の <a href=
+クラスのデフォルトの表現は、左の子ツリー内の全ての要素が右の子ツリーの全ての要素よりも小さいという恒常条件を満たす順序付けされた二分木だ。これにより、通りがけ順
+(in-order) で探索するだけで、木の全ての要素を昇順に返すことができる。Scala の <a href=
 "http://www.scala-lang.org/api/current/scala/collection/immutable/TreeSet.html">
 <tt>immutable.TreeSet</tt></a> クラスは <em>赤黒木</em>
-を使ってこの恒常条件を実装している．また，この木構造は，<em>平衡木</em>であり，ルートから全て葉のまでの長さの違いは最大で一要素しかない．</p>
+を使ってこの恒常条件を実装している。また、この木構造は、<em>平衡木</em>であり、ルートから全て葉のまでの長さの違いは最大で一要素しかない。</p>
 <p>空の <a href=
 "http://www.scala-lang.org/api/current/scala/collection/immutable/TreeSet.html">
-<tt>TreeSet</tt></a> を作成するには，まず順序付けを指定する:</p>
+<tt>TreeSet</tt></a> を作成するには、まず順序付けを指定する:</p>
 <div class="quote">
 <table cellspacing="1" cellpadding="0">
 <tr>
@@ -55,7 +55,7 @@ alt="集合" src="up.png" /></a></td>
 </tr>
 </table>
 </div>
-<p>次に，その順序付けの空の木集合を作成するには:</p>
+<p>次に、その順序付けの空の木集合を作成するには:</p>
 <div class="quote">
 <table cellspacing="1" cellpadding="0">
 <tr>
@@ -74,7 +74,7 @@ alt="集合" src="up.png" /></a></td>
 </tr>
 </table>
 </div>
-<p>順序付けの引数を省略して，空集合の要素型を指定することもできる．その場合は，要素型のデフォルトの順序付けが使われる．</p>
+<p>順序付けの引数を省略して、空集合の要素型を指定することもできる。その場合は、要素型のデフォルトの順序付けが使われる。</p>
 <div class="quote">
 <table cellspacing="1" cellpadding="0">
 <tr>
@@ -94,7 +94,7 @@ alt="集合" src="up.png" /></a></td>
 </tr>
 </table>
 </div>
-<p>(例えば連結やフィルターによって) 新たな木集合を作成した場合，それは元の集合と同じ順序付けを保つ．たとえば、</p>
+<p>(例えば連結やフィルターによって) 新たな木集合を作成した場合、それは元の集合と同じ順序付けを保つ。たとえば、</p>
 <div class="quote">
 <table cellspacing="1" cellpadding="0">
 <tr>
@@ -117,9 +117,9 @@ alt="集合" src="up.png" /></a></td>
 </tr>
 </table>
 </div>
-<p>整列済み集合は要素の範囲もサポートする．例えば，<tt>range</tt>
-メソッドは開始要素以上，終了要素未満の全ての要素を返す．また，<tt>from</tt>
-メソッドは開始要素以上の全ての要素を，集合の順序付けで返す．両方のメソッドの戻り値もまた整列済み集合だ．用例:</p>
+<p>整列済み集合は要素の範囲もサポートする。例えば、<tt>range</tt>
+メソッドは開始要素以上、終了要素未満の全ての要素を返す。また、<tt>from</tt>
+メソッドは開始要素以上の全ての要素を、集合の順序付けで返す。両方のメソッドの戻り値もまた整列済み集合だ。用例:</p>
 <div class="quote">
 <table cellspacing="1" cellpadding="0">
 <tr>

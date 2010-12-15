@@ -25,8 +25,8 @@ alt="ウィークハッシュテーブル" src="previous.png" /></a></td>
 <h2>並行マップ</h2>
 <p>並行マップ (<a href=
 "http://www.scala-lang.org/api/current/scala/collection/mutable/ConcurrentMap.html"><tt>ConcurrentMap</tt></a>
-) は複数のスレッドから同時にアクセスすることできる．通常の<a href=
-"http://www.scala-lang.org/api/current/scala/collection/Map.html">マップ</a>の演算の他に，以下のアトミックな演算を提供する:</p>
+) は複数のスレッドから同時にアクセスすることできる。通常の<a href=
+"http://www.scala-lang.org/api/current/scala/collection/Map.html">マップ</a>の演算の他に、以下のアトミックな演算を提供する:</p>
 <table border="0" cellspacing="0" class="ops">
 <tbody>
 <tr>
@@ -42,37 +42,37 @@ alt="ウィークハッシュテーブル" src="previous.png" /></a></td>
 <td align="left">
 <p><tt>m</tt>&nbsp;<tt>putIfAbsent(k,</tt>&nbsp;<tt>v)</tt></p>
 </td>
-<td align="left">既に <tt>k</tt> がある場合を除き，キー/値ペア
+<td align="left">既に <tt>k</tt> がある場合を除き、キー/値ペア
 <tt>k</tt>&nbsp;<tt>-&gt;</tt>&nbsp;<tt>m</tt> を <tt>m</tt>
-に追加する．</td>
+に追加する。</td>
 </tr>
 <tr>
 <td align="left">
 <tt>m</tt>&nbsp;<tt>remove</tt>&nbsp;<tt>(k,</tt>&nbsp;<tt>v)</tt></td>
 <td align="left"><tt>k</tt> に関連付けられた値が <tt>v</tt>
-である場合，そのエントリを削除する．</td>
+である場合、そのエントリを削除する。</td>
 </tr>
 <tr>
 <td align="left">
 <tt>m</tt>&nbsp;<tt>replace</tt>&nbsp;<tt>(k,</tt>&nbsp;<tt>old,</tt>&nbsp;<tt>new)</tt></td>
-<td align="left"><tt>k</tt> に関連付けられた値が <tt>old</tt> である場合，それを
-<tt>new</tt> で上書きする．</td>
+<td align="left"><tt>k</tt> に関連付けられた値が <tt>old</tt> である場合、それを
+<tt>new</tt> で上書きする。</td>
 </tr>
 <tr>
 <td align="left">
 <tt>m</tt>&nbsp;<tt>replace</tt>&nbsp;<tt>(k,</tt>&nbsp;<tt>v)</tt></td>
-<td align="left"><tt>k</tt> に任意の関連付けられた値がある場合，それを <tt>v</tt>
-で上書きする．</td>
+<td align="left"><tt>k</tt> に任意の関連付けられた値がある場合、それを <tt>v</tt>
+で上書きする。</td>
 </tr>
 </tbody>
 </table>
 <p><a href=
 "http://www.scala-lang.org/api/current/scala/collection/mutable/ConcurrentMap.html">
 <tt>ConcurrentMap</tt></a> は Scala
-コレクションライブラリ内のトレイトだ．現在そのトレイトを実装するのは Java の
-<tt>java.util.concurrent.ConcurrentMap</tt> クラスだけで，それは <a href=
+コレクションライブラリ内のトレイトだ。現在そのトレイトを実装するのは Java の
+<tt>java.util.concurrent.ConcurrentMap</tt> クラスだけで、それは <a href=
 "collections_46.html">Java/Scala コレクションの標準変換</a>を使って Scala
-のマップに変換することができる．</p>
+のマップに変換することができる。</p>
 <p>次へ: <a href="collections_37.html">可変ビット集合</a></p>
 <hr />
 <table width="100%" cellpadding="0" cellspacing="2">

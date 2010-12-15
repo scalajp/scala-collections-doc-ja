@@ -19,57 +19,57 @@ alt="トップ" src="up.png" /></a></td>
 <td bgcolor="#99CCFF"><a href="collections_4.html"><img border="0"
 alt="Iterable　トレイト" src="previous.png" /></a></td>
 <td align="center" bgcolor="#99CCFF" width="100%"><b>列トレイト
-<tt>Seq</tt>，<tt>IndexedSeq</tt>，および <tt>LinearSeq</tt></b></td>
+<tt>Seq</tt>、<tt>IndexedSeq</tt>、および <tt>LinearSeq</tt></b></td>
 <td bgcolor="#99CCFF" align="center" class="tocref"><a href=
 "collections_49.html">目次</a></td>
 </tr>
 </table>
-<h1>列トレイト <tt>Seq</tt>，<tt>IndexedSeq</tt>，および
+<h1>列トレイト <tt>Seq</tt>、<tt>IndexedSeq</tt>、および
 <tt>LinearSeq</tt></h1>
 <p>列 (<a href=
 "http://www.scala-lang.org/api/current/scala/collection/Seq.html"><tt>Seq</tt></a>)
-トレイトは，長さ (<tt>length</tt>) があり，それぞれの要素に <tt>0</tt> から数えられた固定された添字
-(index) がある <tt>Iterable</tt> の一種だ．</p>
+トレイトは、長さ (<tt>length</tt>) があり、それぞれの要素に <tt>0</tt> から数えられた固定された添字
+(index) がある <tt>Iterable</tt> の一種だ。</p>
 <p><a href=
 "collections_5.html#tab:seqops">以下の表</a>にまとめられた列の演算は以下のカテゴリーに分けることができる:</p>
 <ul>
 <li><em>添字と長さの</em>演算 <tt>apply</tt>, <tt>isDefinedAt</tt>,
-<tt>length</tt>, <tt>indices</tt>, および <tt>lengthCompare</tt>．
+<tt>length</tt>, <tt>indices</tt>, および <tt>lengthCompare</tt>。
 <tt>Seq</tt> では <tt>apply</tt>
-メソッドは添字の意味で使われるため，<tt>Seq[T]</tt>型の列は <tt>Int</tt> を引数 (添字)
-としてをとり，<tt>T</tt>型の要素を返す部分関数だ．つまり，<tt>Seq[T]</tt> は
-<tt>PartialFunction[Int,</tt>&nbsp;<tt>T]</tt> を継承する．列内の要素はゼロから列の長さ
-(<tt>length</tt>) − 1 まで添字付けられている．列の <tt>length</tt>
-メソッドは一般コレクションにおける <tt>size</tt> メソッドの別名だ．<tt>lengthCompare</tt>
-メソッドは，たとえどちらかの列が無限の長さを持っていても，二つの列の長さを比較することができる．</li>
+メソッドは添字の意味で使われるため、<tt>Seq[T]</tt>型の列は <tt>Int</tt> を引数 (添字)
+としてをとり、<tt>T</tt>型の要素を返す部分関数だ。つまり、<tt>Seq[T]</tt> は
+<tt>PartialFunction[Int,</tt>&nbsp;<tt>T]</tt> を継承する。列内の要素はゼロから列の長さ
+(<tt>length</tt>) − 1 まで添字付けられている。列の <tt>length</tt>
+メソッドは一般コレクションにおける <tt>size</tt> メソッドの別名だ。<tt>lengthCompare</tt>
+メソッドは、たとえどちらかの列が無限の長さを持っていても、二つの列の長さを比較することができる。</li>
 <li><em>添字検索演算</em>である <tt>indexOf</tt>, <tt>lastIndexOf</tt>,
 <tt>indexofSlice</tt>, <tt>lastIndexOfSlice</tt>,
 <tt>indexWhere</tt>, <tt>lastIndexWhere</tt>,
 <tt>segmentLength</tt>, <tt>prefixLength</tt>
-は，渡された値もしくは条件関数に合致する要素の添字を返す．</li>
+は、渡された値もしくは条件関数に合致する要素の添字を返す。</li>
 <li><em>加算</em>である <tt>+:</tt>, <tt>:+</tt>, <tt>padTo</tt>
-は，列の先頭か最後に要素を追加した新しい列を返す．</li>
+は、列の先頭か最後に要素を追加した新しい列を返す。</li>
 <li><em>更新演算</em>である <tt>updated</tt>, <tt>patch</tt>
-は，元の列に何らかの要素を上書きした列を返す．</li>
+は、元の列に何らかの要素を上書きした列を返す。</li>
 <li><em>並べ替え演算</em>である <tt>sorted</tt>, <tt>sortWith</tt>,
-<tt>sortBy</tt> は，列内の要素を何らかの基準に基づいて並べ替える．</li>
+<tt>sortBy</tt> は、列内の要素を何らかの基準に基づいて並べ替える。</li>
 <li><em>逆転演算</em>である <tt>reverse</tt>, <tt>reverseIterator</tt>,
-<tt>reverseMap</tt> は，列内の要素を逆順に返すか処理する．</li>
+<tt>reverseMap</tt> は、列内の要素を逆順に返すか処理する。</li>
 <li><em>比較演算</em>である <tt>startsWith</tt>, <tt>endsWith</tt>,
 <tt>contains</tt>, <tt>containsSlice</tt>, <tt>corresponds</tt>
-は，二つの列を関連付けるか，列の中から要素を検索する．</li>
+は、二つの列を関連付けるか、列の中から要素を検索する。</li>
 <li><em>集合演算</em>である <tt>intersect</tt>, <tt>diff</tt>,
 <tt>union</tt>, <tt>distinct</tt>
-は，二つの列間で集合演算のようなものを行うか，列内の要素の重複を削除する．</li>
+は、二つの列間で集合演算のようなものを行うか、列内の要素の重複を削除する。</li>
 </ul>
-列が可変の場合は，追加で副作用のある <tt>update</tt> メソッドを提供し，列内の要素を上書きすることができる．
+列が可変の場合は、追加で副作用のある <tt>update</tt> メソッドを提供し、列内の要素を上書きすることができる。
 Scala
-の他の構文の例にならって，<tt>seq(idx)</tt>&nbsp;<tt>=</tt>&nbsp;<tt>elem</tt> は
+の他の構文の例にならって、<tt>seq(idx)</tt>&nbsp;<tt>=</tt>&nbsp;<tt>elem</tt> は
 <tt>seq.update(idx,</tt>&nbsp;<tt>elem)</tt>
-の略記法であるため，<tt>update</tt> によって便利な代入構文がただで手に入る．<tt>update</tt> と
-<tt>updated</tt> の違いに注意してほしい． <tt>update</tt>
-は列内の要素を上書きし，可変列でのみ使用可能だ．<tt>updated</tt>
-は全ての列で使用可能であり，元の列は変更せずに常に新しい列を返す．
+の略記法であるため、<tt>update</tt> によって便利な代入構文がただで手に入る。<tt>update</tt> と
+<tt>updated</tt> の違いに注意してほしい。 <tt>update</tt>
+は列内の要素を上書きし、可変列でのみ使用可能だ。<tt>updated</tt>
+は全ての列で使用可能であり、元の列は変更せずに常に新しい列を返す。
 <table border="0" cellspacing="0" class="ops">
 <tbody>
 <tr>
@@ -88,29 +88,29 @@ Seq</tt></a> トレイトの演算 <a name="id1" id="id1"></a>
 <tr>
 <td align="left"><tt>xs(i)</tt></td>
 <td align="left">
-(展開した場合，<tt>xs</tt>&nbsp;<tt>apply</tt>&nbsp;<tt>i</tt>)．<tt>xs</tt>
-の添字 <tt>i</tt> の位置の要素．</td>
+(展開した場合、<tt>xs</tt>&nbsp;<tt>apply</tt>&nbsp;<tt>i</tt>)。<tt>xs</tt>
+の添字 <tt>i</tt> の位置の要素。</td>
 </tr>
 <tr>
 <td align="left">
 <tt>xs</tt>&nbsp;<tt>isDefinedAt</tt>&nbsp;<tt>i</tt></td>
-<td align="left"><tt>xs.indices</tt> に <tt>i</tt> が含まれているか調べる．</td>
+<td align="left"><tt>xs.indices</tt> に <tt>i</tt> が含まれているか調べる。</td>
 </tr>
 <tr>
 <td align="left"><tt>xs.length</tt></td>
-<td align="left">列の長さ (<tt>size</tt> と同様)．</td>
+<td align="left">列の長さ (<tt>size</tt> と同様)。</td>
 </tr>
 <tr>
 <td align="left"><tt>xs.lengthCompare</tt>&nbsp;<tt>ys</tt></td>
 <td align="left"><tt>xs</tt> が <tt>ys</tt> より短い場合は
-<tt>-1</tt>，長い場合は <tt>+1</tt>，同じ長さの場合は <tt>0</tt>
-を返す．いずれかの列が無限でも正常に作動する．</td>
+<tt>-1</tt>、長い場合は <tt>+1</tt>、同じ長さの場合は <tt>0</tt>
+を返す。いずれかの列が無限でも正常に作動する。</td>
 </tr>
 <tr>
 <td align="left"><tt>xs.indices</tt></td>
 <td align="left">0 から
 <tt>xs.length</tt>&nbsp;<tt>-</tt>&nbsp;<tt>1</tt> までの <tt>xs</tt>
-の添字の範囲．</td>
+の添字の範囲。</td>
 </tr>
 <tr>
 <th class="opcat" align="left" colspan="2">添字検索演算:</th>
@@ -119,60 +119,60 @@ Seq</tt></a> トレイトの演算 <a name="id1" id="id1"></a>
 <td align="left">
 <tt>xs</tt>&nbsp;<tt>indexOf</tt>&nbsp;<tt>x</tt></td>
 <td align="left"><tt>xs</tt>内で <tt>x</tt> と等しい最初の要素の添字 (数種の別形がある)
-．</td>
+。</td>
 </tr>
 <tr>
 <td align="left">
 <tt>xs</tt>&nbsp;<tt>lastIndexOf</tt>&nbsp;<tt>x</tt></td>
 <td align="left"><tt>xs</tt>内で <tt>x</tt> と等しい最後の要素の添字 (数種の別形がある)
-．</td>
+。</td>
 </tr>
 <tr>
 <td align="left">
 <tt>xs</tt>&nbsp;<tt>indexOfSlice</tt>&nbsp;<tt>ys</tt></td>
-<td align="left"><tt>xs</tt> の添字で，それと後続の要素が，列 <tt>ys</tt>
-と同値になる最初のもの．</td>
+<td align="left"><tt>xs</tt> の添字で、それと後続の要素が、列 <tt>ys</tt>
+と同値になる最初のもの。</td>
 </tr>
 <tr>
 <td align="left">
 <tt>xs</tt>&nbsp;<tt>lastIndexOfSlice</tt>&nbsp;<tt>ys</tt></td>
-<td align="left"><tt>xs</tt> の添字で，それと後続の要素が，列 <tt>ys</tt>
-と同値になる最後のもの．</td>
+<td align="left"><tt>xs</tt> の添字で、それと後続の要素が、列 <tt>ys</tt>
+と同値になる最後のもの。</td>
 </tr>
 <tr>
 <td align="left">
 <tt>xs</tt>&nbsp;<tt>indexWhere</tt>&nbsp;<tt>p</tt></td>
 <td align="left"><tt>xs</tt>内で条件関数 <tt>p</tt> を満たす最初の要素の添字
-(数種の別形がある) ．</td>
+(数種の別形がある)。</td>
 </tr>
 <tr>
 <td align="left">
 <tt>xs</tt>&nbsp;<tt>segmentLength</tt>&nbsp;<tt>(p,</tt>&nbsp;<tt>i)</tt></td>
-<td align="left">全ての要素が途切れなく条件関数 <tt>p</tt> を満たし，<tt>xs(i)</tt>
-から始まる，最長の <tt>xs</tt> の切片の長さ．</td>
+<td align="left">全ての要素が途切れなく条件関数 <tt>p</tt> を満たし、<tt>xs(i)</tt>
+から始まる、最長の <tt>xs</tt> の切片の長さ。</td>
 </tr>
 <tr>
 <td align="left">
 <tt>xs</tt>&nbsp;<tt>prefixLength</tt>&nbsp;<tt>p</tt></td>
-<td align="left">全ての要素が途切れなく条件関数 <tt>p</tt> を満たす，最長の <tt>xs</tt>
-の先頭切片の長さ．</td>
+<td align="left">全ての要素が途切れなく条件関数 <tt>p</tt> を満たす、最長の <tt>xs</tt>
+の先頭切片の長さ。</td>
 </tr>
 <tr>
 <th class="opcat" align="left" colspan="2">加算:</th>
 </tr>
 <tr>
 <td align="left"><tt>x</tt>&nbsp;<tt>+:</tt>&nbsp;<tt>xs</tt></td>
-<td align="left"><tt>xs</tt> の要素の先頭に <tt>x</tt> を追加した，新しい列．</td>
+<td align="left"><tt>xs</tt> の要素の先頭に <tt>x</tt> を追加した、新しい列。</td>
 </tr>
 <tr>
 <td align="left"><tt>xs</tt>&nbsp;<tt>:+</tt>&nbsp;<tt>x</tt></td>
-<td align="left"><tt>xs</tt> の要素の最後に <tt>x</tt> を追加した，新しい列．</td>
+<td align="left"><tt>xs</tt> の要素の最後に <tt>x</tt> を追加した、新しい列。</td>
 </tr>
 <tr>
 <td align="left">
 <tt>xs</tt>&nbsp;<tt>padTo</tt>&nbsp;<tt>(len,</tt>&nbsp;<tt>x)</tt></td>
 <td align="left"><tt>xs</tt> の長さが <tt>len</tt> になるまで最後に値 <tt>x</tt>
-を追加していった列．</td>
+を追加していった列。</td>
 </tr>
 <tr>
 <th class="opcat" align="left" colspan="2">更新演算:</th>
@@ -180,59 +180,59 @@ Seq</tt></a> トレイトの演算 <a name="id1" id="id1"></a>
 <tr>
 <td align="left">
 <tt>xs</tt>&nbsp;<tt>patch</tt>&nbsp;<tt>(i,</tt>&nbsp;<tt>ys,</tt>&nbsp;<tt>r)</tt></td>
-<td align="left"><tt>xs</tt>内の，<tt>i</tt> から始まる <tt>r</tt>個の要素をパッチ
-<tt>ys</tt>内の要素と置換した列．</td>
+<td align="left"><tt>xs</tt>内の、<tt>i</tt> から始まる <tt>r</tt>個の要素をパッチ
+<tt>ys</tt>内の要素と置換した列。</td>
 </tr>
 <tr>
 <td align="left">
 <tt>xs</tt>&nbsp;<tt>updated</tt>&nbsp;<tt>(i,</tt>&nbsp;<tt>x)</tt></td>
 <td align="left"><tt>xs</tt>の添字 <tt>i</tt> の要素を <tt>x</tt>
-に置換したコピー．</td>
+に置換したコピー。</td>
 </tr>
 <tr>
 <td align="left">
 <tt>xs(i)</tt>&nbsp;<tt>=</tt>&nbsp;<tt>x</tt></td>
 <td align="left">
-(展開した場合，<tt>xs.update(i,</tt>&nbsp;<tt>x)</tt>，ただし可変列でのみ使用可能)．
-<tt>xs</tt>の添字 <tt>i</tt> の位置の要素を <tt>x</tt> と上書きする．</td>
+(展開した場合、<tt>xs.update(i,</tt>&nbsp;<tt>x)</tt>、ただし可変列でのみ使用可能)。
+<tt>xs</tt>の添字 <tt>i</tt> の位置の要素を <tt>x</tt> と上書きする。</td>
 </tr>
 <tr>
 <th class="opcat" align="left" colspan="2">並べ替え演算:</th>
 </tr>
 <tr>
 <td align="left"><tt>xs.sorted</tt></td>
-<td align="left"><tt>xs</tt> の要素型の標準的な順序付けを用いて，<tt>xs</tt>
-の要素を並べ替えることによって得られる新しい列．</td>
+<td align="left"><tt>xs</tt> の要素型の標準的な順序付けを用いて、<tt>xs</tt>
+の要素を並べ替えることによって得られる新しい列。</td>
 </tr>
 <tr>
 <td align="left">
 <tt>xs</tt>&nbsp;<tt>sortWith</tt>&nbsp;<tt>lt</tt></td>
 <td align="left">比較関数 <tt>lt</tt> 用いて <tt>xs</tt>
-の要素を並べ替えることによって得られる新しい列．</td>
+の要素を並べ替えることによって得られる新しい列。</td>
 </tr>
 <tr>
 <td align="left">
 <tt>xs</tt>&nbsp;<tt>sortBy</tt>&nbsp;<tt>f</tt></td>
 <td align="left"><tt>xs</tt>
-の要素を並べ替えることによって得られる新しい列．二つの要素の比較は，両者を関数 <tt>f</tt>
-に適用してその結果を比較することによって行われる．</td>
+の要素を並べ替えることによって得られる新しい列。二つの要素の比較は、両者を関数 <tt>f</tt>
+に適用してその結果を比較することによって行われる。</td>
 </tr>
 <tr>
 <th class="opcat" align="left" colspan="2">逆転演算:</th>
 </tr>
 <tr>
 <td align="left"><tt>xs.reverse</tt></td>
-<td align="left"><tt>xs</tt>内の要素を逆順にした列．</td>
+<td align="left"><tt>xs</tt>内の要素を逆順にした列。</td>
 </tr>
 <tr>
 <td align="left"><tt>xs.reverseIterator</tt></td>
-<td align="left"><tt>xs</tt>内の全ての要素を逆順に返すイテレータ．</td>
+<td align="left"><tt>xs</tt>内の全ての要素を逆順に返すイテレータ。</td>
 </tr>
 <tr>
 <td align="left">
 <tt>xs</tt>&nbsp;<tt>reverseMap</tt>&nbsp;<tt>f</tt></td>
 <td align="left"><tt>xs</tt>内の要素に逆順に関数 <tt>f</tt> を map
-して得られる列．</td>
+して得られる列。</td>
 </tr>
 <tr>
 <th class="opcat" align="left" colspan="2">比較演算:</th>
@@ -241,29 +241,29 @@ Seq</tt></a> トレイトの演算 <a name="id1" id="id1"></a>
 <td align="left">
 <tt>xs</tt>&nbsp;<tt>startsWith</tt>&nbsp;<tt>ys</tt></td>
 <td align="left"><tt>xs</tt> が列 <tt>ys</tt> から始まるかを調べる
-(数種の別形がある)．</td>
+(数種の別形がある)。</td>
 </tr>
 <tr>
 <td align="left">
 <tt>xs</tt>&nbsp;<tt>endsWith</tt>&nbsp;<tt>ys</tt></td>
 <td align="left"><tt>xs</tt> が列 <tt>ys</tt> で終わるかを調べる
-(数種の別形がある)．</td>
+(数種の別形がある)。</td>
 </tr>
 <tr>
 <td align="left">
 <tt>xs</tt>&nbsp;<tt>contains</tt>&nbsp;<tt>x</tt></td>
-<td align="left"><tt>xs</tt> が <tt>x</tt> と等しい要素を含むかを調べる．</td>
+<td align="left"><tt>xs</tt> が <tt>x</tt> と等しい要素を含むかを調べる。</td>
 </tr>
 <tr>
 <td align="left">
 <tt>xs</tt>&nbsp;<tt>containsSlice</tt>&nbsp;<tt>ys</tt></td>
-<td align="left"><tt>xs</tt> が <tt>ys</tt> と等しい連続した切片を含むかを調べる．</td>
+<td align="left"><tt>xs</tt> が <tt>ys</tt> と等しい連続した切片を含むかを調べる。</td>
 </tr>
 <tr>
 <td align="left">
 <tt>(xs</tt>&nbsp;<tt>corresponds</tt>&nbsp;<tt>ys)(p)</tt></td>
-<td align="left"><tt>xs</tt> と <tt>ys</tt> の対応した要素が，二項条件関数の
-<tt>p</tt> を満たすかを調べる．</td>
+<td align="left"><tt>xs</tt> と <tt>ys</tt> の対応した要素が、二項条件関数の
+<tt>p</tt> を満たすかを調べる。</td>
 </tr>
 <tr>
 <th class="opcat" align="left" colspan="2">集合演算:</th>
@@ -271,24 +271,24 @@ Seq</tt></a> トレイトの演算 <a name="id1" id="id1"></a>
 <tr>
 <td align="left">
 <tt>xs</tt>&nbsp;<tt>intersect</tt>&nbsp;<tt>ys</tt></td>
-<td align="left">列 <tt>xs</tt> と <tt>ys</tt> の積集合で，<tt>xs</tt>
-における要素の順序を保ったもの．</td>
+<td align="left">列 <tt>xs</tt> と <tt>ys</tt> の積集合で、<tt>xs</tt>
+における要素の順序を保ったもの。</td>
 </tr>
 <tr>
 <td align="left">
 <tt>xs</tt>&nbsp;<tt>diff</tt>&nbsp;<tt>ys</tt></td>
-<td align="left">列 <tt>xs</tt> と <tt>ys</tt> の差集合で，<tt>xs</tt>
-における要素の順序を保ったもの．</td>
+<td align="left">列 <tt>xs</tt> と <tt>ys</tt> の差集合で、<tt>xs</tt>
+における要素の順序を保ったもの。</td>
 </tr>
 <tr>
 <td align="left">
 <tt>xs</tt>&nbsp;<tt>union</tt>&nbsp;<tt>ys</tt></td>
 <td align="left">和集合; <tt>xs</tt>&nbsp;<tt>++</tt>&nbsp;<tt>ys</tt>
-に同じ．</td>
+に同じ。</td>
 </tr>
 <tr>
 <td align="left"><tt>xs.distinct</tt></td>
-<td align="left"><tt>xs</tt> の部分列で要素の重複を一切含まないもの．</td>
+<td align="left"><tt>xs</tt> の部分列で要素の重複を一切含まないもの。</td>
 </tr>
 </tbody>
 </table>
@@ -299,15 +299,15 @@ Seq</tt></a> トレイトには <a href=
 <tt>LinearSeq</tt></a> と <a href=
 "http://www.scala-lang.org/api/current/scala/collection/IndexedSeq.html">
 <tt>IndexedSeq</tt></a>
-という二つの子トレイトがある．これらは新しい演算を定義しないが，それぞれ異なった性能特性をもつ．線形列 (linear
-sequence) は効率的な <tt>head</tt> と <tt>tail</tt> 演算を持ち，一方添字付き列
-(indexed sequence) は効率的な<tt>apply</tt>．<tt>length</tt>，および (可変の場合)
-<tt>update</tt> 演算を持つ．よく使われる線形列の例に
+という二つの子トレイトがある。これらは新しい演算を定義しないが、それぞれ異なった性能特性をもつ。線形列 (linear
+sequence) は効率的な <tt>head</tt> と <tt>tail</tt> 演算を持ち、一方添字付き列
+(indexed sequence) は効率的な<tt>apply</tt>。<tt>length</tt>、および (可変の場合)
+<tt>update</tt> 演算を持つ。よく使われる線形列の例に
 <tt>scala.collection.immutable.List</tt> と
-<tt>scala.collection.immutable.Stream</tt> がある．よく使われる添字付き列の例としては
+<tt>scala.collection.immutable.Stream</tt> がある。よく使われる添字付き列の例としては
 <tt>scala.Array</tt> と
-<tt>scala.collection.mutable.ArrayBuffer</tt> がある．<tt>Vector</tt>
-は添字付き列と線形列の間の興味深い折衷案だ．事実上定数時間のオーバーヘッドで添字アクセスと線形アクセスを提供するからだ．そのため，ベクトルは添字アクセスと線形アクセスの両方を混合して使用してるアクセスパターンにおける良い基盤となる．ベクトルに関しては，また<a href="collections_15.html">後ほど</a>．</p>
+<tt>scala.collection.mutable.ArrayBuffer</tt> がある。<tt>Vector</tt>
+は添字付き列と線形列の間の興味深い折衷案だ。事実上定数時間のオーバーヘッドで添字アクセスと線形アクセスを提供するからだ。そのため、ベクトルは添字アクセスと線形アクセスの両方を混合して使用してるアクセスパターンにおける良い基盤となる。ベクトルに関しては、また<a href="collections_15.html">後ほど</a>。</p>
 <p>次へ:</p>
 <ul>
 <li><a href="collections_6.html">バッファ</a></li>
@@ -322,7 +322,7 @@ alt="トップ" src="up.png" /></a></td>
 <td bgcolor="#99CCFF"><a href="collections_4.html"><img border="0"
 alt="Iterable トレイト" src="previous.png" /></a></td>
 <td align="center" bgcolor="#99CCFF" width="100%"><b>列トレイト
-<tt>Seq</tt>，<tt>IndexedSeq</tt>，および <tt>LinearSeq</tt></b></td>
+<tt>Seq</tt>、<tt>IndexedSeq</tt>、および <tt>LinearSeq</tt></b></td>
 <td bgcolor="#99CCFF" align="center" class="tocref"><a href=
 "collections_49.html">目次</a></td>
 </tr>
