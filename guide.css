@@ -4,6 +4,7 @@ em {
 }
 
 body {
+  font-family: Georgia, "Times New Roman", Times, serif;
   width: 42em;
 }
 
@@ -41,7 +42,8 @@ table.ops th
 
 .logo {
   margin: 20px;
-  font-family: "MS Gothic", sans-serif;
+  font-family:
+  Arial, Helvetica, sans-serif;
 }
 
 .logo a {
@@ -49,12 +51,16 @@ table.ops th
   color: black;
 }
 
+ul.toc {
+  padding-left: 20px;
+}
+
 .toc li {
   list-style-type: none;
 }
 
 .toc a {
-  font-family: sans-serif;
+  font-family: Arial, Helvetica, sans-serif;
   text-decoration: none;
   color: black;
 }
